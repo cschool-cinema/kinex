@@ -5,9 +5,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.termosteam.kinex.domain.Screening;
+import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.ScreeningRequestDto;
 import pl.termosteam.kinex.dto.ScreeningResponseDto;
 import pl.termosteam.kinex.service.ScreeningService;
+import pl.termosteam.kinex.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -20,11 +22,13 @@ public class AdministrationScreeningController {
 
     private final ScreeningService screeningService;
     private final ModelMapper mm;
+    private final UserService userService;
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping
     public List<ScreeningResponseDto> findAllScreenings() {
         List<Screening> screenings = screeningService.findAllScreenings();
+        User user = userService.getUserNotNullIfAuthenticated();
 
         return Arrays.asList(mm.map(screenings, ScreeningResponseDto[].class));
     }

@@ -2,6 +2,7 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -94,9 +95,23 @@ public class UserService implements UserDetailsService {
         return Optional.of(user);
     }
 
-
-
     public boolean ifOwnerAlreadyExists() {
         return userRepository.existsByRole(Role.OWNER.toString());
+    }
+
+    public UserDetails getUserDetailNotNullIfAuthenticated() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return (UserDetails) principal;
+        }
+        return null;
+    }
+
+    public User getUserNotNullIfAuthenticated() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return loadUserByUsernameOrEmail(((UserDetails) principal).getUsername());
+        }
+        return null;
     }
 }

@@ -31,7 +31,6 @@ public class ScreeningController {
     @GetMapping
     public List<ScreeningResponseDto> findFutureScreenings() {
         List<Screening> screenings = screeningService.findScreeningsStartingFrom(LocalDateTime.now());
-
         return Arrays.asList(mm.map(screenings, ScreeningResponseDto[].class));
     }
 
