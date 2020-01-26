@@ -94,9 +94,7 @@ public class UserService implements UserDetailsService {
         return Optional.of(user);
     }
 
-    public void logout(User user) {
 
-    }
 
     public boolean ifOwnerAlreadyExists() {
         return userRepository.existsByRole(Role.OWNER.toString());
