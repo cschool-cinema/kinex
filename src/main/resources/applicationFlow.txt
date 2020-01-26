@@ -31,3 +31,4 @@ questions:
 DL9. move validation to dto and entity through custom annotations
 PS10. screeningStartUtc and releaseyear validations
 11. showcase intellij ultimate features
+12. TODO: add logging system with user operations, need add new table with possible columns id,activityAt,description,userId WILL be implemented by DL
