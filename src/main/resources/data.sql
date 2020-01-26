@@ -10,6 +10,9 @@ ALTER TABLE ticket
     ALTER COLUMN id SET DEFAULT nextval('ticket_id_seq'::regclass);
 ALTER TABLE user_account
     ALTER COLUMN id SET DEFAULT nextval('user_account_id_seq'::regclass);
+ALTER TABLE activity_log
+    ALTER COLUMN id SET DEFAULT nextval('activity_log_id_seq'::regclass);
+
 
 INSERT INTO user_account(activated_at, activation_token, created_at, email, first_name, is_authenticated, is_enabled,
                          last_name, password, role, salt, username, valid_account_till, valid_password_till)

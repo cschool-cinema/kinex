@@ -28,7 +28,7 @@ public class RegisterController {
         return true;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PostMapping("administrator")
     public Boolean createAdministrator(@RequestBody @Valid UserDto userDTO) {
         if (!registerService.checkOwnerAlreadyRegistered()) {

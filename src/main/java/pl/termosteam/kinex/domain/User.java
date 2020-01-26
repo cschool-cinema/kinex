@@ -85,6 +85,9 @@ public class User implements UserDetails {
 
     private LocalDateTime activatedAt;
 
+    @OneToMany(mappedBy = "user")
+    private List<ActivityLog> activityLogs;
+
     public User(String firstName,
                 String lastName,
                 String username,
