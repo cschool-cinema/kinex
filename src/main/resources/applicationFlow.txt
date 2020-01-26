@@ -30,3 +30,4 @@ questions:
 -8. explain serializable - do we need it? -no, remove DIMA
 DL9. move validation to dto and entity through custom annotations
 PS10. screeningStartUtc and releaseyear validations
+11. showcase intellij ultimate features
