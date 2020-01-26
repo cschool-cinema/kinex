@@ -1,0 +1,19 @@
+1. At program start OWNER have to be registered
+   there can be more owners, but only owner can add other owners, admins, managers, users, guests
+
+1. All type use register flow
+ 1.1. enter user info and credentials in json
+      {
+
+      }
+ 1.2. api on successfully added to db user send the email with activation token to the user
+ 1.3. user using the provided token activates account
+
+2. Authentication flow
+ 2. User authenticate in API by sending username or email with password
+ 2.SUCCESS - user receives token valid for 1h
+ 2.FAIL - user receives message
+
+3. All allowed requests allowed for specific user authorized by JWT token
+
+#ticket QR code sample code https://medium.com/@thieunguyenhung/how-to-generate-qr-code-in-svg-format-9c951bf2ed21
