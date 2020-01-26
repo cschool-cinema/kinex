@@ -3,6 +3,9 @@ package pl.termosteam.kinex;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 /**
  * The Cinema backend api with
  * JWT authentication system and basic crud and report functionality
@@ -21,8 +24,8 @@ public class KinexApplication {
         SpringApplication.run(KinexApplication.class, args);
     }
 
-    // @PostConstruct
-    //  public void init() {
-    //     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    // }
+    @PostConstruct
+    public void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 }

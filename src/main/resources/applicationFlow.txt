@@ -20,15 +20,14 @@ manager:
 PS1. crud for auditoriums (and seats)
 DL2. deactivate user and employee accounts
 
-entity todos:
-//TODO: validate user account ID in external security DB, possibly change primitive type to entity
-//TODO: check constraint on Ticket table (whether seat_id is in fact located in a given screening auditorium)
-
 questions:
-1. how to implement hashcode and equals correctly for each entity (is default impl using @Data fine?) - of"id"
-2. is timezone managed this way ok (set in @PostConstruct and then use local date time)? - ok, maybe app.props property - check in google
-3. does screening table need a db trigger (start time + movie length + break for cleaning)? - no, but function to be reviewed by Kacper
-4. how to validate not null for integers? they are not triggered as if value is missing in json it is later created with 0
+-2. is timezone managed this way ok (set in @PostConstruct and then use local date time)? - ok, maybe app.props property - check in google
+-3. does screening table need a db trigger (start time + movie length + break for cleaning)? - no, but function to be reviewed by Kacper
+-4. how to validate not null for integers? they are not triggered as if value is missing in json it is later created with 0 - replace int with Integer
 5. detach dto objects from service classes (how)? e.g. create/update screening
-6. how to get rid of stack trace from custom exceptions? - disable spring-boot-devtools
+-6. how to get rid of stack trace from custom exceptions? - disable spring-boot-devtools
 7. review project in terms of access (public/private/package pr)
+-8. explain serializable - do we need it? -no, remove DIMA
+DL9. move validation to dto and entity through custom annotations
+PS10. screeningStartUtc and releaseyear validations
+11. showcase intellij ultimate features

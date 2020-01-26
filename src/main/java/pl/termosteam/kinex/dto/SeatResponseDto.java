@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SeatDto {
+public class SeatResponseDto {
     private int seatId;
     private int seatRow;
     private int seatNumber;

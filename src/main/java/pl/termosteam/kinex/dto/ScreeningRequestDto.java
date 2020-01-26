@@ -12,16 +12,14 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScreeningInputDto {
+public class ScreeningRequestDto {
 
     @NotNull(message = "Screening start time cannot be null!")
     private LocalDateTime screeningStartUtc;
 
     @NotNull(message = "Movie id cannot be null!")
-//    @Min(1)
-    private int movieId;
+    private Integer movieId;
 
     @NotNull(message = "Auditorium id time cannot be null!")
-//    @Min(1)
-    private int auditoriumId;
+    private Integer auditoriumId;
 }

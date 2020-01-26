@@ -1,11 +1,11 @@
-package pl.termosteam.kinex.service.security;
+package pl.termosteam.kinex.service;
 
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public class ActivationService {
+public class ActivateService {
     public static String generateUUID() {
         return UUID.randomUUID().toString();
     }

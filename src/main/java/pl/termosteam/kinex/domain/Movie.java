@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode(of = "id")
 @Table(name = "movie", uniqueConstraints = @UniqueConstraint(
         columnNames = {"title", "release_year", "category", "duration_min"},
         name = "movie_title_release_year_category_duration_min_key"))

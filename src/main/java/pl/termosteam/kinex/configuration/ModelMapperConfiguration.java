@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelMapperConfig {
+public class ModelMapperConfiguration {
 
     @Bean
     public ModelMapper modelMapper() {
@@ -15,11 +15,12 @@ public class ModelMapperConfig {
     }
 
 //    private void setScreeningToDto(ModelMapper mm) {
-//        TypeMap<Screening, ScreeningDto> typeMap = mm.createTypeMap(Screening.class, ScreeningDto.class);
+//        TypeMap<Screening, ScreeningResponseDto> typeMap = mm.createTypeMap(Screening.class, ScreeningResponseDto
+//        .class);
 //
 //        typeMap.addMappings(mapper -> {
-//            mapper.map(src -> src.getAuditorium().getId(), ScreeningDto::setAuditoriumId);
-//            mapper.map(Screening::getScreeningStart, ScreeningDto::setScreeningStart);
+//            mapper.map(src -> src.getAuditorium().getId(), ScreeningResponseDto::setAuditoriumId);
+//            mapper.map(Screening::getScreeningStart, ScreeningResponseDto::setScreeningStart);
 //        });
 //    }
 }
