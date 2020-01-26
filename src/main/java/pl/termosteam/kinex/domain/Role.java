@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.domain.security;
+package pl.termosteam.kinex.domain;
 
 public enum Role {
 

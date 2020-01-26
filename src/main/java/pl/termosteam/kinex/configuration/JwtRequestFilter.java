@@ -1,14 +1,14 @@
 package pl.termosteam.kinex.configuration;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pl.termosteam.kinex.service.security.UserServiceImplementation;
+import pl.termosteam.kinex.service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,23 +26,11 @@ import java.io.IOException;
  * @since 2020-01-01
  */
 @Component
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtToken jwtTokenUtil;
-    private UserServiceImplementation userService;
-
-    /**
-     * JwtRequestFilter constructor takes two objects as parameters
-     * allow use dependency injection mechanism in SPRING framework
-     *
-     * @param jwtTokenUtil is JwtToken class object
-     * @param userService  is UserServiceImplementation class object
-     */
-    @Autowired
-    public JwtRequestFilter(JwtToken jwtTokenUtil, UserServiceImplementation userService) {
-        this.userService = userService;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
+    private final UserService userService;
 
     /**
      * @param httpServletRequest  is HttpServletRequest class object

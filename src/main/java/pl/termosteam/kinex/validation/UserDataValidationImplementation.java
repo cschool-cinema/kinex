@@ -4,7 +4,7 @@ import org.passay.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import pl.termosteam.kinex.domain.security.UserDTO;
+import pl.termosteam.kinex.dto.UserDto;
 import pl.termosteam.kinex.exception.ValidationException;
 
 import java.time.LocalDateTime;
@@ -14,8 +14,6 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserDataValidationImplementation implements UserDataValidation {
-    //TODO: moove all static strings to the configurations files
-    //TODO: add more sophisticated regex pattern for first and last names
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\" +
             ".[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String USERNAME_PATTERN = "\\b[a-zA-Z][a-zA-Z0-9\\-._]{3,}\\b"; //  the starting letter of
@@ -33,7 +31,7 @@ public class UserDataValidationImplementation implements UserDataValidation {
     }
 
     @Override
-    public void userDataValidation(UserDTO userDTO) {
+    public void userDataValidation(UserDto userDTO) {
         if (!validateData(userDTO.getUsername(), USERNAME_PATTERN)) {
             throw new ValidationException("Email validation failed, please provide proper email");
         }
@@ -54,7 +52,6 @@ public class UserDataValidationImplementation implements UserDataValidation {
                     "Password validation failed, please provide proper password: \n" + errorMessage);
         }
     }
-
 
     private boolean validateData(final String data, final String PATTERN) {
         pattern = Pattern.compile(PATTERN);

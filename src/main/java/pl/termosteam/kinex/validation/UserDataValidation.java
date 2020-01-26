@@ -1,6 +1,6 @@
 package pl.termosteam.kinex.validation;
 
-import pl.termosteam.kinex.domain.security.UserDTO;
+import pl.termosteam.kinex.dto.UserDto;
 
 import java.time.LocalDateTime;
 
@@ -19,5 +19,5 @@ public interface UserDataValidation {
      * @param userDTO UserDto object
      * @return
      */
-    void userDataValidation(UserDTO userDTO);
+    void userDataValidation(UserDto userDTO);
 }

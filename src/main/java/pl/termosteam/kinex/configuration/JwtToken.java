@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +23,7 @@ import java.util.function.Function;
  * @since 2020-01-01
  */
 @Component
-public class JwtToken implements Serializable {
-
-    private static final long serialVersionUID = -2550185165626007488L;
+public class JwtToken {
 
     @Value("${jwt.token.validity.time:180000}")
     public static long JWT_TOKEN_VALIDITY;
@@ -66,7 +63,6 @@ public class JwtToken implements Serializable {
         return doGenerateToken(claims, uuid);
     }
 
-
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
 
@@ -84,6 +80,4 @@ public class JwtToken implements Serializable {
         final String activationUUID = getSubjectFromToken(token);
         return (activationUUID.equals(userActivationUUID) && !isTokenExpired(token));
     }
-
-
 }

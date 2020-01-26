@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "auditorium")
+@EqualsAndHashCode(of = "id")
 public class Auditorium {
 
     @Id

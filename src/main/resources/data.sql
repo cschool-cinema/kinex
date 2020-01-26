@@ -8,6 +8,26 @@ ALTER TABLE screening
     ALTER COLUMN id SET DEFAULT nextval('screening_id_seq'::regclass);
 ALTER TABLE ticket
     ALTER COLUMN id SET DEFAULT nextval('ticket_id_seq'::regclass);
+ALTER TABLE user_account
+    ALTER COLUMN id SET DEFAULT nextval('user_account_id_seq'::regclass);
+
+INSERT INTO user_account(activated_at,
+                         activation_token,
+                         created_at,
+                         email,
+                         first_name,
+                         is_authenticated,
+                         is_enabled,
+                         last_name,
+                         password,
+                         role,
+                         salt,
+                         username,
+                         valid_account_till,
+                         valid_password_till)
+VALUES ('2020-01-26 13:52:10.666', 'de980b3a-1f71-41fd-b0dc-2d2abc2ae8c6', '2020-01-26 13:50:58.088',
+        'owner@kinex.com', 'Owner', FALSE, TRUE, 'Owner', 'de67v5bC9a4sk', 'ROLE_OWNER',
+        'de980b3a1f7141fdb0dc2d2abc2ae8c6', 'ps', '2021-01-26 13:50:56.09', '2021-01-26 13:50:56.091');
 
 INSERT INTO movie (category, duration_min, release_year, title)
 VALUES ('Sci-Fi', 180, 1970, 'Star Wars IV');

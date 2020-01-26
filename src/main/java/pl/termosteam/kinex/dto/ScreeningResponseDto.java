@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScreeningDto {
+public class ScreeningResponseDto {
     private int screeningId;
     private LocalDateTime screeningStartUtc;
     private int movieId;

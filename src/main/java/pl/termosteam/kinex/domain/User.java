@@ -1,8 +1,8 @@
-package pl.termosteam.kinex.domain.security;
+package pl.termosteam.kinex.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pl.termosteam.kinex.validation.UserDataValidationImplementation;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -21,13 +22,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Table(name = "user_account")
-@Entity(name = "user")
+@Entity
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-    @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_account_id_seq")
+    @SequenceGenerator(name = "user_account_id_seq", allocationSize = 1)
     private int id;
 
     @Column(nullable = false)
@@ -45,13 +47,12 @@ public class User implements UserDetails {
     @NotBlank(message = "User username cannot be null/blank.")
     private String username;
 
-    @JsonIgnore
+    @Email
     @Column(nullable = false)
     @Size(max = 128, message = "User email character limit is 128.")
     @NotBlank(message = "User email cannot be null/blank.")
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     @Size(max = 512, message = "User hashed password character limit is 512.")
     @NotBlank(message = "User hashed password cannot be null/blank.")
@@ -68,18 +69,21 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private boolean isEnabled;
+
     @Column(nullable = false)
     private boolean isAuthenticated;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
+
     @Column(nullable = false)
     private LocalDateTime validAccountTill;
+
     @Column(nullable = false)
     private LocalDateTime validPasswordTill;
-    private LocalDateTime activatedAt;
 
+    private LocalDateTime activatedAt;
 
     public User(String firstName,
                 String lastName,
@@ -145,5 +149,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return this.isEnabled;
     }
-
 }

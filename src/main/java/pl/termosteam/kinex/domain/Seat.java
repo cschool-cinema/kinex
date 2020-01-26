@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Builder
 @Entity
 @Table(name = "seat", uniqueConstraints = @UniqueConstraint(columnNames = {"auditorium_id", "seat_row", "seat_number"},

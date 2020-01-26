@@ -1,19 +1,15 @@
 package pl.termosteam.kinex.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class SendEmailService {
 
-    final private JavaMailSender mailSender;
-
-    @Autowired
-    public SendEmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    private final JavaMailSender mailSender;
 
     /**
      * This method will send compose and send the message

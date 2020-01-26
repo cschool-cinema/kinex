@@ -6,7 +6,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * JwtAuthenticationEntryPoint: class setups the AuthenticationEntryPoint in configuration.
@@ -16,9 +15,7 @@ import java.io.Serializable;
  * @version 1.0
  * @since 2020-01-01
  */
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
-
-    private static final long serialVersionUID = -6636533482957494818L;
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request,
