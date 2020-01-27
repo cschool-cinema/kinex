@@ -1,6 +1,6 @@
 package pl.termosteam.kinex.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -18,20 +18,10 @@ import java.util.Properties;
  * @since 2020-01-01
  */
 @Configuration
+@AllArgsConstructor
 public class EmailConfiguration {
 
     private final Environment environment;
-
-    /**
-     * EmailConfiguration constructor takes one object as parameters
-     * allow use dependency injection mechanism in SPRING framework
-     *
-     * @param environment is Environment class object
-     */
-    @Autowired
-    public EmailConfiguration(Environment environment) {
-        this.environment = environment;
-    }
 
     /**
      * getMailSender(): this spring bean configure JavaMailSender object

@@ -17,9 +17,9 @@ public class ScreeningRequestDto {
     @NotNull(message = "Screening start time cannot be null!")
     private LocalDateTime screeningStartUtc;
 
-    @NotNull(message = "Movie id cannot be null!")
+    @NotNull(message = "Movie cannot be null!")
     private Integer movieId;
 
-    @NotNull(message = "Auditorium id time cannot be null!")
+    @NotNull(message = "Auditorium cannot be null!")
     private Integer auditoriumId;
 }

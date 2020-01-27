@@ -24,7 +24,7 @@ public class Ticket {
 
     @Column(name = "user_account_id")
     @NotNull(message = "User account cannot be null.")
-    private int userAccountId;
+    private Integer userAccountId;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ticket_screening_id_fkey"))
@@ -35,7 +35,6 @@ public class Ticket {
     private Seat seat;
 
     @Column(columnDefinition = "boolean DEFAULT true")
-    @NotNull(message = "Active state cannot be null.")
     private boolean active;
 
     @Column(nullable = false, updatable = false, insertable = false,

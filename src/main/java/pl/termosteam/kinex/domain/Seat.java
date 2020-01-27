@@ -32,16 +32,15 @@ public class Seat {
     @NotNull(message = "Seat row cannot be null.")
     @Min(value = 1, message = "Seat row number must be higher than 0.")
     @Max(value = 100, message = "Seat row number must must not exceed 100.")
-    private short seatRow;
+    private Short seatRow;
 
     @Column(name = "seat_number")
     @NotNull(message = "Seat number cannot be null.")
     @Min(value = 1, message = "Seat number must be higher than 0")
     @Max(value = 100, message = "Seat number must must not exceed 100.")
-    private int seatNumber;
+    private Short seatNumber;
 
     @Column(columnDefinition = "boolean DEFAULT true")
-    @NotNull(message = "Active state cannot be null.")
     private boolean active;
 
     @OneToMany(mappedBy = "seat")
