@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.domain;
 
 import lombok.*;
+import pl.termosteam.kinex.validation.MinToCurrentYearPlus;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -29,9 +30,10 @@ public class Movie {
     private String title;
 
     @Column(name = "release_year", columnDefinition =
-            "int2 CHECK (release_year BETWEEN 1800 AND date_part('year', " + "CURRENT_DATE)+5)")
+            "int2 CHECK (release_year BETWEEN 1800 AND date_part('year', " + "CURRENT_DATE)+1)")
     @NotNull(message = "Release year cannot be null.")
-    @Min(value = 1800, message = "The earliest release year is 1800.")
+    @MinToCurrentYearPlus(min = 1800, addToCurrentYear = 1,
+            message = "The earliest release year is 1800 and the latest current year + 1.")
     private Short releaseYear;
 
     @Column(nullable = false)

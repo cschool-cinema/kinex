@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.termosteam.kinex.validation.MinToCurrentYearPlus;
 
 import javax.validation.constraints.*;
 
@@ -20,7 +21,8 @@ public class MovieDto {
     private String title;
 
     @NotNull(message = "Release year cannot be null.")
-    @Min(value = 1800, message = "The earliest release year is 1800.")
+    @MinToCurrentYearPlus(min = 1800, addToCurrentYear = 1,
+            message = "The earliest release year is 1800 and the latest current year + 1.")
     private Short releaseYear;
 
     @Size(max = 256, message = "Category character limit is 256.")

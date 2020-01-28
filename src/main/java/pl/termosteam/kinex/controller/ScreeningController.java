@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.domain.Seat;
 import pl.termosteam.kinex.dto.ScreeningResponseDto;
-import pl.termosteam.kinex.dto.SeatResponseDto;
+import pl.termosteam.kinex.dto.SeatClientDto;
 import pl.termosteam.kinex.service.ScreeningService;
 import pl.termosteam.kinex.service.SeatService;
 
@@ -45,9 +45,9 @@ public class ScreeningController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @GetMapping(path = "{screeningId}/available-seats")
-    public List<SeatResponseDto> findAvailableSeatsForScreening(@PathVariable int screeningId) {
+    public List<SeatClientDto> findAvailableSeatsForScreening(@PathVariable int screeningId) {
         List<Seat> availableSeats = seatService.findAvailableSeatsForScreening(screeningId);
 
-        return Arrays.asList(mm.map(availableSeats, SeatResponseDto[].class));
+        return Arrays.asList(mm.map(availableSeats, SeatClientDto[].class));
     }
 }

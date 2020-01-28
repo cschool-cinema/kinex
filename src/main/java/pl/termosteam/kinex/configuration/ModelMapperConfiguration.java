@@ -18,8 +18,8 @@ public class ModelMapperConfiguration {
     }
 
     private void setActivityLogToDto(ModelMapper mm) {
-        TypeMap<ActivityLog, ActivityLogResponseDto> typeMap = mm.createTypeMap(ActivityLog.class, ActivityLogResponseDto
-                .class);
+        TypeMap<ActivityLog, ActivityLogResponseDto> typeMap =
+                mm.createTypeMap(ActivityLog.class, ActivityLogResponseDto.class);
         typeMap.addMappings(mapper -> {
             mapper.map(src -> src.getUser().getUsername(), ActivityLogResponseDto::setUsername);
             mapper.map(src -> src.getUser().getRole(), ActivityLogResponseDto::setUserRole);

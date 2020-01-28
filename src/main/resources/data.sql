@@ -29,6 +29,8 @@ INSERT INTO auditorium (name)
 VALUES ('Jupyter');
 INSERT INTO auditorium (name)
 VALUES ('Uranus');
+INSERT INTO auditorium (name, active)
+VALUES ('Mars', FALSE);
 
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (1, 1, 1);
@@ -47,6 +49,15 @@ INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (2, 2, 1);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (2, 2, 2);
+
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (3, 1, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (3, 1, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (3, 2, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (3, 2, 2);
 
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
 VALUES (1, 1, now() + '2 days'::interval);

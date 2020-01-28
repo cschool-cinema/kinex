@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.termosteam.kinex.validation.NowToPlusDays;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class ScreeningRequestDto {
 
     @NotNull(message = "Screening start time cannot be null!")
+    @NowToPlusDays(days = 14, message = "Screening must be set between now and 14 days from now!")
     private LocalDateTime screeningStartUtc;
 
     @NotNull(message = "Movie cannot be null!")

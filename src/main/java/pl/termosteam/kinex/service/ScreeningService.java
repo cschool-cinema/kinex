@@ -66,15 +66,15 @@ public class ScreeningService {
     public Screening createScreening(ScreeningRequestDto screeningRequestDto) {
         LocalDateTime screeningStart = screeningRequestDto.getScreeningStartUtc();
 
-        if (screeningStart.isBefore(LocalDateTime.now())) {
-            throw new NotAllowedException("Adding screenings in the past not allowed!");
-        }
-
         Movie movie = movieRepository.findById(screeningRequestDto.getMovieId())
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));
 
         Auditorium auditorium = auditoriumRepository.findById(screeningRequestDto.getAuditoriumId())
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+        if (!auditorium.isActive()) {
+            throw new NotAllowedException("Cannot create a screening in inactive auditorium!");
+        }
 
         LocalDateTime screeningEnd = screeningStart
                 .plusMinutes(movie.getDurationMin())
@@ -103,10 +103,6 @@ public class ScreeningService {
 
         LocalDateTime updateScreeningStart = requestDto.getScreeningStartUtc();
 
-        if (updateScreeningStart.isBefore(LocalDateTime.now())) {
-            throw new NotAllowedException("Cannot update screening date/time to past!");
-        }
-
         if (screening.getScreeningStartUtc().isBefore(LocalDateTime.now())) {
             throw new NotAllowedException("Cannot update past screening!");
         }
@@ -121,8 +117,14 @@ public class ScreeningService {
         }
 
         if (requestDto.getAuditoriumId() != screening.getAuditorium().getId()) {
-            screening.setAuditorium(auditoriumRepository.findById(requestDto.getAuditoriumId())
-                    .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND)));
+            Auditorium auditorium = auditoriumRepository.findById(requestDto.getAuditoriumId())
+                    .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+            if (!auditorium.isActive()) {
+                throw new NotAllowedException("Cannot update auditorium to an inactive one!");
+            }
+
+            screening.setAuditorium(auditorium);
         }
 
         if (!requestDto.getScreeningStartUtc().equals(screening.getScreeningStartUtc())) {

@@ -24,7 +24,6 @@ questions:
 -3. does screening table need a db trigger (start time + movie length + break for cleaning)? - no, but function to be reviewed by Kacper
 DL8. explain serializable - do we need it? - no, remove
 DL9. move validation to dto and entity through custom annotations
-PS10. screeningStartUtc and releaseyear validations
 11. showcase intellij ultimate features
-12. TODO: add logging system with user operations, need add new table with possible columns id,activityAt,description,userId WILL be implemented by DL
-13. @transactional - check if necessary (service classes)
+DL12. add logging system with user operations, need add new table with possible columns id,activityAt,description,userId
+13. @transactional - review if necessary (service classes)

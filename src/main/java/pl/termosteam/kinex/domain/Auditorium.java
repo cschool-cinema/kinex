@@ -2,7 +2,6 @@ package pl.termosteam.kinex.domain;
 
 import lombok.*;
 
-import javax.jdo.annotations.Unique;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -14,7 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "auditorium")
+@Table(name = "auditorium", uniqueConstraints = @UniqueConstraint(
+        name = "auditorium_name_key", columnNames = {"name"}))
 @EqualsAndHashCode(of = "id")
 public class Auditorium {
 
@@ -26,8 +26,10 @@ public class Auditorium {
     @Column(nullable = false)
     @Size(max = 256, message = "Auditorium name character limit is 256.")
     @NotBlank(message = "Auditorium name cannot be null/blank.")
-    @Unique(name = "auditorium_name_key")
     private String name;
+
+    @Column(columnDefinition = "boolean DEFAULT true")
+    private boolean active;
 
     @OneToMany(mappedBy = "auditorium")
     private List<Seat> seats;

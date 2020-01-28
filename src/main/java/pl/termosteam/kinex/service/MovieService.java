@@ -11,7 +11,6 @@ import pl.termosteam.kinex.exception.NotFoundException;
 import pl.termosteam.kinex.repository.MovieRepository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +51,6 @@ public class MovieService {
 
     @Transactional
     public Movie createMovie(Movie movie) {
-        validateMovieReleaseYear(movie);
-
         if (checkDuplicate(movie).isPresent()) {
             throw new NotAllowedException("This movie already exists in the database.");
         }
@@ -65,8 +62,6 @@ public class MovieService {
     public Movie updateMovie(Movie movieInput, int id) {
         Movie movieToUpdate = movieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));
-
-        validateMovieReleaseYear(movieInput);
 
         Optional<Movie> duplicateMovie = checkDuplicate(movieInput);
         if (duplicateMovie.isPresent()) {
@@ -84,12 +79,6 @@ public class MovieService {
         movieToUpdate.setTitle(movieInput.getTitle());
 
         return movieRepository.save(movieToUpdate);
-    }
-
-    private void validateMovieReleaseYear(Movie movie) {
-        if (movie.getReleaseYear() > LocalDate.now().getYear() + 5) {
-            throw new NotAllowedException("Release year cannot be greater than current year + 5 years.");
-        }
     }
 
     private Optional<Movie> checkDuplicate(Movie movie) {
