@@ -32,6 +32,7 @@ public class Auditorium {
     private boolean active;
 
     @OneToMany(mappedBy = "auditorium")
+    @OrderBy("seatRow, seatNumber")
     private List<Seat> seats;
 
     @OneToMany(mappedBy = "auditorium")

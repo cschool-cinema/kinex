@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,5 +22,5 @@ public class AuditoriumDto {
 
     private boolean active;
 
-    private Set<SeatAdminDto> seats;
+    private List<SeatAdminDto> seats;
 }
