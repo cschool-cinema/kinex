@@ -73,7 +73,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isAuthenticated;
 
-    @Column(nullable = false, updatable = false, insertable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
