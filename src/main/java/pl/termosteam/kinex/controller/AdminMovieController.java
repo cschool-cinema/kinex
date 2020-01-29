@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/administration/movie")
-public class AdministrationMovieController {
+public class AdminMovieController {
 
     private final MovieService movieService;
     private final ModelMapper mm;

@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
@@ -40,7 +41,7 @@ public class MovieService {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));
 
-        if (movie.getScreenings().size() > 0) {
+        if (CollectionUtils.isNotEmpty(movie.getScreenings())) {
             throw new NotAllowedException("Delete not allowed! Screenings already exist for this movie.");
         }
 

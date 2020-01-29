@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -20,7 +22,9 @@ public class AuditoriumDto {
     @NotBlank(message = "Auditorium name cannot be null/blank.")
     private String name;
 
-    private boolean active;
+    @NotNull(message = "Active must be either true or false.")
+    private Boolean active;
 
+    @Valid
     private List<SeatAdminDto> seats;
 }

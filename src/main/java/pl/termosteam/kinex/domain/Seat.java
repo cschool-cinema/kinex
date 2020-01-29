@@ -41,7 +41,8 @@ public class Seat {
     private Short seatNumber;
 
     @Column(columnDefinition = "boolean DEFAULT true")
-    private boolean active;
+    @NotNull(message = "Active must be either true or false.")
+    private Boolean active;
 
     @OneToMany(mappedBy = "seat")
     private List<Ticket> tickets;

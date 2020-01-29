@@ -88,6 +88,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets;
+
     public User(String firstName,
                 String lastName,
                 String username,

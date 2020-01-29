@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -29,9 +30,10 @@ public class Auditorium {
     private String name;
 
     @Column(columnDefinition = "boolean DEFAULT true")
-    private boolean active;
+    @NotNull(message = "Active must be either true or false.")
+    private Boolean active;
 
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium", cascade = CascadeType.PERSIST)
     @OrderBy("seatRow, seatNumber")
     private List<Seat> seats;
 

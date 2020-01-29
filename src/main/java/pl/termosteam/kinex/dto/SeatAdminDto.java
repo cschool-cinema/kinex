@@ -26,5 +26,6 @@ public class SeatAdminDto {
     @Max(value = 100, message = "Seat number must must not exceed 100.")
     private Integer seatNumber;
 
-    private boolean seatActive;
+    @NotNull(message = "Active must be either true or false.")
+    private Boolean seatActive;
 }

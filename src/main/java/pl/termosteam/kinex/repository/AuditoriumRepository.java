@@ -6,4 +6,6 @@ import pl.termosteam.kinex.domain.Auditorium;
 
 @Repository
 public interface AuditoriumRepository extends JpaRepository<Auditorium, Integer> {
+
+    boolean existsByNameIgnoreCase(String name);
 }

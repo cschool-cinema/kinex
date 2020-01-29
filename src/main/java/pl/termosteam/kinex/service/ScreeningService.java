@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.Auditorium;
@@ -53,7 +54,7 @@ public class ScreeningService {
         Screening screening = screeningRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
-        if (screening.getTickets().size() > 0) {
+        if (CollectionUtils.isNotEmpty(screening.getTickets())) {
             throw new NotAllowedException("Delete not allowed!" + TICKETS_SOLD);
         }
 
@@ -72,7 +73,7 @@ public class ScreeningService {
         Auditorium auditorium = auditoriumRepository.findById(screeningRequestDto.getAuditoriumId())
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
 
-        if (!auditorium.isActive()) {
+        if (!auditorium.getActive()) {
             throw new NotAllowedException("Cannot create a screening in inactive auditorium!");
         }
 
@@ -120,7 +121,7 @@ public class ScreeningService {
             Auditorium auditorium = auditoriumRepository.findById(requestDto.getAuditoriumId())
                     .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
 
-            if (!auditorium.isActive()) {
+            if (!auditorium.getActive()) {
                 throw new NotAllowedException("Cannot update auditorium to an inactive one!");
             }
 
@@ -151,12 +152,12 @@ public class ScreeningService {
     private boolean activeTicketsSold(Screening screening) {
         List<Ticket> tickets = screening.getTickets();
 
-        if (tickets.size() == 0) {
+        if (CollectionUtils.isEmpty(tickets)) {
             return false;
         }
 
         for (Ticket ticket : tickets) {
-            if (ticket.isActive()) {
+            if (ticket.getActive()) {
                 return true;
             }
         }

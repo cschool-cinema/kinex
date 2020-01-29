@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.domain.Seat;
@@ -31,7 +32,7 @@ public class SeatService {
 
         int auditoriumId = screening.getAuditorium().getId();
 
-        if (reservedSeats.size() == 0) {
+        if (CollectionUtils.isEmpty(reservedSeats)) {
             return seatRepository
                     .findByActiveTrueAndAuditoriumIdOrderBySeatRowAscSeatNumberAsc(auditoriumId);
         }
