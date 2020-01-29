@@ -11,7 +11,6 @@ import pl.termosteam.kinex.exception.NotAllowedException;
 import pl.termosteam.kinex.exception.NotFoundException;
 import pl.termosteam.kinex.repository.MovieRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +35,6 @@ public class MovieService {
         return movieRepository.findAllByTitleIgnoreCaseContainingOrderByTitleAsc(searchPhrase);
     }
 
-    @Transactional
     public String deleteMovie(int id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));
@@ -50,7 +48,6 @@ public class MovieService {
         return "Movie has been successfully deleted.";
     }
 
-    @Transactional
     public Movie createMovie(Movie movie) {
         if (checkDuplicate(movie).isPresent()) {
             throw new NotAllowedException("This movie already exists in the database.");
@@ -59,7 +56,6 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
-    @Transactional
     public Movie updateMovie(Movie movieInput, int id) {
         Movie movieToUpdate = movieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));

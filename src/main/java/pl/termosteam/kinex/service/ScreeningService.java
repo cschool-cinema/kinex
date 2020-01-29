@@ -15,7 +15,6 @@ import pl.termosteam.kinex.repository.AuditoriumRepository;
 import pl.termosteam.kinex.repository.MovieRepository;
 import pl.termosteam.kinex.repository.ScreeningRepository;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public class ScreeningService {
         return screeningRepository.findByMovieTitleAndStartTime(title, from);
     }
 
-    @Transactional
     public String deleteScreening(int id) {
         Screening screening = screeningRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
@@ -63,7 +61,6 @@ public class ScreeningService {
         return "Screening has been successfully deleted.";
     }
 
-    @Transactional
     public Screening createScreening(ScreeningRequestDto screeningRequestDto) {
         LocalDateTime screeningStart = screeningRequestDto.getScreeningStartUtc();
 
@@ -95,7 +92,6 @@ public class ScreeningService {
         return screeningRepository.save(newScreening);
     }
 
-    @Transactional
     public Screening updateScreeningDetails(ScreeningRequestDto requestDto, int id) {
         Screening screening = screeningRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));

@@ -33,7 +33,7 @@ public class Auditorium {
     @NotNull(message = "Active must be either true or false.")
     private Boolean active;
 
-    @OneToMany(mappedBy = "auditorium", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "auditorium", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @OrderBy("seatRow, seatNumber")
     private List<Seat> seats;
 

@@ -9,9 +9,11 @@ import pl.termosteam.kinex.domain.Seat;
 import pl.termosteam.kinex.exception.NotAllowedException;
 import pl.termosteam.kinex.exception.NotFoundException;
 import pl.termosteam.kinex.repository.AuditoriumRepository;
-import pl.termosteam.kinex.repository.SeatRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.AUDITORIUM_NOT_FOUND;
 
@@ -20,7 +22,6 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 public class AuditoriumService {
 
     private final AuditoriumRepository auditoriumRepository;
-    private final SeatRepository seatRepository;
 
     public List<Auditorium> findAllAuditoriums() {
         return auditoriumRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
@@ -31,6 +32,7 @@ public class AuditoriumService {
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
     }
 
+    @Transactional
     public Auditorium createAuditorium(Auditorium auditorium) {
         if (auditoriumRepository.existsByNameIgnoreCase(auditorium.getName())) {
             throw new NotAllowedException("Auditorium with this name already exists!");
@@ -39,6 +41,14 @@ public class AuditoriumService {
         List<Seat> seats = auditorium.getSeats();
         if (CollectionUtils.isEmpty(seats)) {
             throw new NotAllowedException("Please add at least one seat to auditorium!");
+        }
+
+        Set<String> seatUniqueRowAndNumber = seats.stream()
+                .map(s -> s.getSeatRow().toString() + s.getSeatNumber().toString())
+                .collect(Collectors.toSet());
+
+        if (seats.size() != seatUniqueRowAndNumber.size()) {
+            throw new NotAllowedException("Cannot add auditorium with duplicated seats (row, number)!");
         }
 
         for (Seat seat : seats) {

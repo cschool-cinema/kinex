@@ -20,7 +20,7 @@ public class AdminAuditoriumController {
     private final AuditoriumService auditoriumService;
     private final ModelMapper mm;
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping
     public List<AuditoriumDto> findAllAuditoriums() {
         List<Auditorium> auditoriums = auditoriumService.findAllAuditoriums();
@@ -28,7 +28,7 @@ public class AdminAuditoriumController {
         return Arrays.asList(mm.map(auditoriums, AuditoriumDto[].class));
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping(path = "{auditoriumId}")
     public AuditoriumDto findAuditoriumById(@PathVariable int auditoriumId) {
         Auditorium auditorium = auditoriumService.findAuditoriumById(auditoriumId);
@@ -36,7 +36,7 @@ public class AdminAuditoriumController {
         return mm.map(auditorium, AuditoriumDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PostMapping
     public AuditoriumDto createAuditorium(@RequestBody @Valid AuditoriumDto auditoriumDto) {
         Auditorium auditorium = mm.map(auditoriumDto, Auditorium.class);
@@ -45,4 +45,6 @@ public class AdminAuditoriumController {
 
         return mm.map(savedAuditorium, AuditoriumDto.class);
     }
+
+
 }
