@@ -13,12 +13,12 @@ ALTER TABLE user_account
 ALTER TABLE activity_log
     ALTER COLUMN id SET DEFAULT nextval('activity_log_id_seq'::regclass);
 
-INSERT INTO user_account(activated_at, activation_token, created_at, email, first_name, is_authenticated, is_enabled,
+INSERT INTO user_account(activated_at, activation_uuid, created_at, email, first_name, is_authenticated, is_enabled,
                          last_name, password, role, salt, username, valid_account_till, valid_password_till)
 VALUES ('2020-01-26 13:52:10.666', 'de980b3a-1f71-41fd-b0dc-2d2abc2ae8c6', '2020-01-26 13:50:58.088',
         'owner@kinex.com', 'Owner', FALSE, TRUE, 'Owner', 'de67v5bC9a4sk', 'ROLE_OWNER',
         'de980b3a1f7141fdb0dc2d2abc2ae8c6', 'ps', '2021-01-26 13:50:56.09', '2021-01-26 13:50:56.091');
-INSERT INTO user_account(activated_at, activation_token, created_at, email, first_name, is_authenticated, is_enabled,
+INSERT INTO user_account(activated_at, activation_uuid, created_at, email, first_name, is_authenticated, is_enabled,
                          last_name, password, role, salt, username, valid_account_till, valid_password_till)
 VALUES ('2020-01-29 17:59:15.442000', '6e618ff3-fb1e-4377-9526-73fdbda848c1', '2020-01-29 17:58:33.875000',
         'cipemoy946@repshop.net', 'heavy', FALSE, TRUE, 'user', '6epWL2w74Y3Ow', 'ROLE_USER',

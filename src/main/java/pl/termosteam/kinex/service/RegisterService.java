@@ -1,36 +1,21 @@
 package pl.termosteam.kinex.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.termosteam.kinex.configuration.DeveloperConfiguration;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserDto;
 import pl.termosteam.kinex.exception.ValidationException;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 
 @Service
+@AllArgsConstructor
 public class RegisterService {
 
     private final UserService userService;
-    private final Map<Role, Callable<Optional<User>>> routeRegistrationMap;
-    private UserDto userDto;
-
-    @Value("${development.return.activation.token}")
-    private Boolean isReturnActivationToken;
-
-    public RegisterService(UserService userService) {
-        this.userService = userService;
-        this.routeRegistrationMap = new HashMap<>();
-        routeRegistrationMap.put(Role.OWNER, () -> userService.addUserWithRole(Role.OWNER, userDto));
-        routeRegistrationMap.put(Role.ADMINISTRATOR, () -> userService.addUserWithRole(Role.ADMINISTRATOR, userDto));
-        routeRegistrationMap.put(Role.MANAGER, () -> userService.addUserWithRole(Role.MANAGER, userDto));
-        routeRegistrationMap.put(Role.USER, () -> userService.addUserWithRole(Role.USER, userDto));
-        routeRegistrationMap.put(Role.GUEST, () -> userService.addUserWithRole(Role.GUEST, userDto));
-    }
+    private final DeveloperConfiguration developerConfiguration;
 
     public String registerUserWithRole(Role ROLE, UserDto userDTO) {
 
@@ -45,15 +30,32 @@ public class RegisterService {
                     "Owner is not registered, if you want to register user with " + ROLE + " first register OWNER role");
         }
 
-        this.userDto = userDTO;
-        User user = (User) routeRegistrationMap.get(ROLE);
-        if (isReturnActivationToken) {
-            userService.activateByToken(user.getUsername(), user.getInMemoryActivationToken());
+        Optional<User> user = addUserRoleSelection(ROLE, userDTO);
+
+        if (developerConfiguration.getIsReturnActivationToken()) {
+            userService.activateByToken(user.get().getUsername(), user.get().getInMemoryActivationToken());
             return "DEVELOPER MODE: User is registered and activated automatically.";
         } else {
-            return "You account with the username \"" + user.getUsername() +
+            return "You account with the username \"" + user.get().getUsername() +
                     "\" has been registered, please activate account using the token sent to the provided email: " +
-                    user.getEmail();
+                    user.get().getEmail();
+        }
+    }
+
+    private Optional<User> addUserRoleSelection(Role ROLE, UserDto userDto) {
+        switch (ROLE) {
+            case OWNER:
+                return userService.addUserWithRole(Role.OWNER, userDto);
+            case ADMINISTRATOR:
+                return userService.addUserWithRole(Role.ADMINISTRATOR, userDto);
+            case MANAGER:
+                return userService.addUserWithRole(Role.MANAGER, userDto);
+            case USER:
+                return userService.addUserWithRole(Role.USER, userDto);
+            case GUEST:
+                return userService.addUserWithRole(Role.GUEST, userDto);
+            default:
+                return null;
         }
     }
 

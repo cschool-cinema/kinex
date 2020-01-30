@@ -2,13 +2,13 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.termosteam.kinex.configuration.DeveloperConfiguration;
 import pl.termosteam.kinex.configuration.JwtToken;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
@@ -28,9 +28,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserDataValidation userDataValidation;
     private final SendEmailService sendEmailService;
-    @Value("${development.return.activation.token}")
-    private Boolean isReturnActivationToken;
-
+    private final DeveloperConfiguration developerConfiguration;
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
@@ -81,7 +79,7 @@ public class UserService implements UserDetailsService {
 
         user.setInMemoryActivationToken(token);
 
-        if (!isReturnActivationToken) {
+        if (developerConfiguration.getIsReturnActivationToken()) {
             sendEmailService.sendMail(userDTO.getEmail(), "activation token for kinex api", token);
         }
 

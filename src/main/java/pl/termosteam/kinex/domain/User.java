@@ -64,7 +64,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String role;
 
-    @Column(nullable = false)
+    @Column(name = "activation_uuid", nullable = false)
     private String activationUUID;
 
     @Column(nullable = false)
