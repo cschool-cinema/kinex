@@ -2,8 +2,10 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.Auditorium;
+import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.domain.Seat;
 import pl.termosteam.kinex.exception.NotAllowedException;
@@ -27,9 +29,14 @@ public class SeatService {
     private final SeatRepository seatRepository;
     private final AuditoriumRepository auditoriumRepository;
 
-    public List<Seat> findAvailableSeatsForScreening(int screeningId) {
+    public List<Seat> findAvailableSeatsForScreening(int screeningId, Role requesterRole) {
         Screening screening = screeningRepository.findById(screeningId)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
+
+        if (screening.getScreeningStartUtc().isBefore(LocalDateTime.now()) &&
+                requesterRole.getHierarchy() < 2) {
+            throw new AccessDeniedException(FORBIDDEN);
+        }
 
         List<Integer> reservedSeats = ticketRepository.findAllReservedSeatsForScreening(screeningId);
 

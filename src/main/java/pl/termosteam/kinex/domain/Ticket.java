@@ -34,7 +34,6 @@ public class Ticket {
     @JoinColumn(foreignKey = @ForeignKey(name = "ticket_seat_id_fkey"))
     private Seat seat;
 
-    //TODO: check if default value works correctly
     @Column(columnDefinition = "boolean DEFAULT true")
     @NotNull(message = "Active must be either true or false.")
     private Boolean active = true;
