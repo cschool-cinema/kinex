@@ -38,7 +38,7 @@ public class ScreeningController {
     @GetMapping(path = "{title}")
     public List<ScreeningResponseDto> findFutureScreeningsByMovieTitle(@PathVariable String title) {
         List<Screening> screenings =
-                screeningService.findScreeningsByMovieTitleAndStartTime(title, LocalDateTime.now());
+                screeningService.findFutureScreeningsByMovieTitle(title);
 
         return Arrays.asList(mm.map(screenings, ScreeningResponseDto[].class));
     }

@@ -44,8 +44,8 @@ public class ScreeningService {
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
     }
 
-    public List<Screening> findScreeningsByMovieTitleAndStartTime(String title, LocalDateTime from) {
-        return screeningRepository.findByMovieTitleAndStartTime(title, from);
+    public List<Screening> findFutureScreeningsByMovieTitle(String title) {
+        return screeningRepository.findByMovieTitleAndStartTime(title, LocalDateTime.now());
     }
 
     public String deleteScreening(int id) {

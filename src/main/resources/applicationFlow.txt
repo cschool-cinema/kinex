@@ -17,7 +17,7 @@ employee:
 DONE PS - 1. crud for movies, screenings
 
 manager:
-PS1. crud for auditoriums (and seats)
+DONE PS1. crud for auditoriums (and seats)
 DL2. deactivate user and employee accounts
 
 questions:

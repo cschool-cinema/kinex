@@ -66,7 +66,7 @@ VALUES (3, 2, 2);
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
 VALUES (1, 1, now() + '2 days'::interval);
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
-VALUES (2, 2, now() + '1 seconds'::interval);
+VALUES (3, 2, now() + '1 seconds'::interval);
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
 VALUES (2, 2, now() + '1 day'::interval);
 

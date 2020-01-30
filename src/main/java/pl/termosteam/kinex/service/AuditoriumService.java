@@ -11,6 +11,7 @@ import pl.termosteam.kinex.exception.NotFoundException;
 import pl.termosteam.kinex.repository.AuditoriumRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,10 +52,82 @@ public class AuditoriumService {
             throw new NotAllowedException("Cannot add auditorium with duplicated seats (row, number)!");
         }
 
+        boolean auditoriumActive = auditorium.getActive();
+        boolean atLeastOneActiveSeat = false;
+
         for (Seat seat : seats) {
             seat.setAuditorium(auditorium);
+
+            if (auditoriumActive && seat.getActive()) {
+                atLeastOneActiveSeat = true;
+            }
+        }
+
+        if (auditoriumActive && !atLeastOneActiveSeat) {
+            throw new NotAllowedException("Cannot add active auditorium with all inactive seats!");
         }
 
         return auditoriumRepository.save(auditorium);
+    }
+
+    @Transactional
+    public String deactivateAuditorium(int auditoriumId) {
+        Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
+                .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+        if (!auditorium.getActive()) {
+            throw new NotAllowedException("The auditorium is already inactive.");
+        }
+
+        if (auditoriumRepository.existsScreeningsStartingFrom(auditoriumId, LocalDateTime.now())) {
+            throw new NotAllowedException("Cannot deactivate! Future screenings exist for this auditorium.");
+        }
+
+        List<Seat> seats = auditorium.getSeats();
+        for (Seat seat : seats) {
+            seat.setActive(false);
+        }
+
+        auditorium.setActive(false);
+
+        auditoriumRepository.save(auditorium);
+
+        return "The auditorium and all its seats have been deactivated.";
+    }
+
+    @Transactional
+    public String reactivateAuditorium(int auditoriumId) {
+        Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
+                .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+        if (auditorium.getActive()) {
+            throw new NotAllowedException("Auditorium is already active.");
+        }
+
+        List<Seat> seats = auditorium.getSeats();
+        for (Seat seat : seats) {
+            seat.setActive(true);
+        }
+
+        auditorium.setActive(true);
+
+        auditoriumRepository.save(auditorium);
+
+        return "The auditorium and all its seats have been reactivated.";
+    }
+
+    @Transactional
+    public String deleteAuditorium(int auditoriumId) {
+        Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
+                .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+        if (CollectionUtils.isNotEmpty(auditorium.getScreenings())) {
+            throw new NotAllowedException("There are/were screenings in this auditorium. " +
+                    "Try deactivating it instead.");
+        }
+
+        auditoriumRepository.delete(auditorium);
+
+        return "The auditorium and all its seats were removed from database.";
     }
 }

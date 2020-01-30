@@ -62,8 +62,23 @@ public class SeatService {
         Seat seat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new NotFoundException(SEAT_NOT_FOUND));
 
+        if (!seat.getActive()) {
+            throw new NotAllowedException("The seat is already inactive.");
+        }
+
         if (seatRepository.existsActiveTicketsStartingFrom(seatId, LocalDateTime.now())) {
             throw new NotAllowedException("Cannot deactivate! Active, future tickets exist for this seat.");
+        }
+
+        List<Seat> seats = seat.getAuditorium().getSeats();
+        int activeSeats = 0;
+        for (Seat s : seats) {
+            if (s.getActive()) activeSeats++;
+        }
+
+        if (activeSeats == 1) {
+            throw new NotAllowedException("This is the last active seat. " +
+                    "Please deactivate whole auditorium instead.");
         }
 
         seat.setActive(false);

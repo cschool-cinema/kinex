@@ -46,5 +46,21 @@ public class AdminAuditoriumController {
         return mm.map(savedAuditorium, AuditoriumDto.class);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PutMapping(path = "{auditoriumId}/deactivate")
+    public String deactivateAuditorium(@PathVariable int auditoriumId) {
+        return auditoriumService.deactivateAuditorium(auditoriumId);
+    }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PutMapping(path = "{auditoriumId}/reactivate")
+    public String reactivateAuditorium(@PathVariable int auditoriumId) {
+        return auditoriumService.reactivateAuditorium(auditoriumId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @DeleteMapping(path = "{auditoriumId}")
+    public String deleteAuditorium(@PathVariable int auditoriumId) {
+        return auditoriumService.deleteAuditorium(auditoriumId);
+    }
 }
