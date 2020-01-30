@@ -65,7 +65,7 @@ public class User implements UserDetails {
     private String role;
 
     @Column(nullable = false)
-    private String activationToken;
+    private String activationUUID;
 
     @Column(nullable = false)
     private boolean isEnabled;
@@ -91,6 +91,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;
 
+    @Transient
+    private String inMemoryActivationToken;
+
     public User(String firstName,
                 String lastName,
                 String username,
@@ -98,7 +101,7 @@ public class User implements UserDetails {
                 String password,
                 String salt,
                 String role,
-                String activationToken,
+                String activationUUID,
                 boolean isEnabled,
                 boolean isAuthenticated,
                 LocalDateTime validAccountTill,
@@ -110,7 +113,7 @@ public class User implements UserDetails {
         this.password = password;
         this.salt = salt;
         this.role = role;
-        this.activationToken = activationToken;
+        this.activationUUID = activationUUID;
         this.isEnabled = isEnabled;
         this.isAuthenticated = isAuthenticated;
         this.validAccountTill = validAccountTill;

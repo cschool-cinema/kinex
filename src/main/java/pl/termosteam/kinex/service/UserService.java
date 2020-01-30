@@ -2,6 +2,7 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +28,9 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserDataValidation userDataValidation;
     private final SendEmailService sendEmailService;
+    @Value("${development.return.activation.token}")
+    private Boolean isReturnActivationToken;
+
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
@@ -73,9 +77,13 @@ public class UserService implements UserDetailsService {
                 false,
                 LocalDateTime.now().plusYears(1),
                 LocalDateTime.now().plusYears(1));
-        final String token = jwtTokenUtil.generateActivationToken(user.getActivationToken());
+        final String token = jwtTokenUtil.generateActivationToken(user.getActivationUUID());
 
-        sendEmailService.sendMail(userDTO.getEmail(), "activation token for kinex api", token);
+        user.setInMemoryActivationToken(token);
+
+        if (!isReturnActivationToken) {
+            sendEmailService.sendMail(userDTO.getEmail(), "activation token for kinex api", token);
+        }
 
         userRepository.save(user);
 
@@ -86,7 +94,7 @@ public class UserService implements UserDetailsService {
     public Optional<User> activateByToken(String usernameOrEmail, String token) {
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
 
-        if (!jwtTokenUtil.validateActivationToken(token, user.getActivationToken())) {
+        if (!jwtTokenUtil.validateActivationToken(token, user.getActivationUUID())) {
             throw new ValidationException("Activation token is not valid or expired.");
         }
 
