@@ -9,8 +9,8 @@ user:
 DONE PS - g1.2 display available seats for a specific screening
 client/ticket/purchase g1.3 buy ticket (ability to reserve multiple seats, transaction, separate db row per each seat)
  g1.3 continuation - additionally, can purchase only tickets next to each other (e.g. cannot buy seat 1 and 3)
-client/ticket 3 show all purchased tickets (active only)
-client/ticket/screening/:screeningId 3a and also show tickets per screening
+DONE PS 3 show all purchased tickets
+DONE PS 3a and also show tickets per screening
 client/ticket/cancel 4 cancel ticket (can cancel single or multiple seats)
 --separate panel for employee
 

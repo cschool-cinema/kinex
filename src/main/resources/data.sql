@@ -70,10 +70,10 @@ VALUES (3, 2, now() + '1 seconds'::interval);
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
 VALUES (2, 2, now() + '1 day'::interval);
 
+INSERT INTO ticket(user_account_id, screening_id, seat_id, active)
+VALUES (1, 1, 1, FALSE);
 INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (1, 1, 1);
-INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (1, 1, 2);
+VALUES (1, 3, 5);
 INSERT INTO ticket(user_account_id, screening_id, seat_id)
 VALUES (1, 1, 3);
 INSERT INTO ticket(user_account_id, screening_id, seat_id)
