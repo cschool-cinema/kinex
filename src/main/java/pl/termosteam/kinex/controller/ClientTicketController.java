@@ -5,15 +5,15 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.termosteam.kinex.domain.Ticket;
+import pl.termosteam.kinex.domain.User;
+import pl.termosteam.kinex.dto.TicketRequestClientDto;
 import pl.termosteam.kinex.dto.TicketResponseDto;
 import pl.termosteam.kinex.service.TicketService;
 import pl.termosteam.kinex.service.UserService;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +25,16 @@ public class ClientTicketController {
     private final TicketService ticketService;
     private final ModelMapper mm;
     private final UserService userService;
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping(path = "make-reservation")
+    public List<TicketResponseDto> makeReservation(@RequestBody @Valid TicketRequestClientDto ticketDto) {
+        User user = userService.getUserNotNullIfAuthenticated();
+
+        List<Ticket> tickets = ticketService.makeReservation(ticketDto, user);
+
+        return Arrays.asList(mm.map(tickets, TicketResponseDto[].class));
+    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping

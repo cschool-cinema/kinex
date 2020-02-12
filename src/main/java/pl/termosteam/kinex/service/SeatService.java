@@ -33,7 +33,7 @@ public class SeatService {
         Screening screening = screeningRepository.findById(screeningId)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
-        if (screening.getScreeningStartUtc().isBefore(LocalDateTime.now()) &&
+        if (screening.getScreeningStart().isBefore(LocalDateTime.now()) &&
                 requesterRole.getHierarchy() < 2) {
             throw new AccessDeniedException(FORBIDDEN);
         }
@@ -49,6 +49,10 @@ public class SeatService {
 
         return seatRepository
                 .findByActiveAndAuditoriumIdAndExcludingSeatIds(auditoriumId, reservedSeats);
+    }
+
+    public List<Seat> findAvailableSeatsForScreening(int screeningId) {
+        return findAvailableSeatsForScreening(screeningId, Role.OWNER);
     }
 
     public Seat addSeat(Seat seat, int auditoriumId) {

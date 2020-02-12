@@ -35,7 +35,7 @@ public class Screening {
             "CHECK (screening_start>now() AND screening_start<now() + INTERVAL '14 days')")
     @NowToPlusDays(days = 14, message = "Screening must be set between now and 14 days from now!")
     @NotNull(message = "Screening start cannot be null.")
-    private LocalDateTime screeningStartUtc;
+    private LocalDateTime screeningStart;
 
     @OneToMany(mappedBy = "screening")
     private List<Ticket> tickets;

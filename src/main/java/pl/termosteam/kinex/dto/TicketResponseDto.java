@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class TicketResponseDto {
     private int ticketId;
     private String movieTitle;
-    private LocalDateTime screeningStartUtc;
+    private LocalDateTime screeningStart;
     private String auditoriumName;
     private int seatRow;
     private int seatNumber;

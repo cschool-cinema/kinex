@@ -17,7 +17,7 @@ public class ScreeningRequestDto {
 
     @NotNull(message = "Screening start time cannot be null!")
     @NowToPlusDays(days = 14, message = "Screening must be set between now and 14 days from now!")
-    private LocalDateTime screeningStartUtc;
+    private LocalDateTime screeningStart;
 
     @NotNull(message = "Movie cannot be null!")
     private Integer movieId;

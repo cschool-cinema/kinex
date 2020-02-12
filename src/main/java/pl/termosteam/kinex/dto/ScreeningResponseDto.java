@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ScreeningResponseDto {
     private int id;
-    private LocalDateTime screeningStartUtc;
+    private LocalDateTime screeningStart;
     private int movieId;
     private String movieTitle;
     private short movieReleaseYear;

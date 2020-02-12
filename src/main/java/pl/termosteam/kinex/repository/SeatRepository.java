@@ -27,6 +27,6 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
             "JOIN s.tickets t " +
             "JOIN t.screening scr " +
             "WHERE s.id = :seatId AND t.active = true " +
-            "AND scr.screeningStartUtc >= :dateTime")
+            "AND scr.screeningStart >= :dateTime")
     boolean existsActiveTicketsStartingFrom(int seatId, LocalDateTime dateTime);
 }
