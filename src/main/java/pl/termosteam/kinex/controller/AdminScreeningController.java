@@ -15,7 +15,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/administration/screening")
+@RequestMapping("api/admin/screening")
 public class AdminScreeningController {
 
     private final ScreeningService screeningService;

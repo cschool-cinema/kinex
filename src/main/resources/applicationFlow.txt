@@ -6,15 +6,16 @@ user:
 1. activate
 2. authenticate
 DONE PS g1.2 display available seats for a specific screening
-DONE PS g1.3 buy ticket (ability to reserve multiple seats, transaction, separate db row per each seat)
-DONE PS g1.3 continuation - additionally, can purchase only tickets next to each other (e.g. cannot buy seat 1 and 3)
+DONE PS g1.3 make reservation
+DONE PS g1.3 continuation - additionally, cannot make reservation with single seat gaps
 DONE PS 3 show all purchased tickets
 DONE PS 3a and also show tickets per screening
-DONE PS 4. cancel ticket for screening
+DONE PS 4. cancel reservation for screening
 
 employee:
-DONE PS - 1. crud for movies, screenings
-2. purchase and cancel tickets
+DONE PS 1. crud for movies, screenings
+2. make reservation on behalf of user (no single seat gap restriction)
+DONE PS 3. cancel reservation on behalf of user
 
 manager:
 DONE PS 1. crud for auditoriums (and seats)

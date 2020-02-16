@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.Ticket;
 import pl.termosteam.kinex.domain.User;
+import pl.termosteam.kinex.dto.TicketCancelRequestDto;
 import pl.termosteam.kinex.dto.TicketRequestClientDto;
 import pl.termosteam.kinex.dto.TicketResponseDto;
 import pl.termosteam.kinex.service.TicketService;
@@ -42,7 +43,9 @@ public class ClientTicketController {
     public String cancelReservationForScreening(@PathVariable int screeningId) {
         int userId = userService.getUserNotNullIfAuthenticated().getId();
 
-        return ticketService.cancelReservationForScreening(screeningId, userId);
+        TicketCancelRequestDto ticketInfo = new TicketCancelRequestDto(userId, screeningId);
+
+        return ticketService.cancelReservationForScreening(ticketInfo);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/administration/auditorium")
+@RequestMapping("api/admin/auditorium")
 public class AdminAuditoriumSeatController {
 
     private final SeatService seatService;

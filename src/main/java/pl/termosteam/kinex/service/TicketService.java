@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.*;
+import pl.termosteam.kinex.dto.TicketCancelRequestDto;
 import pl.termosteam.kinex.dto.TicketRequestClientDto;
 import pl.termosteam.kinex.exception.NotAllowedException;
 import pl.termosteam.kinex.exception.NotFoundException;
@@ -106,12 +107,12 @@ public class TicketService {
     }
 
     @Transactional
-    public String cancelReservationForScreening(int screeningId, int userId) {
+    public String cancelReservationForScreening(TicketCancelRequestDto ticketInfo) {
         List<Ticket> reservedTickets = ticketRepository
-                .findAllByUser_IdAndScreening_IdAndActiveTrue(userId, screeningId);
+                .findAllByUser_IdAndScreening_IdAndActiveTrue(ticketInfo.getUserId(), ticketInfo.getScreeningId());
 
         if (CollectionUtils.isEmpty(reservedTickets)) {
-            throw new NotFoundException("Could not find any active reservations for this screening.");
+            throw new NotFoundException("Could not find any active reservations for this user/screening.");
         }
 
         if (LocalDateTime.now().isAfter(reservedTickets.get(0).getScreening().getScreeningStart())) {

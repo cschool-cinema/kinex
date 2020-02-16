@@ -26,6 +26,10 @@ public class Ticket {
     private User user;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "reserved_by_user_id", foreignKey = @ForeignKey(name = "reserved_by_user_id_fkey"))
+    private User reservedByUser;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ticket_screening_id_fkey"))
     private Screening screening;
 

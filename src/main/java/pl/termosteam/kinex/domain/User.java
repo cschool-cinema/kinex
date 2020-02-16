@@ -88,9 +88,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
-    @OneToMany(mappedBy = "user")
-    private List<Ticket> tickets;
-
     @Transient
     private String inMemoryActivationToken;
 
