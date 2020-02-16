@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.Ticket;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.TicketRequestClientDto;
@@ -31,9 +32,17 @@ public class ClientTicketController {
     public List<TicketResponseDto> makeReservation(@RequestBody @Valid TicketRequestClientDto ticketDto) {
         User user = userService.getUserNotNullIfAuthenticated();
 
-        List<Ticket> tickets = ticketService.makeReservation(ticketDto, user);
+        List<Ticket> tickets = ticketService.makeReservation(ticketDto, user, Role.USER);
 
         return Arrays.asList(mm.map(tickets, TicketResponseDto[].class));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping(path = "cancel-reservation/{screeningId}")
+    public String cancelReservationForScreening(@PathVariable int screeningId) {
+        int userId = userService.getUserNotNullIfAuthenticated().getId();
+
+        return ticketService.cancelReservationForScreening(screeningId, userId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

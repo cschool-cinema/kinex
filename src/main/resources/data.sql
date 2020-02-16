@@ -27,7 +27,9 @@ VALUES ('2020-01-29 17:59:15.442000', '6e618ff3-fb1e-4377-9526-73fdbda848c1', '2
 INSERT INTO movie (category, duration_min, release_year, title)
 VALUES ('Sci-Fi', 180, 1970, 'Star Wars IV');
 INSERT INTO movie (category, description, duration_min, release_year, title)
-VALUES ('Fantasy', 'whatever', 120, 2003, 'Wiedźmin');
+VALUES ('Fantasy', 'whatever', 120, 2003, 'Witcher');
+INSERT INTO movie (category, duration_min, release_year, title)
+VALUES ('Crime/Drama', 154, 1994, 'Pulp Fiction');
 
 INSERT INTO auditorium (name)
 VALUES ('Jupyter');
@@ -39,44 +41,76 @@ VALUES ('Mars', FALSE);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (1, 1, 1);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (1, 1, 2);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (1, 2, 1);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 3, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 4, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 5, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 6, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 7, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 8, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 9, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 10, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 1, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (1, 2, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 3, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 4, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 5, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 6, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 7, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 8, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 9, 2);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (1, 10, 2);
 
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (2, 1, 1);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (2, 1, 2);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (2, 2, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (2, 1, 2);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (2, 2, 2);
 
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (3, 1, 1);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (3, 1, 2);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (3, 2, 1);
+INSERT INTO seat (auditorium_id, seat_number, seat_row)
+VALUES (3, 1, 2);
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
 VALUES (3, 2, 2);
 
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
 VALUES (1, 1, now() + '2 days'::interval);
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
-VALUES (3, 2, now() + '1 seconds'::interval);
+VALUES (2, 2, now() + '1 seconds'::interval);
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
-VALUES (2, 2, now() + '1 day'::interval);
+VALUES (3, 3, now() + '1 day'::interval);
 
 INSERT INTO ticket(user_account_id, screening_id, seat_id, active, created_at)
 VALUES (1, 1, 1, FALSE, '2020-01-29 17:58:33.875000');
-INSERT INTO ticket(user_account_id, screening_id, seat_id, created_at)
-VALUES (1, 3, 5, '2020-01-29 17:58:33.875000');
 INSERT INTO ticket(user_account_id, screening_id, seat_id, created_at)
 VALUES (1, 1, 3, '2020-01-29 17:58:33.875000');
 INSERT INTO ticket(user_account_id, screening_id, seat_id, created_at)
 VALUES (1, 1, 4, '2020-01-29 17:58:33.875000');
 INSERT INTO ticket(user_account_id, screening_id, seat_id, created_at)
-VALUES (2, 2, 6, '2020-01-29 17:58:33.875000');
+VALUES (2, 2, 21, '2020-01-29 17:58:33.875000');
+INSERT INTO ticket(user_account_id, screening_id, seat_id, created_at)
+VALUES (1, 2, 22, '2020-01-29 17:58:33.875000');

@@ -51,10 +51,6 @@ public class SeatService {
                 .findByActiveAndAuditoriumIdAndExcludingSeatIds(auditoriumId, reservedSeats);
     }
 
-    public List<Seat> findAvailableSeatsForScreening(int screeningId) {
-        return findAvailableSeatsForScreening(screeningId, Role.OWNER);
-    }
-
     public Seat addSeat(Seat seat, int auditoriumId) {
         Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));

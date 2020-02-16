@@ -1,24 +1,23 @@
 guest:
-DONE DL - 1 display all future screenings
-DONE, but needs to be moved to guest c from employee 2 search movies by (id - uri param, name):
-3 register as user
+DONE DL 1. display all future screenings
+3. register as user
 
 user:
-1 activate
-2 authenticate
-DONE PS - g1.2 display available seats for a specific screening
-client/ticket/purchase g1.3 buy ticket (ability to reserve multiple seats, transaction, separate db row per each seat)
- g1.3 continuation - additionally, can purchase only tickets next to each other (e.g. cannot buy seat 1 and 3)
+1. activate
+2. authenticate
+DONE PS g1.2 display available seats for a specific screening
+DONE PS g1.3 buy ticket (ability to reserve multiple seats, transaction, separate db row per each seat)
+DONE PS g1.3 continuation - additionally, can purchase only tickets next to each other (e.g. cannot buy seat 1 and 3)
 DONE PS 3 show all purchased tickets
 DONE PS 3a and also show tickets per screening
-client/ticket/cancel 4 cancel ticket (can cancel single or multiple seats)
---separate panel for employee
+DONE PS 4. cancel ticket for screening
 
 employee:
 DONE PS - 1. crud for movies, screenings
+2. purchase and cancel tickets
 
 manager:
-DONE PS1. crud for auditoriums (and seats)
+DONE PS 1. crud for auditoriums (and seats)
 DL2. deactivate user and employee accounts
 
 questions:
@@ -28,3 +27,4 @@ DL9. move validation to dto and entity through custom annotations
 11. showcase intellij ultimate features
 DL12. add logging system with user operations, need add new table with possible columns id,activityAt,description,userId
 13. @transactional - review if necessary (service classes)
+14. spaghetti code? e.g. make reservation

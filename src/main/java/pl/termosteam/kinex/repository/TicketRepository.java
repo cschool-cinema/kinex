@@ -17,4 +17,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findAllByUser_IdOrderByScreening(int userId);
 
     List<Ticket> findAllByUser_IdAndScreening(int userId, Screening screening);
+
+    List<Ticket> findAllByUser_IdAndScreening_IdAndActiveTrue(int userId, int screeningId);
 }
