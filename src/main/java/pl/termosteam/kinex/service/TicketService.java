@@ -6,12 +6,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.*;
 import pl.termosteam.kinex.dto.TicketCancelRequestDto;
-import pl.termosteam.kinex.dto.TicketRequestClientDto;
+import pl.termosteam.kinex.dto.TicketRequestAdminDto;
 import pl.termosteam.kinex.exception.NotAllowedException;
 import pl.termosteam.kinex.exception.NotFoundException;
 import pl.termosteam.kinex.repository.ScreeningRepository;
-import pl.termosteam.kinex.repository.SeatRepository;
 import pl.termosteam.kinex.repository.TicketRepository;
+import pl.termosteam.kinex.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -19,17 +19,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.SCREENING_NOT_FOUND;
+import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.USER_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
 public class TicketService {
 
-    private final TicketRepository ticketRepository;
-    private final ScreeningRepository screeningRepository;
-    private final SeatRepository seatRepository;
-
     private static final int CAN_BUY_MINUTES_AFTER_START = 30;
     private static final int CAN_RESERVE_MAX_SEATS = 100;
+
+    private final TicketRepository ticketRepository;
+    private final ScreeningRepository screeningRepository;
+    private final UserRepository userRepository;
+    private final SeatService seatService;
 
     public List<Ticket> findUserTickets(int userId) {
         return ticketRepository.findAllByUser_IdOrderByScreening(userId);
@@ -37,69 +39,67 @@ public class TicketService {
 
     public List<Ticket> findUserTicketsForScreening(int userId, int screeningId) {
         Screening screening = screeningRepository.findById(screeningId)
-                .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 
         return ticketRepository.findAllByUser_IdAndScreening(userId, screening);
     }
 
     @Transactional
-    public List<Ticket> makeReservation(TicketRequestClientDto ticketDto, User user, Role userRole) {
-        int[] selectedSeats = ticketDto.getSeatIds();
-        if (selectedSeats.length == 0) {
+    public List<Ticket> makeReservation(TicketRequestAdminDto ticketInfo, User reservedBy, Role reservedByRole) {
+        int[] selectedSeatIds = ticketInfo.getSeatIds();
+
+        if (selectedSeatIds.length == 0) {
             throw new NotAllowedException("Please pick at least one seat.");
-        } else if (selectedSeats.length > CAN_RESERVE_MAX_SEATS && userRole.getHierarchy() < 2) {
+        } else if (selectedSeatIds.length > CAN_RESERVE_MAX_SEATS && reservedByRole.getHierarchy() < 2) {
             throw new NotAllowedException("Please pick not more than " + CAN_RESERVE_MAX_SEATS + " seats.");
         }
 
         Set<Integer> selectedSeatsSet = Arrays.stream(
-                selectedSeats).boxed().collect(Collectors.toSet());
-
-        if (selectedSeatsSet.size() != selectedSeats.length) {
+                selectedSeatIds).boxed().collect(Collectors.toSet());
+        if (selectedSeatsSet.size() != selectedSeatIds.length) {
             throw new NotAllowedException("Make sure there are no duplicated seats chosen.");
         }
 
-        Screening screening = screeningRepository.findById(ticketDto.getScreeningId())
+        User user = userRepository.findById(ticketInfo.getUserId())
+                .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
+
+        Screening screening = screeningRepository.findById(ticketInfo.getScreeningId())
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
         if (LocalDateTime.now()
                 .isAfter(screening.getScreeningStart().plusMinutes(CAN_BUY_MINUTES_AFTER_START))) {
-            throw new NotAllowedException("Cannot make a reservation after 30 minutes into the screening start!");
+            throw new NotAllowedException("Cannot make a reservation after " +
+                    CAN_BUY_MINUTES_AFTER_START + " minutes into the screening start!");
         }
 
-        List<Seat> availableSeatsList = findAvailableSeats(screening);
+        List<Seat> availableSeatsList = seatService.findAvailableSeatsForScreening(screening.getId());
         Map<Integer, Seat> availableSeatsMap = availableSeatsList.stream().collect(
                 Collectors.toMap(Seat::getId, seat -> seat));
 
-        List<Seat> toBeReservedSeatsList = new ArrayList<>();
+        List<Seat> selectedSeatsList = new ArrayList<>();
 
         List<Ticket> tickets = new ArrayList<>();
-        for (int seatId : selectedSeats) {
+        for (int seatId : selectedSeatIds) {
             if (availableSeatsMap.containsKey(seatId)) {
                 Seat seat = availableSeatsMap.get(seatId);
 
                 Ticket ticket = Ticket.builder()
                         .user(user)
+                        .reservedByUser(reservedBy)
                         .seat(seat)
                         .screening(screening)
                         .active(true)
                         .build();
 
-                toBeReservedSeatsList.add(seat);
+                selectedSeatsList.add(seat);
                 tickets.add(ticket);
             } else {
                 throw new NotAllowedException("One (or more) of the selected seats is not available.");
             }
         }
 
-        boolean singleSeatGaps = false;
-        if (userRole.getHierarchy() < 2) {
-            availableSeatsList.removeAll(toBeReservedSeatsList);
-
-            singleSeatGaps = existsSingleGapBetweenSeats(
-                    availableSeatsList, toBeReservedSeatsList);
-        }
-
-        if (singleSeatGaps) {
+        if (reservedByRole.getHierarchy() < 2 &&
+                existsSingleGapBetweenSeats(availableSeatsList, selectedSeatsList)) {
             throw new NotAllowedException("Single seat gaps are not allowed.");
         }
 
@@ -129,14 +129,16 @@ public class TicketService {
     }
 
     private boolean existsSingleGapBetweenSeats(List<Seat> availableSeats,
-                                                List<Seat> toBeReservedSeats) {
+                                                List<Seat> selectedSeats) {
+        availableSeats.removeAll(selectedSeats);
+
         Map<Pair<Short, Short>, Seat> availableSeatsMap = new HashMap<>();
 
         for (Seat seat : availableSeats) {
             availableSeatsMap.put(new Pair<>(seat.getSeatRow(), seat.getSeatNumber()), seat);
         }
 
-        for (Seat seat : toBeReservedSeats) {
+        for (Seat seat : selectedSeats) {
             short seatRow = seat.getSeatRow();
             short seatNumber = seat.getSeatNumber();
 
@@ -154,19 +156,5 @@ public class TicketService {
         }
 
         return false;
-    }
-
-    private List<Seat> findAvailableSeats(Screening screening) {
-        List<Integer> reservedSeats = ticketRepository.findAllReservedSeatsForScreening(screening.getId());
-
-        int auditoriumId = screening.getAuditorium().getId();
-
-        if (CollectionUtils.isEmpty(reservedSeats)) {
-            return seatRepository
-                    .findByActiveTrueAndAuditoriumIdOrderBySeatRowAscSeatNumberAsc(auditoriumId);
-        }
-
-        return seatRepository
-                .findByActiveAndAuditoriumIdAndExcludingSeatIds(auditoriumId, reservedSeats);
     }
 }

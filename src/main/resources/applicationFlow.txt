@@ -14,7 +14,7 @@ DONE PS 4. cancel reservation for screening
 
 employee:
 DONE PS 1. crud for movies, screenings
-2. make reservation on behalf of user (no single seat gap restriction)
+DONE PS 2. make reservation on behalf of user (no single seat gap restriction)
 DONE PS 3. cancel reservation on behalf of user
 
 manager:

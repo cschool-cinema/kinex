@@ -10,6 +10,7 @@ import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.Ticket;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.TicketCancelRequestDto;
+import pl.termosteam.kinex.dto.TicketRequestAdminDto;
 import pl.termosteam.kinex.dto.TicketRequestClientDto;
 import pl.termosteam.kinex.dto.TicketResponseDto;
 import pl.termosteam.kinex.service.TicketService;
@@ -30,10 +31,15 @@ public class ClientTicketController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(path = "make-reservation")
-    public List<TicketResponseDto> makeReservation(@RequestBody @Valid TicketRequestClientDto ticketDto) {
-        User user = userService.getUserNotNullIfAuthenticated();
+    public List<TicketResponseDto> makeReservation(@RequestBody @Valid TicketRequestClientDto ticketInfo) {
+        User reservedByUser = userService.getUserNotNullIfAuthenticated();
 
-        List<Ticket> tickets = ticketService.makeReservation(ticketDto, user, Role.USER);
+        TicketRequestAdminDto ticketFullInfo = new TicketRequestAdminDto(
+                reservedByUser.getId(),
+                ticketInfo.getScreeningId(),
+                ticketInfo.getSeatIds());
+
+        List<Ticket> tickets = ticketService.makeReservation(ticketFullInfo, reservedByUser, Role.USER);
 
         return Arrays.asList(mm.map(tickets, TicketResponseDto[].class));
     }

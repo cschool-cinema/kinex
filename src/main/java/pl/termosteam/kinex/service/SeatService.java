@@ -24,6 +24,8 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 @AllArgsConstructor
 public class SeatService {
 
+    private static final int CAN_CHECK_MINUTES_AFTER_START = 30;
+
     private final ScreeningRepository screeningRepository;
     private final TicketRepository ticketRepository;
     private final SeatRepository seatRepository;
@@ -33,8 +35,8 @@ public class SeatService {
         Screening screening = screeningRepository.findById(screeningId)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
-        if (screening.getScreeningStart().isBefore(LocalDateTime.now()) &&
-                requesterRole.getHierarchy() < 2) {
+        if (LocalDateTime.now().isAfter(screening.getScreeningStart()
+                .plusMinutes(CAN_CHECK_MINUTES_AFTER_START)) && requesterRole.getHierarchy() < 2) {
             throw new AccessDeniedException(FORBIDDEN);
         }
 
@@ -49,6 +51,10 @@ public class SeatService {
 
         return seatRepository
                 .findByActiveAndAuditoriumIdAndExcludingSeatIds(auditoriumId, reservedSeats);
+    }
+
+    public List<Seat> findAvailableSeatsForScreening(int screeningId) {
+        return findAvailableSeatsForScreening(screeningId, Role.OWNER);
     }
 
     public Seat addSeat(Seat seat, int auditoriumId) {
