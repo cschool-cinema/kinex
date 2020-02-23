@@ -57,13 +57,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public Optional<User> addUserWithRole(Role ROLE, UserRequestDto userRequestDTO) {
 
-        if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
-            throw new ValidationException("Email \"" + userRequestDTO.getEmail() + "\" already registered. Please authenticate.");
-        }
-
-        if (ifUsernameAlreadyExists(userRequestDTO.getUsername())) {
-            throw new ValidationException("Username \"" + userRequestDTO.getUsername() + "\" already registered. Please authenticate.");
-        }
+        validateIfEmailAndUsernameExists(userRequestDTO);
 
         String UUID = ActivateService.generateUUID();
         String salt = UUID.replace("-", "");
@@ -93,6 +87,20 @@ public class UserService implements UserDetailsService {
         return Optional.of(user);
     }
 
+    private void validateIfEmailAndUsernameExists(UserRequestDto userRequestDTO) {
+        if (!ifUserAlreadyExistsAndDeleted(userRequestDTO.getUsername())) {
+            if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
+                throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
+                        "\" already registered. Please authenticate.");
+            }
+
+            if (ifUsernameAlreadyExists(userRequestDTO.getUsername())) {
+                throw new ValidationException("Username \"" + userRequestDTO.getUsername() +
+                        "\" already registered. Please authenticate.");
+            }
+        }
+    }
+
     @Transactional
     public Optional<User> activateByToken(String usernameOrEmail, String token) {
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
@@ -108,6 +116,15 @@ public class UserService implements UserDetailsService {
 
     public boolean ifOwnerAlreadyExists() {
         return userRepository.existsByRole(Role.OWNER.toString());
+    }
+
+    public boolean ifUserAlreadyExistsAndDeleted(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user.isDeleted();
+        } else {
+            return false;
+        }
     }
 
     public boolean ifUsernameAlreadyExists(String username) {
@@ -133,6 +150,5 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
-
 
 }
