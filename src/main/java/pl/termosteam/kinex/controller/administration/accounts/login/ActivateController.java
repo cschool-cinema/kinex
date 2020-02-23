@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.controller.administration.login;
+package pl.termosteam.kinex.controller.administration.accounts.login;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

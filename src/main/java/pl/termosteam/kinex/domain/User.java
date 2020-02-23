@@ -73,6 +73,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isAuthenticated;
 
+    @Column(nullable = false)
+    private boolean isDeleted;
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;

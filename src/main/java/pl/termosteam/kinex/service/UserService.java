@@ -12,7 +12,7 @@ import pl.termosteam.kinex.configuration.jwt.JwtToken;
 import pl.termosteam.kinex.configuration.properties.DeveloperConfiguration;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
-import pl.termosteam.kinex.dto.UserDto;
+import pl.termosteam.kinex.dto.UserRequestDto;
 import pl.termosteam.kinex.exception.ValidationException;
 import pl.termosteam.kinex.repository.UserRepository;
 
@@ -55,17 +55,24 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Optional<User> addUserWithRole(Role ROLE, UserDto userDTO) {
-        //TODO: remove when validations moved to annotations
-//        userDataValidation.userDataValidation(userDTO);
+    public Optional<User> addUserWithRole(Role ROLE, UserRequestDto userRequestDTO) {
+
+        if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
+            throw new ValidationException("Email \"" + userRequestDTO.getEmail() + "\" already registered. Please authenticate.");
+        }
+
+        if (ifUsernameAlreadyExists(userRequestDTO.getUsername())) {
+            throw new ValidationException("Username \"" + userRequestDTO.getUsername() + "\" already registered. Please authenticate.");
+        }
+
         String UUID = ActivateService.generateUUID();
         String salt = UUID.replace("-", "");
         User user = new User(
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
-                userDTO.getUsername(),
-                userDTO.getEmail(),
-                Crypt.crypt(userDTO.getPassword(), salt),
+                userRequestDTO.getFirstName(),
+                userRequestDTO.getLastName(),
+                userRequestDTO.getUsername(),
+                userRequestDTO.getEmail(),
+                Crypt.crypt(userRequestDTO.getPassword(), salt),
                 salt,
                 ROLE.toString(),
                 UUID,
@@ -78,7 +85,7 @@ public class UserService implements UserDetailsService {
         user.setInMemoryActivationToken(token);
 
         if (developerConfiguration.getIsReturnActivationToken()) {
-            sendEmailService.sendMail(userDTO.getEmail(), "activation token for kinex api", token);
+            sendEmailService.sendMail(userRequestDTO.getEmail(), "activation token for kinex api", token);
         }
 
         userRepository.save(user);
@@ -103,6 +110,14 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByRole(Role.OWNER.toString());
     }
 
+    public boolean ifUsernameAlreadyExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public boolean ifEmailAlreadyExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public UserDetails getUserDetailNotNullIfAuthenticated() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -118,4 +133,6 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+
 }

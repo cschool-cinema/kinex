@@ -15,7 +15,7 @@ import javax.validation.constraints.Email;
 @NoArgsConstructor
 @AllArgsConstructor
 @Configuration
-public class UserDto {
+public class UserRequestDto {
     @StringCheckByRegex(patternRegex = "${validation.name.pattern}")
     private String firstName;
     @StringCheckByRegex(patternRegex = "${validation.name.pattern}")
