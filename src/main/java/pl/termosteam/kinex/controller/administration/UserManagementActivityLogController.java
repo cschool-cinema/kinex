@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.controller;
+package pl.termosteam.kinex.controller.administration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
