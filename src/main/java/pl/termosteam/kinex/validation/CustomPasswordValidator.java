@@ -1,7 +1,7 @@
 package pl.termosteam.kinex.validation;
 
 import org.passay.*;
-import pl.termosteam.kinex.configuration.PasswordPatternConfiguration;
+import pl.termosteam.kinex.configuration.properties.PasswordPatternConfiguration;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

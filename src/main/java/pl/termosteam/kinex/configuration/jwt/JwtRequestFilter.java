@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.configuration;
+package pl.termosteam.kinex.configuration.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;

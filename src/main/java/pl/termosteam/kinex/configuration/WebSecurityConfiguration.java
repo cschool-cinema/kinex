@@ -16,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.termosteam.kinex.configuration.jwt.JwtAuthenticationEntryPoint;
+import pl.termosteam.kinex.configuration.jwt.JwtRequestFilter;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.service.UserService;
 

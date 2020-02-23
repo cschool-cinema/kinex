@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.configuration;
+package pl.termosteam.kinex.configuration.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

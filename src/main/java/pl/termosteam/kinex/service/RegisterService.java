@@ -2,7 +2,7 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.termosteam.kinex.configuration.DeveloperConfiguration;
+import pl.termosteam.kinex.configuration.properties.DeveloperConfiguration;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserDto;

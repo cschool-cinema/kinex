@@ -16,7 +16,6 @@ public class LocaleConfiguration {
     @PostConstruct
     public void init() {
         String timezone = env.getProperty("application.timezone");
-
         TimeZone.setDefault(TimeZone.getTimeZone(timezone));
     }
 }

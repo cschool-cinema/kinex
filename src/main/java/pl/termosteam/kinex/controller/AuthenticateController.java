@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.termosteam.kinex.configuration.JwtToken;
+import pl.termosteam.kinex.configuration.jwt.JwtToken;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.JwtRequestDto;
 import pl.termosteam.kinex.dto.JwtResponseDto;
