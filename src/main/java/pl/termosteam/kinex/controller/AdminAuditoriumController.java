@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/administration/auditorium")
+@RequestMapping("api/admin/auditorium")
 public class AdminAuditoriumController {
 
     private final AuditoriumService auditoriumService;

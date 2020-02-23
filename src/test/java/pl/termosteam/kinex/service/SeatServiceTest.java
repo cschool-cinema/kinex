@@ -3,25 +3,21 @@ package pl.termosteam.kinex.service;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import org.junit.rules.ExpectedException;
 import pl.termosteam.kinex.exception.NotFoundException;
 
-public class SeatServiceTest{
+import static org.mockito.Mockito.mock;
+
+public class SeatServiceTest {
 
     @Rule
     ExpectedException exception = ExpectedException.none();
     SeatService test = mock(SeatService.class);
 
     @Test
-     public void findAvailableSeatsForScreeningExceptionTest(){
+    public void findAvailableSeatsForScreeningExceptionTest() {
         exception.expect(NotFoundException.class);
         exception.expectMessage("SCREENING_NOT_FOUND");
-        test.findAvailableSeatsForScreening(-1);
+//        test.findAvailableSeatsForScreening(-1);
     }
 
     }

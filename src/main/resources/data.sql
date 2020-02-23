@@ -17,66 +17,59 @@ INSERT INTO user_account(activated_at, activation_uuid, created_at, email, first
                          last_name, password, role, salt, username, valid_account_till, valid_password_till)
 VALUES ('2020-01-26 13:52:10.666', 'de980b3a-1f71-41fd-b0dc-2d2abc2ae8c6', '2020-01-26 13:50:58.088',
         'owner@kinex.com', 'Owner', FALSE, TRUE, 'Owner', 'de67v5bC9a4sk', 'ROLE_OWNER',
-        'de980b3a1f7141fdb0dc2d2abc2ae8c6', 'ps', '2021-01-26 13:50:56.09', '2021-01-26 13:50:56.091');
-INSERT INTO user_account(activated_at, activation_uuid, created_at, email, first_name, is_authenticated, is_enabled,
-                         last_name, password, role, salt, username, valid_account_till, valid_password_till)
-VALUES ('2020-01-29 17:59:15.442000', '6e618ff3-fb1e-4377-9526-73fdbda848c1', '2020-01-29 17:58:33.875000',
+        'de980b3a1f7141fdb0dc2d2abc2ae8c6', 'ps', '2021-01-26 13:50:56.09', '2021-01-26 13:50:56.091'),
+       ('2020-01-29 17:59:15.442000', '6e618ff3-fb1e-4377-9526-73fdbda848c1', '2020-01-29 17:58:33.875000',
         'cipemoy946@repshop.net', 'heavy', FALSE, TRUE, 'user', '6epWL2w74Y3Ow', 'ROLE_USER',
         '6e618ff3fb1e4377952673fdbda848c1', 'hu', '2021-01-29 17:58:30.438000', '2021-01-29 17:58:30.438000');
 
-INSERT INTO movie (category, duration_min, release_year, title)
-VALUES ('Sci-Fi', 180, 1970, 'Star Wars IV');
 INSERT INTO movie (category, description, duration_min, release_year, title)
-VALUES ('Fantasy', 'whatever', 120, 2003, 'Wiedźmin');
+VALUES ('Sci-Fi', NULL, 180, 1970, 'Star Wars IV'),
+       ('Fantasy', 'whatever', 120, 2003, 'Witcher'),
+       ('Crime/Drama', NULL, 154, 1994, 'Pulp Fiction');
 
-INSERT INTO auditorium (name)
-VALUES ('Jupyter');
-INSERT INTO auditorium (name)
-VALUES ('Uranus');
 INSERT INTO auditorium (name, active)
-VALUES ('Mars', FALSE);
+VALUES ('Jupyter', TRUE),
+       ('Uranus', TRUE),
+       ('Mars', FALSE);
 
 INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (1, 1, 1);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (1, 1, 2);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (1, 2, 1);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (1, 2, 2);
-
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (2, 1, 1);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (2, 1, 2);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (2, 2, 1);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (2, 2, 2);
-
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (3, 1, 1);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (3, 1, 2);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (3, 2, 1);
-INSERT INTO seat (auditorium_id, seat_number, seat_row)
-VALUES (3, 2, 2);
+VALUES (1, 1, 1),
+       (1, 2, 1),
+       (1, 3, 1),
+       (1, 4, 1),
+       (1, 5, 1),
+       (1, 6, 1),
+       (1, 7, 1),
+       (1, 8, 1),
+       (1, 9, 1),
+       (1, 10, 1),
+       (1, 1, 2),
+       (1, 2, 2),
+       (1, 3, 2),
+       (1, 4, 2),
+       (1, 5, 2),
+       (1, 6, 2),
+       (1, 7, 2),
+       (1, 8, 2),
+       (1, 9, 2),
+       (1, 10, 2),
+       (2, 1, 1),
+       (2, 2, 1),
+       (2, 1, 2),
+       (2, 2, 2),
+       (3, 1, 1),
+       (3, 2, 1),
+       (3, 1, 2),
+       (3, 2, 2);
 
 INSERT INTO screening (auditorium_id, movie_id, screening_start)
-VALUES (1, 1, now() + '2 days'::interval);
-INSERT INTO screening (auditorium_id, movie_id, screening_start)
-VALUES (3, 2, now() + '1 seconds'::interval);
-INSERT INTO screening (auditorium_id, movie_id, screening_start)
-VALUES (2, 2, now() + '1 day'::interval);
+VALUES (1, 1, now() + '2 days'::interval),
+       (2, 2, now() + '1 seconds'::interval),
+       (3, 3, now() + '1 day'::interval);
 
-INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (1, 1, 1);
-INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (1, 1, 2);
-INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (1, 1, 3);
-INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (1, 1, 4);
-INSERT INTO ticket(user_account_id, screening_id, seat_id)
-VALUES (2, 2, 6);
+INSERT INTO ticket(user_account_id, reserved_by_user_id, screening_id, seat_id, active, created_at)
+VALUES (1, 1, 1, 1, FALSE, '2020-01-29 17:58:33.875000'),
+       (1, 1, 1, 3, TRUE, '2020-01-29 17:58:33.875000'),
+       (1, 1, 1, 4, TRUE, '2020-01-29 17:58:33.875000'),
+       (2, 2, 2, 21, TRUE, '2020-01-29 17:58:33.875000'),
+       (1, 1, 2, 22, TRUE, '2020-01-29 17:58:33.875000');

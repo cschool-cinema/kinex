@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,8 +14,6 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(columnNames = {"screening_id", "seat_id"},
-        name = "ticket_screening_id_seat_id_key"))
 public class Ticket {
 
     @Id
@@ -27,6 +26,10 @@ public class Ticket {
     private User user;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "reserved_by_user_id", foreignKey = @ForeignKey(name = "reserved_by_user_id_fkey"))
+    private User reservedByUser;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ticket_screening_id_fkey"))
     private Screening screening;
 
@@ -34,12 +37,11 @@ public class Ticket {
     @JoinColumn(foreignKey = @ForeignKey(name = "ticket_seat_id_fkey"))
     private Seat seat;
 
-    //TODO: check if default value works correctly
     @Column(columnDefinition = "boolean DEFAULT true")
     @NotNull(message = "Active must be either true or false.")
-    private Boolean active = true;
+    private Boolean active;
 
-    @Column(nullable = false, updatable = false, insertable = false,
-            columnDefinition = "timestamp (0) with time zone DEFAULT now()")
-    private LocalDateTime timestampUtc;
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

@@ -16,6 +16,6 @@ public interface AuditoriumRepository extends JpaRepository<Auditorium, Integer>
             "FROM Auditorium a " +
             "JOIN a.screenings s " +
             "WHERE a.id = :auditoriumId " +
-            "AND s.screeningStartUtc >= :dateTime")
+            "AND s.screeningStart >= :dateTime")
     boolean existsScreeningsStartingFrom(int auditoriumId, LocalDateTime dateTime);
 }

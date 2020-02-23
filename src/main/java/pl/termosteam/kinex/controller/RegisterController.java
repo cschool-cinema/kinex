@@ -28,7 +28,7 @@ public class RegisterController {
     }
 
     @PreAuthorize("hasRole('ROLE_OWNER')")
-    @PostMapping("/owner/next")
+    @PostMapping("owner/next")
     public ResponseEntity<String> createNextOwner(@RequestBody @Valid UserDto userDTO) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(registerService.registerUserWithRole(Role.OWNER, userDTO));

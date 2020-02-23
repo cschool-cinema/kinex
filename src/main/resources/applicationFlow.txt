@@ -1,23 +1,24 @@
 guest:
-DONE DL - 1 display all future screenings
-DONE, but needs to be moved to guest c from employee 2 search movies by (id - uri param, name):
-3 register as user
+DONE DL 1. display all future screenings
+3. register as user
 
 user:
-1 activate
-2 authenticate
-DONE PS - g1.2 display available seats for a specific screening
-g1.3 buy ticket (ability to reserve multiple seats, transaction, separate db row per each seat)
-g1.3 continuation - additionally, can purchase only tickets next to each other (e.g. cannot buy seat 1 and 3)
-3 show all purchased tickets (active only)
-3a and also show tickets per screening
-4 cancel ticket (can cancel single or multiple seats)
+1. activate
+2. authenticate
+DONE PS g1.2 display available seats for a specific screening
+DONE PS g1.3 make reservation
+DONE PS g1.3 continuation - additionally, cannot make reservation with single seat gaps
+DONE PS 3 show all purchased tickets
+DONE PS 3a and also show tickets per screening
+DONE PS 4. cancel reservation for screening
 
 employee:
-DONE PS - 1. crud for movies, screenings
+DONE PS 1. crud for movies, screenings
+DONE PS 2. make reservation on behalf of user (no single seat gap restriction)
+DONE PS 3. cancel reservation on behalf of user
 
 manager:
-DONE PS1. crud for auditoriums (and seats)
+DONE PS 1. crud for auditoriums (and seats)
 DL2. deactivate user and employee accounts
 
 questions:
@@ -29,3 +30,4 @@ DL12. add logging system with user operations, need add new table with possible 
 13. @transactional - review if necessary (service classes)
 
 name regex: https://andrewwoods.net/blog/2018/name-validation-regex/
+14. spaghetti code? e.g. make reservation

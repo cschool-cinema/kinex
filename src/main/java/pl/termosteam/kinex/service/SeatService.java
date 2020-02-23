@@ -2,8 +2,10 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.Auditorium;
+import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.domain.Seat;
 import pl.termosteam.kinex.exception.NotAllowedException;
@@ -22,14 +24,21 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 @AllArgsConstructor
 public class SeatService {
 
+    private static final int CAN_CHECK_MINUTES_AFTER_START = 30;
+
     private final ScreeningRepository screeningRepository;
     private final TicketRepository ticketRepository;
     private final SeatRepository seatRepository;
     private final AuditoriumRepository auditoriumRepository;
 
-    public List<Seat> findAvailableSeatsForScreening(int screeningId) {
+    public List<Seat> findAvailableSeatsForScreening(int screeningId, Role requesterRole) {
         Screening screening = screeningRepository.findById(screeningId)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
+
+        if (LocalDateTime.now().isAfter(screening.getScreeningStart()
+                .plusMinutes(CAN_CHECK_MINUTES_AFTER_START)) && requesterRole.getHierarchy() < 2) {
+            throw new AccessDeniedException(FORBIDDEN);
+        }
 
         List<Integer> reservedSeats = ticketRepository.findAllReservedSeatsForScreening(screeningId);
 
@@ -42,6 +51,10 @@ public class SeatService {
 
         return seatRepository
                 .findByActiveAndAuditoriumIdAndExcludingSeatIds(auditoriumId, reservedSeats);
+    }
+
+    public List<Seat> findAvailableSeatsForScreening(int screeningId) {
+        return findAvailableSeatsForScreening(screeningId, Role.OWNER);
     }
 
     public Seat addSeat(Seat seat, int auditoriumId) {

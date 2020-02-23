@@ -32,11 +32,11 @@ public class ScreeningService {
 
     public List<Screening> findScreeningsStartingFrom(LocalDateTime from) {
         return screeningRepository
-                .findAllByScreeningStartUtcGreaterThanEqualOrderByScreeningStartUtc(from);
+                .findAllByScreeningStartGreaterThanEqualOrderByScreeningStart(from);
     }
 
     public List<Screening> findAllScreenings() {
-        return screeningRepository.findAll(Sort.by(Sort.Direction.ASC, "screeningStartUtc"));
+        return screeningRepository.findAll(Sort.by(Sort.Direction.ASC, "screeningStart"));
     }
 
     public Screening findScreeningById(int id) {
@@ -62,7 +62,7 @@ public class ScreeningService {
     }
 
     public Screening createScreening(ScreeningRequestDto screeningRequestDto) {
-        LocalDateTime screeningStart = screeningRequestDto.getScreeningStartUtc();
+        LocalDateTime screeningStart = screeningRequestDto.getScreeningStart();
 
         Movie movie = movieRepository.findById(screeningRequestDto.getMovieId())
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));
@@ -86,7 +86,7 @@ public class ScreeningService {
         Screening newScreening = Screening.builder()
                 .auditorium(auditorium)
                 .movie(movie)
-                .screeningStartUtc(screeningStart)
+                .screeningStart(screeningStart)
                 .build();
 
         return screeningRepository.save(newScreening);
@@ -98,9 +98,9 @@ public class ScreeningService {
 
         boolean ticketsAlreadySold = activeTicketsSold(screening);
 
-        LocalDateTime updateScreeningStart = requestDto.getScreeningStartUtc();
+        LocalDateTime updateScreeningStart = requestDto.getScreeningStart();
 
-        if (screening.getScreeningStartUtc().isBefore(LocalDateTime.now())) {
+        if (screening.getScreeningStart().isBefore(LocalDateTime.now())) {
             throw new NotAllowedException("Cannot update past screening!");
         }
 
@@ -124,7 +124,7 @@ public class ScreeningService {
             screening.setAuditorium(auditorium);
         }
 
-        if (!requestDto.getScreeningStartUtc().equals(screening.getScreeningStartUtc())) {
+        if (!requestDto.getScreeningStart().equals(screening.getScreeningStart())) {
             if (ticketsAlreadySold) {
                 throw new NotAllowedException("Date/time update not allowed!" + TICKETS_SOLD);
             }
@@ -139,7 +139,7 @@ public class ScreeningService {
                         "Please choose different time or auditorium.");
             }
 
-            screening.setScreeningStartUtc(updateScreeningStart);
+            screening.setScreeningStart(updateScreeningStart);
         }
 
         return screeningRepository.save(screening);

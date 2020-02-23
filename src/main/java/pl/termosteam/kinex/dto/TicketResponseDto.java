@@ -11,15 +11,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScreeningResponseDto {
-    private int id;
-    private LocalDateTime screeningStart;
-    private int movieId;
+public class TicketResponseDto {
+    private int ticketId;
     private String movieTitle;
-    private short movieReleaseYear;
-    private String movieCategory;
-    private String movieDescription;
-    private short movieDurationMin;
-    private int auditoriumId;
+    private LocalDateTime screeningStart;
     private String auditoriumName;
+    private int seatRow;
+    private int seatNumber;
+    private boolean ticketActive;
 }
