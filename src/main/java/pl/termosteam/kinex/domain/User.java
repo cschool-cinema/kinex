@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.termosteam.kinex.validation.UserDataValidationImplementation;
+import pl.termosteam.kinex.validation.DateValidation;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -141,7 +141,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return new UserDataValidationImplementation().validateDateExpired(validAccountTill);
+        return DateValidation.validateDateExpired(validAccountTill);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return new UserDataValidationImplementation().validateDateExpired(validPasswordTill);
+        return DateValidation.validateDateExpired(validPasswordTill);
     }
 
     @Override

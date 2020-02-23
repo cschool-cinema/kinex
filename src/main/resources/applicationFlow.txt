@@ -27,3 +27,5 @@ DL9. move validation to dto and entity through custom annotations
 11. showcase intellij ultimate features
 DL12. add logging system with user operations, need add new table with possible columns id,activityAt,description,userId
 13. @transactional - review if necessary (service classes)
+
+name regex: https://andrewwoods.net/blog/2018/name-validation-regex/

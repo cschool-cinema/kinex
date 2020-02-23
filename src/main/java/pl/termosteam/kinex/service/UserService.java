@@ -15,7 +15,6 @@ import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserDto;
 import pl.termosteam.kinex.exception.ValidationException;
 import pl.termosteam.kinex.repository.UserRepository;
-import pl.termosteam.kinex.validation.UserDataValidation;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -26,7 +25,6 @@ public class UserService implements UserDetailsService {
 
     private final JwtToken jwtTokenUtil;
     private final UserRepository userRepository;
-    private final UserDataValidation userDataValidation;
     private final SendEmailService sendEmailService;
     private final DeveloperConfiguration developerConfiguration;
 
