@@ -1,12 +1,15 @@
 package pl.termosteam.kinex.controller.administration.accounts;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.termosteam.kinex.dto.UserResponseDto;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/user/management/log")
+@RequestMapping("api/admin/account")
 public class AccountsController {
     /*
      * CRUD:
@@ -24,7 +27,11 @@ public class AccountsController {
      *  4. OWNER can do anything with account's information's
      **/
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping
+    public UserResponseDto getUserInformation() {
+        return null;
+    }
 
     /*
      *  PUT REST API (update):

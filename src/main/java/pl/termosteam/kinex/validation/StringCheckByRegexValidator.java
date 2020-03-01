@@ -6,12 +6,14 @@ import java.util.regex.Pattern;
 
 public class StringCheckByRegexValidator implements ConstraintValidator<StringCheckByRegex, String> {
     private String patternRegex;
+    private Pattern compile;
 
     public void initialize(StringCheckByRegex constraint) {
         this.patternRegex = constraint.patternRegex();
+        compile = Pattern.compile(patternRegex);
     }
 
     public boolean isValid(String stringToValidate, ConstraintValidatorContext context) {
-        return Pattern.compile(patternRegex).matcher(stringToValidate).matches();
+        return compile.matcher(stringToValidate).matches();
     }
 }

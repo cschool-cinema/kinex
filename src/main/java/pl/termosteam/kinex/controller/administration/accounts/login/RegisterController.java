@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.dto.UserRequestDto;
 import pl.termosteam.kinex.service.RegisterService;
@@ -22,16 +19,15 @@ public class RegisterController {
     private final RegisterService registerService;
 
     @PostMapping("owner")
-    public ResponseEntity<String> createOwner(@RequestBody @Valid UserRequestDto userRequestDTO) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(registerService.registerUserWithRole(Role.OWNER, userRequestDTO));
+    public String createOwner(@RequestBody @Valid UserRequestDto userRequestDTO) {
+        return registerService.registerUserWithRole(Role.OWNER, userRequestDTO);
     }
 
     @PreAuthorize("hasRole('ROLE_OWNER')")
     @PostMapping("owner/next")
-    public ResponseEntity<String> createNextOwner(@RequestBody @Valid UserRequestDto userRequestDTO) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(registerService.registerUserWithRole(Role.OWNER, userRequestDTO));
+    @ResponseStatus(HttpStatus.CREATED)
+    public String createNextOwner(@RequestBody @Valid UserRequestDto userRequestDTO) {
+        return registerService.registerUserWithRole(Role.OWNER, userRequestDTO);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")

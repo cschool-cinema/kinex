@@ -39,7 +39,7 @@ public class EmailConfiguration {
      * # Other properties
      * spring.mail.properties.mail.smtp.auth=true
      * spring.mail.properties.mail.smtp.connectiontimeout=5000
-     * spring.mail.properties.mail.smtp.timeout=5000
+     * spring.mail.pr   operties.mail.smtp.timeout=5000
      * spring.mail.properties.mail.smtp.writetimeout=5000
      * # TLS , port 587
      * spring.mail.properties.mail.smtp.starttls.enable=true
