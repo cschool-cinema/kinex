@@ -20,6 +20,7 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class AuditoriumService {
 
     private final AuditoriumRepository auditoriumRepository;
@@ -33,7 +34,6 @@ public class AuditoriumService {
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
     }
 
-    @Transactional
     public Auditorium createAuditorium(Auditorium auditorium) {
         if (auditoriumRepository.existsByNameIgnoreCase(auditorium.getName())) {
             throw new NotAllowedException("Auditorium with this name already exists!");
@@ -70,7 +70,6 @@ public class AuditoriumService {
         return auditoriumRepository.save(auditorium);
     }
 
-    @Transactional
     public String deactivateAuditorium(int auditoriumId) {
         Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
@@ -95,7 +94,6 @@ public class AuditoriumService {
         return "The auditorium and all its seats have been deactivated.";
     }
 
-    @Transactional
     public String reactivateAuditorium(int auditoriumId) {
         Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
@@ -116,7 +114,6 @@ public class AuditoriumService {
         return "The auditorium and all its seats have been reactivated.";
     }
 
-    @Transactional
     public String deleteAuditorium(int auditoriumId) {
         Auditorium auditorium = auditoriumRepository.findById(auditoriumId)
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));

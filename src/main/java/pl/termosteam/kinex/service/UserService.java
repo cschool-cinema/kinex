@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @Service(value = "userService")
 @AllArgsConstructor
+@Transactional
 public class UserService implements UserDetailsService {
 
     private final JwtToken jwtTokenUtil;
@@ -54,7 +55,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    @Transactional
     public Optional<User> addUserWithRole(Role ROLE, UserDto userDTO) {
         //TODO: remove when validations moved to annotations
 //        userDataValidation.userDataValidation(userDTO);
@@ -86,7 +86,6 @@ public class UserService implements UserDetailsService {
         return Optional.of(user);
     }
 
-    @Transactional
     public Optional<User> activateByToken(String usernameOrEmail, String token) {
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
 

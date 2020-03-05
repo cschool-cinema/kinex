@@ -17,7 +17,6 @@ import pl.termosteam.kinex.service.TicketService;
 import pl.termosteam.kinex.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,7 +30,7 @@ public class ClientTicketController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(path = "make-reservation")
-    public List<TicketResponseDto> makeReservation(@RequestBody @Valid TicketRequestClientDto ticketInfo) {
+    public TicketResponseDto[] makeReservation(@RequestBody @Valid TicketRequestClientDto ticketInfo) {
         User reservedByUser = userService.getUserNotNullIfAuthenticated();
 
         TicketRequestAdminDto ticketFullInfo = new TicketRequestAdminDto(
@@ -41,7 +40,7 @@ public class ClientTicketController {
 
         List<Ticket> tickets = ticketService.makeReservation(ticketFullInfo, reservedByUser, Role.USER);
 
-        return Arrays.asList(mm.map(tickets, TicketResponseDto[].class));
+        return mm.map(tickets, TicketResponseDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -56,12 +55,12 @@ public class ClientTicketController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
-    public List<TicketResponseDto> findUserTickets() {
+    public TicketResponseDto[] findUserTickets() {
         int userId = userService.getUserNotNullIfAuthenticated().getId();
 
         List<Ticket> tickets = ticketService.findUserTickets(userId);
 
-        return Arrays.asList(mm.map(tickets, TicketResponseDto[].class));
+        return mm.map(tickets, TicketResponseDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -72,7 +71,7 @@ public class ClientTicketController {
         List<Ticket> tickets = ticketService.findUserTicketsForScreening(userId, screeningId);
 
         if (CollectionUtils.isNotEmpty(tickets)) {
-            return ResponseEntity.ok(Arrays.asList(mm.map(tickets, TicketResponseDto[].class)));
+            return ResponseEntity.ok(mm.map(tickets, TicketResponseDto[].class));
         } else {
             return ResponseEntity.ok("You have not purchased any tickets for this screening.");
         }

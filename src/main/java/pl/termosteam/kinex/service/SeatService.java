@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.domain.Auditorium;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.Screening;
@@ -22,6 +23,7 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class SeatService {
 
     private static final int CAN_CHECK_MINUTES_AFTER_START = 30;

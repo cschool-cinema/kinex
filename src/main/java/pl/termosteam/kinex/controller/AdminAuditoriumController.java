@@ -9,7 +9,6 @@ import pl.termosteam.kinex.dto.AuditoriumDto;
 import pl.termosteam.kinex.service.AuditoriumService;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,10 +21,10 @@ public class AdminAuditoriumController {
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping
-    public List<AuditoriumDto> findAllAuditoriums() {
+    public AuditoriumDto[] findAllAuditoriums() {
         List<Auditorium> auditoriums = auditoriumService.findAllAuditoriums();
 
-        return Arrays.asList(mm.map(auditoriums, AuditoriumDto[].class));
+        return mm.map(auditoriums, AuditoriumDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")

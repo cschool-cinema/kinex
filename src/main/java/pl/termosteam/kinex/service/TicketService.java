@@ -1,9 +1,11 @@
 package pl.termosteam.kinex.service;
 
-import javafx.util.Pair;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.domain.*;
 import pl.termosteam.kinex.dto.TicketCancelRequestDto;
 import pl.termosteam.kinex.dto.TicketRequestAdminDto;
@@ -13,7 +15,6 @@ import pl.termosteam.kinex.repository.ScreeningRepository;
 import pl.termosteam.kinex.repository.TicketRepository;
 import pl.termosteam.kinex.repository.UserRepository;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class TicketService {
 
     private static final int CAN_BUY_MINUTES_AFTER_START = 30;
@@ -44,7 +46,6 @@ public class TicketService {
         return ticketRepository.findAllByUser_IdAndScreening(userId, screening);
     }
 
-    @Transactional
     public List<Ticket> makeReservation(TicketRequestAdminDto ticketInfo, User reservedBy, Role reservedByRole) {
         int[] selectedSeatIds = ticketInfo.getSeatIds();
 
@@ -106,7 +107,6 @@ public class TicketService {
         return ticketRepository.saveAll(tickets);
     }
 
-    @Transactional
     public String cancelReservationForScreening(TicketCancelRequestDto ticketInfo) {
         List<Ticket> reservedTickets = ticketRepository
                 .findAllByUser_IdAndScreening_IdAndActiveTrue(ticketInfo.getUserId(), ticketInfo.getScreeningId());
@@ -135,21 +135,21 @@ public class TicketService {
         Map<Pair<Short, Short>, Seat> availableSeatsMap = new HashMap<>();
 
         for (Seat seat : availableSeats) {
-            availableSeatsMap.put(new Pair<>(seat.getSeatRow(), seat.getSeatNumber()), seat);
+            availableSeatsMap.put(new ImmutablePair<>(seat.getSeatRow(), seat.getSeatNumber()), seat);
         }
 
         for (Seat seat : selectedSeats) {
             short seatRow = seat.getSeatRow();
             short seatNumber = seat.getSeatNumber();
 
-            Pair<Short, Short> oneToRight = new Pair<>(seatRow, (short) (seatNumber - 1));
-            Pair<Short, Short> twoToRight = new Pair<>(seatRow, (short) (seatNumber - 2));
+            Pair<Short, Short> oneToRight = new ImmutablePair<>(seatRow, (short) (seatNumber - 1));
+            Pair<Short, Short> twoToRight = new ImmutablePair<>(seatRow, (short) (seatNumber - 2));
             if (availableSeatsMap.get(oneToRight) != null && availableSeatsMap.get(twoToRight) == null) {
                 return true;
             }
 
-            Pair<Short, Short> oneToLeft = new Pair<>(seatRow, (short) (seatNumber + 1));
-            Pair<Short, Short> twoToLeft = new Pair<>(seatRow, (short) (seatNumber + 2));
+            Pair<Short, Short> oneToLeft = new ImmutablePair<>(seatRow, (short) (seatNumber + 1));
+            Pair<Short, Short> twoToLeft = new ImmutablePair<>(seatRow, (short) (seatNumber + 2));
             if (availableSeatsMap.get(oneToLeft) != null && availableSeatsMap.get(twoToLeft) == null) {
                 return true;
             }

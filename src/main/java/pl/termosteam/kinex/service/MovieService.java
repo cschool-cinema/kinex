@@ -6,6 +6,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.domain.Movie;
 import pl.termosteam.kinex.exception.NotAllowedException;
 import pl.termosteam.kinex.exception.NotFoundException;
@@ -18,6 +19,7 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class MovieService {
 
     private final MovieRepository movieRepository;

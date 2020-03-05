@@ -10,7 +10,6 @@ import pl.termosteam.kinex.dto.ScreeningResponseDto;
 import pl.termosteam.kinex.service.ScreeningService;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -23,10 +22,10 @@ public class AdminScreeningController {
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping
-    public List<ScreeningResponseDto> findAllScreenings() {
+    public ScreeningResponseDto[] findAllScreenings() {
         List<Screening> screenings = screeningService.findAllScreenings();
 
-        return Arrays.asList(mm.map(screenings, ScreeningResponseDto[].class));
+        return mm.map(screenings, ScreeningResponseDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")

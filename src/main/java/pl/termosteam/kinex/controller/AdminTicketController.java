@@ -14,7 +14,6 @@ import pl.termosteam.kinex.service.TicketService;
 import pl.termosteam.kinex.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,12 +27,12 @@ public class AdminTicketController {
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping(path = "make-reservation")
-    public List<TicketResponseDto> makeReservation(@RequestBody @Valid TicketRequestAdminDto ticketInfo) {
+    public TicketResponseDto[] makeReservation(@RequestBody @Valid TicketRequestAdminDto ticketInfo) {
         User reservedByUser = userService.getUserNotNullIfAuthenticated();
 
         List<Ticket> tickets = ticketService.makeReservation(ticketInfo, reservedByUser, Role.MANAGER);
 
-        return Arrays.asList(mm.map(tickets, TicketResponseDto[].class));
+        return mm.map(tickets, TicketResponseDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")

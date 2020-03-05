@@ -18,7 +18,6 @@ import pl.termosteam.kinex.service.SeatService;
 import pl.termosteam.kinex.service.UserService;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,28 +32,29 @@ public class ScreeningController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @GetMapping
-    public List<ScreeningResponseDto> findFutureScreenings() {
+    public ScreeningResponseDto[] findFutureScreenings() {
         List<Screening> screenings = screeningService.findScreeningsStartingFrom(LocalDateTime.now());
-        return Arrays.asList(mm.map(screenings, ScreeningResponseDto[].class));
+
+        return mm.map(screenings, ScreeningResponseDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @GetMapping(path = "{title}")
-    public List<ScreeningResponseDto> findFutureScreeningsByMovieTitle(@PathVariable String title) {
+    public ScreeningResponseDto[] findFutureScreeningsByMovieTitle(@PathVariable String title) {
         List<Screening> screenings =
                 screeningService.findFutureScreeningsByMovieTitle(title);
 
-        return Arrays.asList(mm.map(screenings, ScreeningResponseDto[].class));
+        return mm.map(screenings, ScreeningResponseDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @GetMapping(path = "{screeningId}/available-seats")
-    public List<SeatClientDto> findAvailableSeatsForScreening(@PathVariable int screeningId) {
+    public SeatClientDto[] findAvailableSeatsForScreening(@PathVariable int screeningId) {
         Role requesterRole = Role.valueOf(StringUtils
                 .replace(userService.getUserNotNullIfAuthenticated().getRole(), "ROLE_", ""));
 
         List<Seat> availableSeats = seatService.findAvailableSeatsForScreening(screeningId, requesterRole);
 
-        return Arrays.asList(mm.map(availableSeats, SeatClientDto[].class));
+        return mm.map(availableSeats, SeatClientDto[].class);
     }
 }

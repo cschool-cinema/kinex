@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.domain.Auditorium;
 import pl.termosteam.kinex.domain.Movie;
 import pl.termosteam.kinex.domain.Screening;
@@ -22,6 +23,7 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ScreeningService {
 
     private static final short BREAK_AFTER_SCREENING = 15;

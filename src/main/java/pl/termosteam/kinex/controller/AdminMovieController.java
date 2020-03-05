@@ -9,7 +9,6 @@ import pl.termosteam.kinex.dto.MovieDto;
 import pl.termosteam.kinex.service.MovieService;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,10 +21,10 @@ public class AdminMovieController {
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping
-    public List<MovieDto> findAllMovies() {
+    public MovieDto[] findAllMovies() {
         List<Movie> movies = movieService.findAllMovies();
 
-        return Arrays.asList(mm.map(movies, MovieDto[].class));
+        return mm.map(movies, MovieDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
@@ -38,10 +37,10 @@ public class AdminMovieController {
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping(path = "search/{searchPhrase}")
-    public List<MovieDto> findMoviesByTitleContaining(@PathVariable String searchPhrase) {
+    public MovieDto[] findMoviesByTitleContaining(@PathVariable String searchPhrase) {
         List<Movie> movies = movieService.findMovieByName(searchPhrase);
 
-        return Arrays.asList(mm.map(movies, MovieDto[].class));
+        return mm.map(movies, MovieDto[].class);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")

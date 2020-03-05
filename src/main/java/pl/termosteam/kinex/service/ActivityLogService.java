@@ -6,11 +6,13 @@ import pl.termosteam.kinex.domain.ActivityLog;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.repository.ActivityLogRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ActivityLogService {
     private final ActivityLogRepository activityLogRepository;
     private final UserService userService;
