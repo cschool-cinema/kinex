@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.domain.*;
@@ -27,8 +28,11 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 @Transactional
 public class TicketService {
 
-    private static final int CAN_BUY_MINUTES_AFTER_START = 30;
-    private static final int CAN_RESERVE_MAX_SEATS = 100;
+    @Value("${business.can-reserve-min-after-screening-start}")
+    private static int canReserveMinutesAfterStart;
+
+    @Value("${business.can-reserve-max-seats}")
+    private static int canReserveMaxSeats;
 
     private final TicketRepository ticketRepository;
     private final ScreeningRepository screeningRepository;
@@ -51,8 +55,8 @@ public class TicketService {
 
         if (selectedSeatIds.length == 0) {
             throw new NotAllowedException("Please pick at least one seat.");
-        } else if (selectedSeatIds.length > CAN_RESERVE_MAX_SEATS && reservedByRole.getHierarchy() < 2) {
-            throw new NotAllowedException("Please pick not more than " + CAN_RESERVE_MAX_SEATS + " seats.");
+        } else if (selectedSeatIds.length > canReserveMaxSeats && reservedByRole.getHierarchy() < 2) {
+            throw new NotAllowedException("Please pick not more than " + canReserveMaxSeats + " seats.");
         }
 
         Set<Integer> selectedSeatsSet = Arrays.stream(
@@ -68,9 +72,9 @@ public class TicketService {
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
         if (LocalDateTime.now()
-                .isAfter(screening.getScreeningStart().plusMinutes(CAN_BUY_MINUTES_AFTER_START))) {
+                .isAfter(screening.getScreeningStart().plusMinutes(canReserveMinutesAfterStart))) {
             throw new NotAllowedException("Cannot make a reservation after " +
-                    CAN_BUY_MINUTES_AFTER_START + " minutes into the screening start!");
+                    canReserveMinutesAfterStart + " minutes into the screening start!");
         }
 
         List<Seat> availableSeatsList = seatService.findAvailableSeatsForScreening(screening.getId());

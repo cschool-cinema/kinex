@@ -2,6 +2,7 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,8 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 @Transactional
 public class SeatService {
 
-    private static final int CAN_CHECK_MINUTES_AFTER_START = 30;
+    @Value("${business.can-check-min-after-screening-start}")
+    private static int canCheckMinutesAfterStart;
 
     private final ScreeningRepository screeningRepository;
     private final TicketRepository ticketRepository;
@@ -38,7 +40,7 @@ public class SeatService {
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
         if (LocalDateTime.now().isAfter(screening.getScreeningStart()
-                .plusMinutes(CAN_CHECK_MINUTES_AFTER_START)) && requesterRole.getHierarchy() < 2) {
+                .plusMinutes(canCheckMinutesAfterStart)) && requesterRole.getHierarchy() < 2) {
             throw new AccessDeniedException(FORBIDDEN);
         }
 

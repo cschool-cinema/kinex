@@ -2,6 +2,7 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,8 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 @Transactional
 public class ScreeningService {
 
-    private static final short BREAK_AFTER_SCREENING = 15;
+    @Value("${business.break-after-screening}")
+    private static int breakMinutesAfterScreening;
 
     private final ScreeningRepository screeningRepository;
     private final MovieRepository movieRepository;
@@ -78,7 +80,7 @@ public class ScreeningService {
 
         LocalDateTime screeningEnd = screeningStart
                 .plusMinutes(movie.getDurationMin())
-                .plusMinutes(BREAK_AFTER_SCREENING);
+                .plusMinutes(breakMinutesAfterScreening);
 
         if (screeningRepository.screeningConflicts(screeningStart, screeningEnd, auditorium.getId()) > 0) {
             throw new NotAllowedException("There are other screenings reserved in this time window! " +
@@ -133,7 +135,7 @@ public class ScreeningService {
 
             LocalDateTime updateScreeningEnd = updateScreeningStart
                     .plusMinutes(screening.getMovie().getDurationMin())
-                    .plusMinutes(BREAK_AFTER_SCREENING);
+                    .plusMinutes(breakMinutesAfterScreening);
 
             if (screeningRepository.screeningConflictsExcludingId(
                     updateScreeningStart, updateScreeningEnd, screening.getAuditorium().getId(), id) > 0) {

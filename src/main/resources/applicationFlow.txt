@@ -25,11 +25,12 @@ questions:
 DL8. explain serializable - do we need it? - no, remove
 DL9. move validation to dto and entity through custom annotations
 DL12. add logging system with user operations, need add new table with possible columns id,activityAt,description,userId
+DL regex for username check for @ name regex: https://andrewwoods.net/blog/2018/name-validation-regex/
+
 DONE PS return arrays instead of list - might be the same result
 DONE PS @transactional - add on class level
-PS static variables (business rules) - change to properties in props file
+DONE PS static variables (business rules) - change to properties in props file
 DONE PS Pair tuple - maybe different solution (java fx is not available in openjdk or java 11+)
-DL regex for username check for @ name regex: https://andrewwoods.net/blog/2018/name-validation-regex/
 
 readme
 1. co robi, kto napisal
