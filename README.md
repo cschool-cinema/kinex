@@ -30,6 +30,10 @@ FROM public.sick
                    ON public.sick.region_id = public.region.id;
 ```
 
+# Entity relationship diagram
+The ER diagram that fits domain classes looks as follows:
+
+<img src="ER-Diagram.svg" alt="ER-DIAGRAM" class="width: 25%;">
 
 # Getting Started
 
