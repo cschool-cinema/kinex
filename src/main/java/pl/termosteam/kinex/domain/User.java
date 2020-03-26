@@ -73,8 +73,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isAuthenticated;
 
-    @Column(nullable = false)
-    private boolean isDeleted;
+    @Column()
+    private boolean isDeleted = false;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
