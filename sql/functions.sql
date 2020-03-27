@@ -1,4 +1,3 @@
--- Run this after creating database for the first time
 CREATE OR REPLACE FUNCTION
     is_screening_conflict(pscreening_start timestamp WITH TIME ZONE,
                           pscreening_end timestamp WITH TIME ZONE,
@@ -21,7 +20,9 @@ BEGIN
 END;
 $$
     LANGUAGE PLPGSQL;
+
 ---------------------------------------------------
+
 CREATE OR REPLACE FUNCTION
     get_screening_end(pscreening_id int) RETURNS timestamp WITH TIME ZONE AS
 $$
