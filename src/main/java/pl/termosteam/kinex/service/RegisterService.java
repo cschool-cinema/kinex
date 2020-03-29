@@ -16,6 +16,7 @@ public class RegisterService {
 
     private final UserService userService;
     private final DeveloperConfiguration developerConfiguration;
+    private final SendEmailService sendEmailService;
 
     public String registerUserWithRole(Role ROLE, UserRequestDto userRequestDTO) {
 
@@ -36,6 +37,7 @@ public class RegisterService {
             userService.activateByToken(user.get().getUsername(), user.get().getInMemoryActivationToken());
             return "DEVELOPER MODE: User is registered and activated automatically.";
         } else {
+            sendEmailService.sendMail(userRequestDTO.getEmail(), "activation token for kinex api", user.get().getInMemoryActivationToken());
             return "You account with the username \"" + user.get().getUsername() +
                     "\" has been registered, please activate account using the token sent to the provided email: " +
                     user.get().getEmail();

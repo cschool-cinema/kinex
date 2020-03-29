@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.configuration.jwt.JwtToken;
-import pl.termosteam.kinex.configuration.properties.DeveloperConfiguration;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserRequestDto;
@@ -26,7 +25,6 @@ public class UserService implements UserDetailsService {
     private final JwtToken jwtTokenUtil;
     private final UserRepository userRepository;
     private final SendEmailService sendEmailService;
-    private final DeveloperConfiguration developerConfiguration;
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
@@ -56,9 +54,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public Optional<User> addUserWithRole(Role ROLE, UserRequestDto userRequestDTO) {
-
         validateIfEmailAndUsernameExists(userRequestDTO);
-
         String UUID = ActivateService.generateUUID();
         String salt = UUID.replace("-", "");
         User user = new User(
@@ -75,15 +71,8 @@ public class UserService implements UserDetailsService {
                 LocalDateTime.now().plusYears(1),
                 LocalDateTime.now().plusYears(1));
         final String token = jwtTokenUtil.generateActivationToken(user.getActivationUUID());
-
         user.setInMemoryActivationToken(token);
-
-        if (developerConfiguration.getIsReturnActivationToken()) {
-            sendEmailService.sendMail(userRequestDTO.getEmail(), "activation token for kinex api", token);
-        }
-
         userRepository.save(user);
-
         return Optional.of(user);
     }
 
@@ -106,7 +95,11 @@ public class UserService implements UserDetailsService {
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
 
         if (!jwtTokenUtil.validateActivationToken(token, user.getActivationUUID())) {
-            throw new ValidationException("Activation token is not valid or expired.");
+            final String newToken = jwtTokenUtil.generateActivationToken(user.getActivationUUID());
+            user.setInMemoryActivationToken(newToken);
+            sendEmailService.sendMail(user.getEmail(), "new activation token for kinex api", token);
+            userRepository.save(user);
+            throw new ValidationException("Activation token is not valid or expired. Token resend on email.");
         }
 
         user.setEnabled(true);
