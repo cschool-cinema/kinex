@@ -115,6 +115,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean ifOwnerAlreadyExists() {
+
         return userRepository.existsByRole(Role.OWNER.toString());
     }
 

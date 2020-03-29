@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
 import pl.termosteam.kinex.validation.CustomPassword;
-import pl.termosteam.kinex.validation.StringCheckByRegex;
+import pl.termosteam.kinex.validation.NameCheckByRegex;
+import pl.termosteam.kinex.validation.UsernameCheckByRegex;
 
 import javax.validation.constraints.Email;
 
@@ -16,11 +17,12 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @Configuration
 public class UserRequestDto {
-    @StringCheckByRegex(patternRegex = "${validation.name.pattern}")
+
+    @NameCheckByRegex
     private String firstName;
-    @StringCheckByRegex(patternRegex = "${validation.name.pattern}")
+    @NameCheckByRegex
     private String lastName;
-    @StringCheckByRegex(patternRegex = "${validation.username.pattern}")
+    @UsernameCheckByRegex
     private String username;
     @Email
     private String email;

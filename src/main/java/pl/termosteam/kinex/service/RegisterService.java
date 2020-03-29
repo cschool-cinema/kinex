@@ -25,7 +25,7 @@ public class RegisterService {
             }
         }
 
-        if (!checkOwnerAlreadyRegistered()) {
+        if (!checkOwnerAlreadyRegistered() && !ROLE.equals(Role.OWNER)) {
             throw new ValidationException(
                     "Owner is not registered, if you want to register user with " + ROLE + " first register OWNER role");
         }

@@ -12,22 +12,25 @@ Cinema Rest API project for
 - Applying Spring Security with JWT token
 
 #REQUESTS
-
+#SECURITY
+-Djasypt.encryptor.password=@x8HcZsUlfdE
 # SQL queries and backup data
-DataFromDatabase folder contains backup data from the database.
-If you want merge tables please run following query:
 
+Create database and user as follows, please setup password:
 ```
-SELECT public.sick.id,
-       public.sick.added_at,
-       public.sick.time_step,
-       public.sick.total_deaths_in_region,
-       public.sick.total_sick_in_region,
-       public.region.id,
-       public.region.region_name
-FROM public.sick
-         LEFT JOIN public.region
-                   ON public.sick.region_id = public.region.id;
+DROP USER IF EXISTS kinex_user;
+CREATE USER kinex_user WITH PASSWORD 'termos2137';
+
+
+DROP DATABASE IF EXISTS kinex;
+CREATE DATABASE kinex
+    WITH
+    OWNER = kinex_user
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'pl_PL.utf8' --alternatively 'pl_PL' or 'pl_PL.utf8' if on Linux
+    LC_CTYPE = 'pl_PL.utf8' --alternatively 'pl_PL' or 'pl_PL.utf8' if on Linux
+    TEMPLATE = template0
+    CONNECTION LIMIT = 5000;
 ```
 
 # Entity relationship diagram

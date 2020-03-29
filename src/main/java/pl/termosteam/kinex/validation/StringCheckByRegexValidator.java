@@ -8,12 +8,15 @@ public class StringCheckByRegexValidator implements ConstraintValidator<StringCh
     private String patternRegex;
     private Pattern compile;
 
-    public void initialize(StringCheckByRegex constraint) {
-        this.patternRegex = constraint.patternRegex();
+    @Override
+    public void initialize(StringCheckByRegex constraintAnnotation) {
+        this.patternRegex = constraintAnnotation.patternRegex();
         compile = Pattern.compile(patternRegex);
     }
 
-    public boolean isValid(String stringToValidate, ConstraintValidatorContext context) {
+    @Override
+    public boolean isValid(String stringToValidate, ConstraintValidatorContext constraintValidatorContext) {
         return compile.matcher(stringToValidate).matches();
     }
+
 }
