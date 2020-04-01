@@ -16,6 +16,7 @@ import pl.termosteam.kinex.exception.ValidationException;
 import pl.termosteam.kinex.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service(value = "userService")
@@ -70,7 +71,9 @@ public class UserService implements UserDetailsService {
                 false,
                 LocalDateTime.now().plusYears(1),
                 LocalDateTime.now().plusYears(1));
-        final String token = jwtTokenUtil.generateActivationToken(user.getActivationUUID());
+        final String token = jwtTokenUtil.generateActivationToken(
+                user.getActivationUUID(),
+                new Date(System.currentTimeMillis()));
         user.setInMemoryActivationToken(token);
         userRepository.save(user);
         return Optional.of(user);
@@ -91,20 +94,19 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Optional<User> activateByToken(String usernameOrEmail, String token) {
+    public void activateByToken(String usernameOrEmail, String token) {
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
-
         if (!jwtTokenUtil.validateActivationToken(token, user.getActivationUUID())) {
-            final String newToken = jwtTokenUtil.generateActivationToken(user.getActivationUUID());
+            final String newToken = jwtTokenUtil.generateActivationToken(
+                    user.getActivationUUID(),
+                    new Date(System.currentTimeMillis()));
             user.setInMemoryActivationToken(newToken);
             sendEmailService.sendMail(user.getEmail(), "new activation token for kinex api", token);
             userRepository.save(user);
             throw new ValidationException("Activation token is not valid or expired. Token resend on email.");
         }
-
         user.setEnabled(true);
         user.setActivatedAt(LocalDateTime.now());
-        return Optional.of(user);
     }
 
     public boolean ifOwnerAlreadyExists() {

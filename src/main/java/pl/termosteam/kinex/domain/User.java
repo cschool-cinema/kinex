@@ -88,9 +88,6 @@ public class User implements UserDetails {
 
     private LocalDateTime activatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<ActivityLog> activityLogs;
-
     @Transient
     private String inMemoryActivationToken;
 

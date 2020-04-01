@@ -3,10 +3,11 @@ package pl.termosteam.kinex.configuration.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.time.DateUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import pl.termosteam.kinex.configuration.properties.JwtConfiguration;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -23,13 +24,10 @@ import java.util.function.Function;
  * @since 2020-01-01
  */
 @Component
+@RequiredArgsConstructor
 public class JwtToken {
 
-    @Value("${jwt.token.validity.time:180000}")
-    public static long JWT_TOKEN_VALIDITY;
-
-    @Value("${jwt.secret}")
-    private String secret;
+    private final JwtConfiguration jwtConfiguration;
 
     public String getSubjectFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -45,7 +43,7 @@ public class JwtToken {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(jwtConfiguration.getSECRET()).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -53,23 +51,29 @@ public class JwtToken {
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateAuthenticationToken(UserDetails userDetails, Date started) {
+        Date expired = DateUtils.addMinutes(started, jwtConfiguration.getJWT_TOKEN_VALIDITY_IN_MIN());
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.getUsername(), started, expired);
     }
 
-    public String generateActivationToken(String uuid) {
+    public String generateActivationToken(String uuid, Date started) {
+        Date expired = DateUtils.addMinutes(started, jwtConfiguration.getJWT_TOKEN_VALIDITY_ACTIVATION_TIME_IN_MIN());
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, uuid);
+        return doGenerateToken(claims, uuid, started, expired);
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-
-
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(DateUtils.addDays(new Date(System.currentTimeMillis()), 5))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+    private String doGenerateToken(Map<String, Object> claims, String subject, Date started, Date expired) {
+        //Date startedAt = new Date(System.currentTimeMillis());
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(started)
+                .setExpiration(expired)
+                .signWith(SignatureAlgorithm.HS512, jwtConfiguration.getSECRET())
+                .compact();
     }
+
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getSubjectFromToken(token);

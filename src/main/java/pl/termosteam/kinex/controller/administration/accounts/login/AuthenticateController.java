@@ -14,6 +14,8 @@ import pl.termosteam.kinex.dto.JwtResponseDto;
 import pl.termosteam.kinex.exception.ValidationException;
 import pl.termosteam.kinex.service.UserService;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("api")
 @AllArgsConstructor
@@ -25,12 +27,10 @@ public class AuthenticateController {
     @PostMapping(value = "authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequestDto authenticationRequest) {
         final User user = userService.loadUserByUsernameOrEmail(authenticationRequest.getUsername());
-
         if (Crypt.crypt(authenticationRequest.getPassword(), user.getSalt()).equals(user.getPassword())) {
-            final String token = jwtToken.generateToken(user);
+            final String token = jwtToken.generateAuthenticationToken(user, new Date(System.currentTimeMillis()));
             return ResponseEntity.ok(new JwtResponseDto(token));
         }
-
         throw new ValidationException("authentication problems: INVALID_CREDENTIALS");
     }
 }
