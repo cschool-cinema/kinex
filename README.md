@@ -20,7 +20,7 @@ The encryption-decryption could be done using directly <a href="http://www.jasyp
 by using provided REST application 
 <a href="http://www.jasypt.org/cli.html">```https://github.com/DimaLumelskyj/password.generator.jasypt.git```</a>.
 The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` file into
-tag ```ENC(```<font color="red">```yours secured data```</font>```)```.
+tag ```ENC(``` ```yours secured data``` ```)```.
 
 # SQL queries and backup data
 
