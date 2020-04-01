@@ -12,8 +12,16 @@ Cinema Rest API project for
 - Applying Spring Security with JWT token
 
 #REQUESTS
+
 #SECURITY
--Djasypt.encryptor.password=@x8HcZsUlfdE
+In program <a href="http://www.jasypt.org/cli.html">Jasypt</a> encryption have been used to secure the direct input of the 
+sensitive data (credentials etc.). Idea was to encrypt this data using <a href="http://www.jasypt.org/cli.html">Jasypt</a> library.
+The encryption-decryption could be done using directly <a href="http://www.jasypt.org/cli.html">Jasypt</a> cli  or
+by using provided REST application 
+<a href="http://www.jasypt.org/cli.html">```https://github.com/DimaLumelskyj/password.generator.jasypt.git```</a>.
+The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` file into
+tag ```ENC(```<font color="red">```yours secured data```</font>```)```.
+
 # SQL queries and backup data
 
 Create database and user as follows, please setup password:
