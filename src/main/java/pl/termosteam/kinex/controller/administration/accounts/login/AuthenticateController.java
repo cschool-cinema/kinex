@@ -2,6 +2,8 @@ package pl.termosteam.kinex.controller.administration.accounts.login;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +25,14 @@ public class AuthenticateController {
 
     private final JwtToken jwtToken;
     private final UserService userService;
+    private final Logger logger = LoggerFactory.getLogger(AuthenticateController.class);
 
     @PostMapping(value = "authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequestDto authenticationRequest) {
         final User user = userService.loadUserByUsernameOrEmail(authenticationRequest.getUsername());
         if (Crypt.crypt(authenticationRequest.getPassword(), user.getSalt()).equals(user.getPassword())) {
             final String token = jwtToken.generateAuthenticationToken(user, new Date(System.currentTimeMillis()));
+            logger.info("AuthenticateController->createAuthenticationToken: has been generated for user " + user.getUsername());
             return ResponseEntity.ok(new JwtResponseDto(token));
         }
         throw new ValidationException("authentication problems: INVALID_CREDENTIALS");

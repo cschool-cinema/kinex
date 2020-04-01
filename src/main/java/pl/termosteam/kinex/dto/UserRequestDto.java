@@ -1,9 +1,6 @@
 package pl.termosteam.kinex.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.context.annotation.Configuration;
 import pl.termosteam.kinex.validation.CustomPassword;
 import pl.termosteam.kinex.validation.NameCheckByRegex;
@@ -16,6 +13,7 @@ import javax.validation.constraints.Email;
 @NoArgsConstructor
 @AllArgsConstructor
 @Configuration
+@ToString
 public class UserRequestDto {
 
     @NameCheckByRegex

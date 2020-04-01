@@ -2,6 +2,8 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,13 +28,16 @@ public class UserService implements UserDetailsService {
     private final JwtToken jwtTokenUtil;
     private final UserRepository userRepository;
     private final SendEmailService sendEmailService;
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        logger.trace("UserService->loadUserByUsername: usernameOrEmail" + usernameOrEmail);
         return loadUserByUsernameOrEmail(usernameOrEmail);
     }
 
     public User loadUserByUsernameOrEmail(String usernameOrEmail) throws UsernameNotFoundException {
+        logger.trace("UserService->loadUserByUsernameOrEmail: usernameOrEmail" + usernameOrEmail);
         User user;
         if (usernameOrEmail.contains("@")) {
             user = userRepository.findByEmail(usernameOrEmail);
@@ -50,6 +55,7 @@ public class UserService implements UserDetailsService {
                     + " has account validation time for " + user.getValidAccountTill() +
                     " and credentials validation time for " + user.getValidPasswordTill());
         }
+        logger.trace("UserService->loadUserByUsernameOrEmail: found user:\n" + user);
         return user;
     }
 
@@ -76,10 +82,12 @@ public class UserService implements UserDetailsService {
                 new Date(System.currentTimeMillis()));
         user.setInMemoryActivationToken(token);
         userRepository.save(user);
+        logger.info("Added user " + userRequestDTO.getUsername() + " with role " + ROLE);
         return Optional.of(user);
     }
 
     private void validateIfEmailAndUsernameExists(UserRequestDto userRequestDTO) {
+        logger.trace("UserService->validateIfEmailAndUsernameExists: userRequestDTO" + userRequestDTO);
         if (!ifUserAlreadyExistsAndDeleted(userRequestDTO.getUsername())) {
             if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
                 throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
@@ -95,6 +103,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void activateByToken(String usernameOrEmail, String token) {
+        logger.trace("UserService->activateByToken: activate user: " + usernameOrEmail + " with token " + token);
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
         if (!jwtTokenUtil.validateActivationToken(token, user.getActivationUUID())) {
             final String newToken = jwtTokenUtil.generateActivationToken(
@@ -110,7 +119,6 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean ifOwnerAlreadyExists() {
-
         return userRepository.existsByRole(Role.OWNER.toString());
     }
 
@@ -131,17 +139,10 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-    public UserDetails getUserDetailNotNullIfAuthenticated() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            return (UserDetails) principal;
-        }
-        return null;
-    }
-
     public User getUserNotNullIfAuthenticated() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
+
             return loadUserByUsernameOrEmail(((UserDetails) principal).getUsername());
         }
         return null;

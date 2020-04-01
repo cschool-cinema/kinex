@@ -1,6 +1,8 @@
 package pl.termosteam.kinex.controller.administration.accounts.login;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class ActivateController {
 
+    private final Logger logger = LoggerFactory.getLogger(ActivateController.class);
     private final UserService userService;
 
     @PostMapping(value = "activate")
@@ -23,6 +26,7 @@ public class ActivateController {
             @RequestBody @Valid JwtActivationRequestDto authenticationRequest) {
         userService.activateByToken(authenticationRequest.getUsername(),
                 authenticationRequest.getActivation_token());
+        logger.info("ActivateController->activateUserAccount: account activated for the username: " + authenticationRequest.getUsername());
         return ResponseEntity.ok("Account Activated");
     }
 }
