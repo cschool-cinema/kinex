@@ -51,6 +51,7 @@ public class RegisterController {
                 .body(registerService.registerUserWithRole(Role.MANAGER, userRequestDTO));
     }
 
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping("user")
     public ResponseEntity<String> createUser(@RequestBody @Valid UserRequestDto userRequestDTO) {
         log.trace("@PostMapping(\"user\"): starting");
