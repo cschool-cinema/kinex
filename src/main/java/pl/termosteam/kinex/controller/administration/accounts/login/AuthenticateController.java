@@ -37,4 +37,15 @@ public class AuthenticateController {
         }
         throw new ValidationException("authentication problems: INVALID_CREDENTIALS");
     }
+
+
+    @PostMapping(value = "authenticate/guest")
+    public ResponseEntity<?> createAuthenticationGuestToken() {
+
+        final User user = userService.loadUserByUsernameOrEmail("guest");
+        final String token = jwtToken.generateAuthenticationToken(user, new Date(System.currentTimeMillis()));
+        logger.info("AuthenticateController->createAuthenticationToken: has been generated for user " + user.getUsername());
+        return ResponseEntity.ok(new JwtResponseDto(token));
+
+    }
 }

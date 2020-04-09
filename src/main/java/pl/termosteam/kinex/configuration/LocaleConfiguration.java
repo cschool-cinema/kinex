@@ -14,7 +14,7 @@ import java.util.TimeZone;
 @RequiredArgsConstructor
 public class LocaleConfiguration {
 
-    private ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
     private final Environment env;
 
     @PostConstruct
