@@ -116,6 +116,7 @@ public class UserService implements UserDetailsService {
         }
         user.setEnabled(true);
         user.setActivatedAt(LocalDateTime.now());
+        userRepository.save(user);
     }
 
     public boolean ifOwnerAlreadyExists() {
@@ -148,4 +149,9 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
+    public void activateGuest(User guest) {
+        guest.setEnabled(true);
+        guest.setActivatedAt(LocalDateTime.now());
+        userRepository.save(guest);
+    }
 }
