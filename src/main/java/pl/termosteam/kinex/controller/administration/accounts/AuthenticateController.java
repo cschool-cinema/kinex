@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.controller.administration.accounts.login;
+package pl.termosteam.kinex.controller.administration.accounts;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;

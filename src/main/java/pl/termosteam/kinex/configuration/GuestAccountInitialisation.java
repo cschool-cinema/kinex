@@ -17,6 +17,8 @@ public class GuestAccountInitialisation {
 
     @PostConstruct
     void initGuestUser() {
+        if (userService.ifUserAlreadyExists("guest"))
+            return;
         userService.activateGuest(userService.addUserWithRole(Role.GUEST,
                 new UserRequestDto("guest",
                         "guest",

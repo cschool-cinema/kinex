@@ -2,6 +2,7 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.Crypt;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import pl.termosteam.kinex.configuration.jwt.JwtToken;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserRequestDto;
+import pl.termosteam.kinex.dto.UserResponseDto;
 import pl.termosteam.kinex.exception.ValidationException;
 import pl.termosteam.kinex.repository.UserRepository;
 
@@ -153,5 +155,71 @@ public class UserService implements UserDetailsService {
         guest.setEnabled(true);
         guest.setActivatedAt(LocalDateTime.now());
         userRepository.save(guest);
+    }
+
+    public UserResponseDto getUser(String usernameOrEmail) {
+
+        User userAuthenticated = getUserNotNullIfAuthenticated();
+        User userFromSearch = getUserByUsernameOrEmail(usernameOrEmail);
+
+        if (userAuthenticated.getRole().equals(Role.USER.getRole())) {
+            if (userAuthenticated.equals(userFromSearch)) {
+                return getUserResponseDto(userFromSearch);
+            }
+        }
+
+        if (userAuthenticated.getRole().equals(Role.MANAGER.getRole())) {
+            if (userAuthenticated.equals(userFromSearch) ||
+                    userFromSearch.getRole().equals(Role.USER.getRole())) {
+                return getUserResponseDto(userFromSearch);
+            }
+        }
+
+        if (userAuthenticated.getRole().equals(Role.ADMINISTRATOR.getRole())) {
+            if (userAuthenticated.equals(userFromSearch) ||
+                    userFromSearch.getRole().equals(Role.MANAGER.getRole()) ||
+                    userFromSearch.getRole().equals(Role.USER.getRole())) {
+                return getUserResponseDto(userFromSearch);
+            }
+        }
+
+        if (userAuthenticated.getRole().equals(Role.OWNER.getRole())) {
+            if (userAuthenticated.equals(userFromSearch) ||
+                    userFromSearch.getRole().equals(Role.ADMINISTRATOR.getRole()) ||
+                    userFromSearch.getRole().equals(Role.MANAGER.getRole()) ||
+                    userFromSearch.getRole().equals(Role.USER.getRole())) {
+                return getUserResponseDto(userFromSearch);
+            }
+        }
+
+        throw new ValidationException("Authenticated user " + userAuthenticated.getUsername()
+                + " with " + userAuthenticated.getRole()
+                + "don't have access to the account: " + usernameOrEmail);
+
+    }
+
+    UserResponseDto getUserResponseDto(User userFromSearch) {
+        return new UserResponseDto(userFromSearch.getFirstName(),
+                userFromSearch.getLastName(),
+                userFromSearch.getUsername(),
+                userFromSearch.getEmail());
+    }
+
+    User getUserByUsernameOrEmail(String usernameOrEmail) {
+        User userFromSearch;
+        if (usernameOrEmail.contains("@")) {
+            userFromSearch = userRepository.findByEmail(usernameOrEmail);
+        } else {
+            userFromSearch = userRepository.findByUsername(usernameOrEmail);
+        }
+        if (userFromSearch == null) {
+            throw new ObjectNotFoundException("There is no user with such email or username", usernameOrEmail);
+        }
+        return userFromSearch;
+
+    }
+
+    public boolean ifUserAlreadyExists(String username) {
+        return userRepository.existsByUsername(username);
     }
 }

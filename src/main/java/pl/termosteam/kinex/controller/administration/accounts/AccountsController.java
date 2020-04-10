@@ -1,16 +1,19 @@
 package pl.termosteam.kinex.controller.administration.accounts;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.termosteam.kinex.dto.UserResponseDto;
+import pl.termosteam.kinex.service.UserService;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/admin/account")
 public class AccountsController {
+    private final UserService userService;
     /*
      * CRUD:
      *   create (Insert) -> POST REST API    -> account registration
@@ -28,9 +31,9 @@ public class AccountsController {
      **/
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping
-    public UserResponseDto getUserInformation() {
-        return null;
+    @GetMapping(path = "user/{usernameOrEmail}")
+    public UserResponseDto getUserInformation(@PathVariable String usernameOrEmail) {
+        return userService.getUser(usernameOrEmail);
     }
 
     /*

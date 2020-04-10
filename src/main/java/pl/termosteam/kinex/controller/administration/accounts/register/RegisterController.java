@@ -1,4 +1,4 @@
-package pl.termosteam.kinex.controller.administration.accounts.login;
+package pl.termosteam.kinex.controller.administration.accounts.register;
 
 
 import lombok.AllArgsConstructor;
