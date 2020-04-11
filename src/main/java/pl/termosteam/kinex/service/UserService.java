@@ -52,6 +52,11 @@ public class UserService implements UserDetailsService {
                 throw new UsernameNotFoundException("User not found with username: " + usernameOrEmail);
             }
         }
+        if (user.isDeleted()) {
+            throw new ValidationException("User: " + user.getUsername()
+                    + " has deleted account");
+        }
+
         if (!user.isAccountNonExpired() && !user.isCredentialsNonExpired()) {
             throw new ValidationException("User: " + user.getUsername()
                     + " has account validation time for " + user.getValidAccountTill() +
@@ -258,7 +263,7 @@ public class UserService implements UserDetailsService {
 
     private void validatePermissionsToUpdate(User userAuthenticated, User userFromSearch) {
         if (!(userAuthenticated.getRole().equals(Role.ADMINISTRATOR.getRole()) &&
-                (userFromSearch.getRole().equals(Role.MANAGER.getRole()) ||
+                !(userFromSearch.getRole().equals(Role.MANAGER.getRole()) ||
                         userFromSearch.getRole().equals(Role.USER.getRole())))) {
             throw new ValidationException("ADMINISTRATOR not allowed to modify another ADMINISTRATOR or OWNER");
         }
@@ -306,4 +311,39 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public String delete() {
+        User userAuthenticated = getUserNotNullIfAuthenticated();
+        userAuthenticated.setDeleted(true);
+        userAuthenticated.setValidAccountTill(LocalDateTime.now());
+        userAuthenticated.setValidPasswordTill(LocalDateTime.now());
+        userRepository.save(userAuthenticated);
+        return "Account with username \"" + userAuthenticated.getUsername() + "\" has been deleted";
+    }
+
+    public String delete(String usernameOrEmail) {
+        User userAuthenticated = getUserNotNullIfAuthenticated();
+        User userFromSearch = getUserByUsernameOrEmail(usernameOrEmail);
+
+        if (userAuthenticated.equals(userFromSearch)) {
+            userAuthenticated.setDeleted(true);
+            userAuthenticated.setValidAccountTill(LocalDateTime.now());
+            userAuthenticated.setValidPasswordTill(LocalDateTime.now());
+            userRepository.save(userAuthenticated);
+            return "Account with username \"" + userAuthenticated.getUsername() + "\" has been deleted";
+        }
+
+        if (userAuthenticated.getRole().equals(Role.ADMINISTRATOR.getRole()) ||
+                userAuthenticated.getRole().equals(Role.OWNER.getRole())) {
+            validatePermissionsToUpdate(userAuthenticated, userFromSearch);
+            userFromSearch.setDeleted(true);
+            userAuthenticated.setValidAccountTill(LocalDateTime.now());
+            userAuthenticated.setValidPasswordTill(LocalDateTime.now());
+            userRepository.save(userFromSearch);
+            return "Account with username \"" + userFromSearch.getUsername() + "\" has been deleted by " + userAuthenticated.getUsername();
+        }
+
+        throw new ValidationException("Authenticated user " + userAuthenticated.getUsername()
+                + " with " + userAuthenticated.getRole()
+                + "don't have access to update the another account");
+    }
 }

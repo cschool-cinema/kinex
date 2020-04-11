@@ -25,7 +25,7 @@ During first run ```USER``` needs to register application ```OWNER``` account. T
 4. User can authenticate with provided credentials 
 5. If authentication is succeed, user receive jwt token for using api. Now user can perform all possible actions described in postman requests provided in folder ```POSTMAN``` 
 
-After OWNER is registered REST API allows to register and manage all other possible roles:
+After OWNER is registered REST API allows registering and manage all other possible roles:
 ```
     1. USER
     2. MANAGER
@@ -61,12 +61,12 @@ git clone https://github.com/cschool-cinema/kinex.git
 ```
 
 ### SECURITY
-In program <a href="http://www.jasypt.org/cli.html">Jasypt</a> encryption have been used to secure the direct input of the 
+In the program <a href="http://www.jasypt.org/cli.html">Jasypt</a> encryption have been used to secure the direct input of the 
 sensitive data (credentials etc.). Idea was to encrypt this data using <a href="http://www.jasypt.org/cli.html">Jasypt</a> library.
 The encryption-decryption could be done using directly <a href="http://www.jasypt.org/cli.html">Jasypt</a> cli  or
 by using provided REST application 
 <a href="http://www.jasypt.org/cli.html">```https://github.com/DimaLumelskyj/password.generator.jasypt.git```</a>.
-The result of the following rest api is table with provided secret and decrypted and encrypted text: 
+The result of the following rest api is the table with provided secret and decrypted and encrypted text: 
 
 | Secret password | @x8HcZsUlfdE  |         
 | -------------   |:-------------:|
@@ -94,14 +94,23 @@ Data for the working sample program setup:
     ```
 
  - JWT secret password is ```j2uMNsCBQPvA8rQX```
-
+ - Secret password can be passed in two ways:
+    - by argument `-Djasypt.encryptor.password=@x8HcZsUlfdE` 
+    - as option in maven `pom.xml`
+    ```
+        <configuration>
+            <jvmArguments>
+                -Djasypt.encryptor.password=@x8HcZsUlfdE
+            </jvmArguments>
+        </configuration>
+    ```
 ### Database setup, SQL queries and functions
 
 - Run from the <a href="https://github.com/cschool-cinema/kinex/tree/master/sql">folder</a> ```create-user-and-db.sql``` and next ```functions.sql``` or copy and run in PSQL terminal.
     - Use DROP option if you want clean database creation.
     
 - SQL files provided in the folder ```sql```.
-    - Create database and user as follows, please choose your own credentials:
+    - Create the database and user as follows, please choose your own credentials:
     
         ```
         DROP USER IF EXISTS kinex_user;
@@ -166,23 +175,45 @@ Data for the working sample program setup:
 
 This Spring Boot application can be started in a few ways
 
+In all cases please add VM option with the master decryption password or add in pom.xml during development and testing. 
+ 
 Using IDEA
 
 ```
+Set the VM options: -Djasypt.encryptor.password=@x8HcZsUlfdE
 Run the main method from Kinex application (KinexApplication.main())
 ```
 
 Packaging the application as a JAR and run it
 ```
-mvn clean package && java -jar target/kinex-0.0.1-SNAPSHOT.jar
+mvn clean package && java -jar target/kinex-0.0.1-SNAPSHOT.jar -Djasypt.encryptor.password=@x8HcZsUlfdE
 ```
 
 Using Maven Spring Boot plugin
 ```
 mvn spring-boot:run
 ```
+##TEST DATA
+User test data in `data.sql`: 
 
-
+```
+all users have the same password: @sdRda27dDF
+```
+```
++--------+------------------+
+|username|role              |
++--------+------------------+
+|guest   |ROLE_GUEST        | 
+|Vobek   |ROLE_OWNER        |
+|Dobek   |ROLE_OWNER        |
+|Gobek   |ROLE_ADMINISTRATOR|
+|Nobek   |ROLE_MANAGER      |
+|Sobek   |ROLE_MANAGER      |
+|Pobek   |ROLE_ADMINISTRATOR|
+|Kobek   |ROLE_USER         |
+|Hobek   |ROLE_USER         |
++--------+------------------+
+```
 ## Authors
 * [Paweł Szopinski]
 * [Dmytro Lumelskyj] 
