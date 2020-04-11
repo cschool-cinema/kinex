@@ -246,6 +246,7 @@ public class UserService implements UserDetailsService {
 
         if (userAuthenticated.getRole().equals(Role.ADMINISTRATOR.getRole()) ||
                 userAuthenticated.getRole().equals(Role.OWNER.getRole())) {
+            validatePermissionsToUpdate(userAuthenticated, userFromSearch);
             validateUsernameAndEmailForUpdateData(userRequestDTO, userFromSearch);
             return updateUserData(userFromSearch, userRequestDTO);
         }
@@ -253,6 +254,20 @@ public class UserService implements UserDetailsService {
         throw new ValidationException("Authenticated user " + userAuthenticated.getUsername()
                 + " with " + userAuthenticated.getRole()
                 + "don't have access to update the another account");
+    }
+
+    private void validatePermissionsToUpdate(User userAuthenticated, User userFromSearch) {
+        if (!(userAuthenticated.getRole().equals(Role.ADMINISTRATOR.getRole()) &&
+                (userFromSearch.getRole().equals(Role.MANAGER.getRole()) ||
+                        userFromSearch.getRole().equals(Role.USER.getRole())))) {
+            throw new ValidationException("ADMINISTRATOR not allowed to modify another ADMINISTRATOR or OWNER");
+        }
+        if (!(userAuthenticated.getRole().equals(Role.OWNER.getRole()) &&
+                (userFromSearch.getRole().equals(Role.ADMINISTRATOR.getRole()) ||
+                        userFromSearch.getRole().equals(Role.MANAGER.getRole()) ||
+                        userFromSearch.getRole().equals(Role.USER.getRole())))) {
+            throw new ValidationException("ADMINISTRATOR not allowed to modify another OWNER");
+        }
     }
 
     private void validateUsernameAndEmailForUpdateData(UserRequestDto userRequestDTO, User userFromSearch) {
