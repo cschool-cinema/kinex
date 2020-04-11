@@ -2,12 +2,14 @@ package pl.termosteam.kinex.configuration.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
 @Configuration
 @Getter
+@ConfigurationProperties(prefix = "validation")
 public class PasswordPatternConfiguration {
     @Value("${validation.password.length.max.rule}")
     private int lengthMaxRule;

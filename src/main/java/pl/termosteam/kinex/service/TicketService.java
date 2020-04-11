@@ -18,6 +18,7 @@ import pl.termosteam.kinex.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.SCREENING_NOT_FOUND;
@@ -79,7 +80,7 @@ public class TicketService {
 
         List<Seat> availableSeatsList = seatService.findAvailableSeatsForScreening(screening.getId());
         Map<Integer, Seat> availableSeatsMap = availableSeatsList.stream().collect(
-                Collectors.toMap(Seat::getId, seat -> seat));
+                Collectors.toMap(Seat::getId, Function.identity()));
 
         List<Seat> selectedSeatsList = new ArrayList<>();
 

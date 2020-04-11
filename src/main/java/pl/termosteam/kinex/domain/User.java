@@ -73,6 +73,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isAuthenticated;
 
+    @Column()
+    private boolean isDeleted = false;
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -84,9 +87,6 @@ public class User implements UserDetails {
     private LocalDateTime validPasswordTill;
 
     private LocalDateTime activatedAt;
-
-    @OneToMany(mappedBy = "user")
-    private List<ActivityLog> activityLogs;
 
     @Transient
     private String inMemoryActivationToken;

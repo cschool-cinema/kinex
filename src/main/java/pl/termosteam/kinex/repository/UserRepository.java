@@ -10,11 +10,13 @@ import pl.termosteam.kinex.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User findByEmail(String usernameOrEmail);
+    User findByEmail(String email);
 
-    User findByUsername(String usernameOrEmail);
+    User findByUsername(String username);
 
-    boolean existsByUsername(String userName);
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
 
     boolean existsByRole(String role);
 
