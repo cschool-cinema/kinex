@@ -18,12 +18,10 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <querydsl.version>4.1.4</querydsl.version>
         <modelmapper.version>2.3.6</modelmapper.version>
         <jjwt.version>0.9.1</jjwt.version>
         <jasypt-spring-boot-starter.version>3.0.0</jasypt-spring-boot-starter.version>
         <passay.version>1.0</passay.version>
-        <guava.version>28.2-jre</guava.version>
         <commons-codec.version>1.13</commons-codec.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-collections4.version>4.1</commons-collections4.version>
@@ -79,25 +77,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>${modelmapper.version}</version>
@@ -119,12 +98,6 @@
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>
             <version>${passay.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
         </dependency>
 
         <dependency>
@@ -177,6 +150,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        -Djasypt.encryptor.password=@x8HcZsUlfdE
+                    </jvmArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
