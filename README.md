@@ -179,6 +179,8 @@ In all cases please add VM option with the master decryption password or add in 
  
 Using IDEA
 
+The text `@x8HcZsUlfdE` is yours sample master password.
+
 ```
 Set the VM options: -Djasypt.encryptor.password=@x8HcZsUlfdE
 Run the main method from Kinex application (KinexApplication.main())
