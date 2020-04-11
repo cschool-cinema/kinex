@@ -1,10 +1,9 @@
 package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.Crypt;
 import org.hibernate.ObjectNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,23 +22,24 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
+@Transactional
 @Service(value = "userService")
 @AllArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final JwtToken jwtTokenUtil;
     private final UserRepository userRepository;
     private final SendEmailService sendEmailService;
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        logger.trace("UserService->loadUserByUsername: usernameOrEmail" + usernameOrEmail);
+        log.trace("UserService->loadUserByUsername: usernameOrEmail" + usernameOrEmail);
         return loadUserByUsernameOrEmail(usernameOrEmail);
     }
 
     public User loadUserByUsernameOrEmail(String usernameOrEmail) throws UsernameNotFoundException {
-        logger.trace("UserService->loadUserByUsernameOrEmail: usernameOrEmail" + usernameOrEmail);
+        log.trace("UserService->loadUserByUsernameOrEmail: usernameOrEmail" + usernameOrEmail);
         User user;
         if (usernameOrEmail.contains("@")) {
             user = userRepository.findByEmail(usernameOrEmail);
@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
                     + " has account validation time for " + user.getValidAccountTill() +
                     " and credentials validation time for " + user.getValidPasswordTill());
         }
-        logger.trace("UserService->loadUserByUsernameOrEmail: found user:\n" + user);
+        log.trace("UserService->loadUserByUsernameOrEmail: found user:\n" + user);
         return user;
     }
 
@@ -84,28 +84,28 @@ public class UserService implements UserDetailsService {
                 new Date(System.currentTimeMillis()));
         user.setInMemoryActivationToken(token);
         userRepository.save(user);
-        logger.info("Added user " + userRequestDTO.getUsername() + " with role " + ROLE);
+        log.info("Added user " + userRequestDTO.getUsername() + " with role " + ROLE);
         return Optional.of(user);
     }
 
     private void validateIfEmailAndUsernameExists(UserRequestDto userRequestDTO) {
-        logger.trace("UserService->validateIfEmailAndUsernameExists: userRequestDTO" + userRequestDTO);
+        log.trace("UserService->validateIfEmailAndUsernameExists: userRequestDTO" + userRequestDTO);
         if (!ifUserAlreadyExistsAndDeleted(userRequestDTO.getUsername())) {
             if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
                 throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
-                        "\" already registered. Please authenticate.");
+                        "\" already registered. Please authenticate to perform action.");
             }
 
             if (ifUsernameAlreadyExists(userRequestDTO.getUsername())) {
                 throw new ValidationException("Username \"" + userRequestDTO.getUsername() +
-                        "\" already registered. Please authenticate.");
+                        "\" already registered. Please authenticate to perform action.");
             }
         }
     }
 
     @Transactional
     public void activateByToken(String usernameOrEmail, String token) {
-        logger.trace("UserService->activateByToken: activate user: " + usernameOrEmail + " with token " + token);
+        log.trace("UserService->activateByToken: activate user: " + usernameOrEmail + " with token " + token);
         User user = loadUserByUsernameOrEmail(usernameOrEmail);
         if (!jwtTokenUtil.validateActivationToken(token, user.getActivationUUID())) {
             final String newToken = jwtTokenUtil.generateActivationToken(
@@ -157,7 +157,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(guest);
     }
 
-    public UserResponseDto getUser(String usernameOrEmail) {
+    public UserResponseDto get(String usernameOrEmail) {
 
         User userAuthenticated = getUserNotNullIfAuthenticated();
         User userFromSearch = getUserByUsernameOrEmail(usernameOrEmail);
@@ -222,4 +222,73 @@ public class UserService implements UserDetailsService {
     public boolean ifUserAlreadyExists(String username) {
         return userRepository.existsByUsername(username);
     }
+
+    public String update(UserRequestDto userRequestDTO) {
+        User userAuthenticated = getUserNotNullIfAuthenticated();
+        User userFromSearch = getUserByUsernameOrEmail(userRequestDTO.getUsername());
+
+        if (userAuthenticated.equals(userFromSearch)) {
+            return updateUserData(userFromSearch, userRequestDTO);
+        }
+
+        throw new ValidationException("Authenticated user " + userAuthenticated.getUsername()
+                + " with " + userAuthenticated.getRole()
+                + "don't have access to update the another account");
+    }
+
+    public String update(UserRequestDto userRequestDTO, String usernameOrEmail) {
+        User userAuthenticated = getUserNotNullIfAuthenticated();
+        User userFromSearch = getUserByUsernameOrEmail(usernameOrEmail);
+
+        if (userAuthenticated.equals(userFromSearch)) {
+            return updateUserData(userFromSearch, userRequestDTO);
+        }
+
+        if (userAuthenticated.getRole().equals(Role.ADMINISTRATOR.getRole()) ||
+                userAuthenticated.getRole().equals(Role.OWNER.getRole())) {
+            validateUsernameAndEmailForUpdateData(userRequestDTO, userFromSearch);
+            return updateUserData(userFromSearch, userRequestDTO);
+        }
+
+        throw new ValidationException("Authenticated user " + userAuthenticated.getUsername()
+                + " with " + userAuthenticated.getRole()
+                + "don't have access to update the another account");
+    }
+
+    private void validateUsernameAndEmailForUpdateData(UserRequestDto userRequestDTO, User userFromSearch) {
+        if (!userRequestDTO.getUsername().equals(userFromSearch.getUsername()) &&
+                ifUsernameAlreadyExists(userRequestDTO.getUsername()))
+            throw new ValidationException("Username \"" + userRequestDTO.getUsername() +
+                    "\" already registered. Please authenticate to perform action.");
+        if (!userRequestDTO.getEmail().equals(userFromSearch.getEmail()) &&
+                ifEmailAlreadyExists(userRequestDTO.getEmail()))
+            throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
+                    "\" already registered. Please authenticate to perform action.");
+    }
+
+    private String updateUserData(User userFromSearch, UserRequestDto userRequestDTO) {
+        userFromSearch.setFirstName(userRequestDTO.getFirstName());
+        userFromSearch.setLastName(userRequestDTO.getLastName());
+        userFromSearch.setUsername(userRequestDTO.getUsername());
+        userFromSearch.setPassword(Crypt.crypt(userRequestDTO.getPassword(), userFromSearch.getSalt()));
+        userRepository.save(userFromSearch);
+        return "User " + userFromSearch.getUsername() + " data has been updated";
+    }
+
+
+    private void validateIfEmailAndUsernameExists(UserRequestDto userRequestDTO, String usernameToUpdate) {
+        log.trace("UserService->validateIfEmailAndUsernameExists: userRequestDTO" + userRequestDTO + " of user " + usernameToUpdate);
+        if (!ifUserAlreadyExistsAndDeleted(usernameToUpdate)) {
+            if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
+                throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
+                        "\" already registered. Please authenticate to perform action.");
+            }
+
+            if (ifUsernameAlreadyExists(userRequestDTO.getUsername())) {
+                throw new ValidationException("Username \"" + userRequestDTO.getUsername() +
+                        "\" already registered. Please authenticate to perform action.");
+            }
+        }
+    }
+
 }

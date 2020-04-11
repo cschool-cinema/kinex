@@ -2,12 +2,12 @@ package pl.termosteam.kinex.controller.administration.accounts;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.termosteam.kinex.dto.UserRequestDto;
 import pl.termosteam.kinex.dto.UserResponseDto;
 import pl.termosteam.kinex.service.UserService;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,18 +22,22 @@ public class AccountsController {
      *   delete (Delete) -> DELETE REST API  -> delete account
      */
 
-    /*
-     *  GET REST API:
-     *  1. USER can get only his account
-     *  2. MANAGER can get only his account
-     *  3. ADMINISTRATOR can get only his account or MANAGERS or USERS
-     *  4. OWNER can do anything with account's information's
-     **/
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(path = "user/{usernameOrEmail}")
     public UserResponseDto getUserInformation(@PathVariable String usernameOrEmail) {
-        return userService.getUser(usernameOrEmail);
+        return userService.get(usernameOrEmail);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping(path = "user")
+    public String putUserInformation(@RequestBody @Valid UserRequestDto userRequestDTO) {
+        return userService.update(userRequestDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping(path = "user/{usernameOrEmail}")
+    public String putUserInformation(@RequestBody @Valid UserRequestDto userRequestDTO, @PathVariable String usernameOrEmail) {
+        return userService.update(userRequestDTO, usernameOrEmail);
     }
 
     /*
