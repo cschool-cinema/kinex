@@ -55,22 +55,19 @@ Lombok plugin for IDEA
 ```
 
 ### SECURITY
-
-In order to hide the explicit entering of passwords in the program options,
-the automatic encryption-decryption function of the passwords was used. 
-The  library <a href="http://www.jasypt.org/cli.html">Jasypt</a> added to project dependency pom.xml for this purpose.
-The encryption-decryption could be done using directly <a href="http://www.jasypt.org/cli.html">Jasypt</a> cli  or
-by using provided external application <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```REST API (GitHub link)``` </a>.
-The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` 
+To hide the explicit entering of passwords and usernames in the program options, 
+the <a href="http://www.jasypt.org/cli.html">`Jasypt`</a> library is used for the automatic encryption-decryption function.  
+The encryption-decryption could be done using <a href="http://www.jasypt.org/cli.html">`Jasypt CLI`</a> or directly by using the provided external application <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```REST API (GitHub link)``` </a>. The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` 
 file inside tag ```ENC(``` ```yours encrypted data``` ```)```.
 
 #### Example of use:
 
-- Input: sample property to encrypt in raw unencrypted form - `sample.option.in.application.properties=@Java2019`
+- Sample property to encrypt text value in raw unencrypted form - `sample.option.in.application.properties=@Java2019`
 
 Action sequence to secure/hide the desired application property is as follows:
 
-  1. encrypt the property value, for example `@Java2019` using encryption password `@x8HcZsUlfdE`.
+  1. encrypt the property value by some master password,
+   <br/>for example `@Java2019` using encryption password `@x8HcZsUlfdE`.
   <br/>The result of the following <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```REST API (GitHub link)``` </a> is the table with provided secret and decrypted and encrypted text: 
 
      | Secret password | @x8HcZsUlfdE  |         
@@ -83,8 +80,9 @@ Action sequence to secure/hide the desired application property is as follows:
 - Encrypted property: - `sample.option.in.application.properties=ENC(O8PUiDHzgAKmzQpKap+zxqnltgfMhxpI373/nnhghxjLuMJHyOuV8ya9tG9QM0TX)`     
 
 ### APPLICATIONS PROPERTIES
-All app configuration is in `application.properties` file inside `resources` folder.
-Information about encrypted password is in SECURITY section of this readme. 
+All app configuration is in the`application.properties` file inside the `resources` folder.
+Information about the encrypted password is in the SECURITY section of this readme. 
+For testing purposes, it is unnecessary to use an encrypted form of the passwords. Only in the production version, it is admissible to use an encrypted form of passwords. 
 The properties are in several categories. Most important properties are:
 - INITIAL SETUP
     - `application.timezone=UTC` \- application works in UTC timezone
@@ -101,21 +99,21 @@ The properties are in several categories. Most important properties are:
     see <a href="https://docs.spring.io/spring-boot/docs/1.0.x/reference/html/howto-database-initialization.html">documentation <a/>
     - `spring.datasource.data=classpath:insert-test-data.sql` \- it is an option to set the test data file (SQL inserts), comment in the case of clean run
 - EMAIL SEND SETUP        
-  - `spring.mail.host=smtp.mailtrap.io` smtp email server address
-  - `spring.mail.port=2525` port
-  - `spring.mail.username=ENC( ENCRYPTED JWT PASSWORD )` username for email connection
-  - `spring.mail.password=ENC( ENCRYPTED JWT PASSWORD )` password for email connection <a></a>
+  - `spring.mail.host=smtp.mailtrap.io` - smtp email server address
+  - `spring.mail.port=2525` - port
+  - `spring.mail.username=ENC( ENCRYPTED JWT PASSWORD )` - username for email connection
+  - `spring.mail.password=ENC( ENCRYPTED JWT PASSWORD )`  - password for email connection <a></a>
 - PATTERN VALIDATION PROPERTIES
    - username validation regular expression checks if text is alphanumeric, starts with an alphabet and contains no special characters other than underscore or dash. Number of characters between 6 and 15.
   
    <a href="https://regexper.com/#%28%5E%28%5Ba-zA-Z%5D%29%5Ba-zA-Z_-%5D*%5B%5Cw_-%5D*%5B%5CS%5D%24%7C%5E%28%5Ba-zA-Z%5D%29%5B0-9_-%5D*%5B%5CS%5D%24%7C%5E%5Ba-zA-Z%5D*%5B%5CS%5D%7B6%2C15%7D%29%24">
-    <img src="username_regexp.svg" alt="username regexp" width="500"/>
+    <img src="username_regexp.svg" alt="username regexp" width="600"/>
    </a>
   
    - name validation regular expression checks if text is only alphabet characters begging from a big letter. Number of characters between 2 and 35.
   
   <a href="https://regexper.com/#%28%5E%28%5Ba-zA-Z%5D%29%5Ba-zA-Z_-%5D*%5B%5Cw_-%5D*%5B%5CS%5D%24%7C%5E%28%5Ba-zA-Z%5D%29%5B0-9_-%5D*%5B%5CS%5D%24%7C%5E%5Ba-zA-Z%5D*%5B%5CS%5D%7B6%2C15%7D%29%24">
-       <img src="names_regexp.svg" alt="username regexp" width="300"/>
+       <img src="names_regexp.svg" alt="username regexp" width="270"/>
    </a>
 
 https://regexper.com/#%5E%28%5BA-Z%5D%5Ba-z%5D%29%7B2%2C15%7D%24
