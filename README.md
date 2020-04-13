@@ -87,25 +87,35 @@ All app configuration is in `application.properties` file inside `resources` fol
 Information about encrypted password is in SECURITY section of this readme. 
 The properties are in several categories. Most important properties are:
 - INITIAL SETUP
-    - `application.timezone=UTC` - application works in UTC timezone
-    - `server.port=8080` - definition of the port on which app works
+    - `application.timezone=UTC` \- application works in UTC timezone
+    - `server.port=8080` \- definition of the port on which app works
 - SECURITY SETUP
-    - `jwt.token.validity.time.minutes=300` - defines validity time of the authorisation token
-    - `jwt.token.validity.activation.time.minutes=25` - defines validity time of the account activation token
-    - `jwt.secret={bcrypt}ENC( ENCRYPTED JWT PASSWORD )` - secret for JWT token encryption/decryption 
+    - `jwt.token.validity.time.minutes=300` \- defines validity time of the authorisation token
+    - `jwt.token.validity.activation.time.minutes=25` \- defines validity time of the account activation token
+    - `jwt.secret={bcrypt}ENC( ENCRYPTED JWT PASSWORD )` \- secret for JWT token encryption/decryption 
 - DATABASE SETUP
-    - `spring.datasource.url` - url and port of working postgres DB 
-    - `spring.datasource.username=ENC( ENCRYPTED JWT PASSWORD )` - username for DB connection
-    - `spring.datasource.password=ENC( ENCRYPTED JWT PASSWORD )` - password for DB connection
-    - `spring.jpa.hibernate.ddl-auto=create` - in developer mode we use option `create`, in production we propose use `none` or `update` option
+    - `spring.datasource.url` -- url and port of working postgres DB 
+    - `spring.datasource.username=ENC( ENCRYPTED JWT PASSWORD )` \- username for DB connection
+    - `spring.datasource.password=ENC( ENCRYPTED JWT PASSWORD )` \- password for DB connection
+    - `spring.jpa.hibernate.ddl-auto=create` \- in developer mode we use option `create`, in production we propose use `none` or `update` option
     see <a href="https://docs.spring.io/spring-boot/docs/1.0.x/reference/html/howto-database-initialization.html">documentation <a/>
-    - `spring.datasource.data=classpath:insert-test-data.sql` - it is an option to set the test data file (SQL inserts), comment in the case of clean run
+    - `spring.datasource.data=classpath:insert-test-data.sql` \- it is an option to set the test data file (SQL inserts), comment in the case of clean run
 - EMAIL SEND SETUP        
-  - `spring.mail.host=smtp.mailtrap.io` - smtp email server address
-  - `spring.mail.port=2525` - port
-  - `spring.mail.username=ENC( ENCRYPTED JWT PASSWORD )` - username for email connection
-  - `spring.mail.password=ENC( ENCRYPTED JWT PASSWORD )` - password for email connection
+  - `spring.mail.host=smtp.mailtrap.io` smtp email server address
+  - `spring.mail.port=2525` port
+  - `spring.mail.username=ENC( ENCRYPTED JWT PASSWORD )` username for email connection
+  - `spring.mail.password=ENC( ENCRYPTED JWT PASSWORD )` password for email connection <a></a>
+- PATTERN VALIDATION PROPERTIES
+   - username validation regular expression checks if text is alphanumeric, starts with an alphabet and contains no special characters other than underscore or dash. Number of characters between 6 and 15.
+   <a href="https://regexper.com/#%28%5E%28%5Ba-zA-Z%5D%29%5Ba-zA-Z_-%5D*%5B%5Cw_-%5D*%5B%5CS%5D%24%7C%5E%28%5Ba-zA-Z%5D%29%5B0-9_-%5D*%5B%5CS%5D%24%7C%5E%5Ba-zA-Z%5D*%5B%5CS%5D%7B6%2C15%7D%29%24">
+    <img src="username_regexp.svg" alt="username regexp" width="200"/>
+   </a>
+   - name validation regular expression checks if text is only alphabet characters begging from a big letter. Number of characters between 2 and 35.
+   <br/><a href="https://regexper.com/#%28%5E%28%5Ba-zA-Z%5D%29%5Ba-zA-Z_-%5D*%5B%5Cw_-%5D*%5B%5CS%5D%24%7C%5E%28%5Ba-zA-Z%5D%29%5B0-9_-%5D*%5B%5CS%5D%24%7C%5E%5Ba-zA-Z%5D*%5B%5CS%5D%7B6%2C15%7D%29%24">
+       <img src="username_regexp.svg" alt="username regexp" width="200"/>
+   </a>
 
+https://regexper.com/#%5E%28%5BA-Z%5D%5Ba-z%5D%29%7B2%2C15%7D%24
 #### Email test data
 
 As an email service provider <a href="https://mailtrap.io/">mailtrap.io</a> is used.

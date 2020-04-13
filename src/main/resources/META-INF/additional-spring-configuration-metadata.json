@@ -66,14 +66,39 @@
       "description": "Description for validation.password.qwerty.sequence.rule."
     },
     {
-      "name": "validation.regexp.pattern.username",
-      "type": "java.lang.String",
-      "description": "Description for validation.regexp.pattern.username."
-    },
-    {
       "name": "validation.regexp.pattern.name",
       "type": "java.lang.String",
       "description": "Description for validation.regexp.pattern.name."
+    },
+    {
+      "name": "validation.pattern.username.regexp",
+      "type": "java.lang.String",
+      "description": "Description for validation.pattern.username.regexp."
+    },
+    {
+      "name": "validation.pattern.name.regexp",
+      "type": "java.lang.String",
+      "description": "Description for validation.pattern.name.regexp."
+    },
+    {
+      "name": "business.break-after-screening",
+      "type": "java.lang.String",
+      "description": "Description for business.break-after-screening."
+    },
+    {
+      "name": "business.can-check-min-after-screening-start",
+      "type": "java.lang.String",
+      "description": "Description for business.can-check-min-after-screening-start."
+    },
+    {
+      "name": "business.can-reserve-min-after-screening-start",
+      "type": "java.lang.String",
+      "description": "Description for business.can-reserve-min-after-screening-start."
+    },
+    {
+      "name": "business.can-reserve-max-seats",
+      "type": "java.lang.String",
+      "description": "Description for business.can-reserve-max-seats."
     }
   ]
 }

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Configuration
 @Getter
 public class RegexPatternConfiguration {
-    @Value("${validation.regexp.pattern.name}")
+    @Value("${validation.pattern.name.regexp}")
     private String namePattern;
-    @Value("${validation.regexp.pattern.username}")
+    @Value("${validation.pattern.username.regexp}")
     private String usernamePattern;
 }
