@@ -58,15 +58,15 @@ Lombok plugin for IDEA
 
 In order to hide the explicit entering of passwords in the program options,
 the automatic encryption-decryption function of the passwords was used. 
-The  <a href="http://www.jasypt.org/cli.html">Jasypt</a> added to project dependency pom.xml for this purpose.
+The  library <a href="http://www.jasypt.org/cli.html">Jasypt</a> added to project dependency pom.xml for this purpose.
 The encryption-decryption could be done using directly <a href="http://www.jasypt.org/cli.html">Jasypt</a> cli  or
-by using provided REST application <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```https://github.com/DimaLumelskyj/password.generator.jasypt.git``` </a>.
+by using provided external application <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```REST API (GitHub link)``` </a>.
 The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` 
 file inside tag ```ENC(``` ```yours encrypted data``` ```)```.
 
-####Example of use:
+#### Example of use:
 
-- Input: sample property to encrypt - `sample.option.in.application.properties=@Java2019`
+- Input: sample property to encrypt in raw unencrypted form - `sample.option.in.application.properties=@Java2019`
 
 Action sequence to secure/hide the desired application property is as follows:
 
@@ -131,7 +131,7 @@ Sample credentials for test account is ass follows:
     
 Comment: `this data provided only in testing purposes, number of emails limited to 50, please make own account if currrent will not work.`       
 
-####Secured data in application properties
+#### Secured data in application properties
 
 Here is the sample test passwords which used in the program to run the test case:
 
