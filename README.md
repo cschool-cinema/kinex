@@ -112,7 +112,7 @@ The properties are in several categories. Most important properties are:
    </a>
    - name validation regular expression checks if text is only alphabet characters begging from a big letter. Number of characters between 2 and 35.
    <br/><a href="https://regexper.com/#%28%5E%28%5Ba-zA-Z%5D%29%5Ba-zA-Z_-%5D*%5B%5Cw_-%5D*%5B%5CS%5D%24%7C%5E%28%5Ba-zA-Z%5D%29%5B0-9_-%5D*%5B%5CS%5D%24%7C%5E%5Ba-zA-Z%5D*%5B%5CS%5D%7B6%2C15%7D%29%24">
-       <img src="username_regexp.svg" alt="username regexp" width="200"/>
+       <img src="names_regexp.svg" alt="username regexp" width="200"/>
    </a>
 
 https://regexper.com/#%5E%28%5BA-Z%5D%5Ba-z%5D%29%7B2%2C15%7D%24
