@@ -5,15 +5,15 @@
   <br>
 </h1>
 
-# Description
+# DESCRIPTION
 
 Cinema Rest API project for
 - Demonstrating the use of Hibernate and Spring Data JPA
 - Applying Spring Security with JWT token
 
-# REQUESTS
+### REQUESTS
 
-# Application sequence actions
+### APPLICATION SEQUENCE ACTIONS
 During first run ```USER``` needs to register application ```OWNER``` account. The sequence is as follows:
 
 During the test-development phase it is easy to use <a href="https://temp-mail.org/">https://temp-mail.org/</a> as a temporary email for the register in you want test this functionality. 
@@ -35,16 +35,16 @@ After OWNER is registered REST API allows registering and manage all other possi
     4. OWNER
 ```
 
-# Entity relationship diagram
+### ENTITY RELATIONSHIP DIAGRAM
 The ER diagram that fits domain classes looks as follows:
 
 <img src="ER-Diagram.svg" alt="ER-DIAGRAM" class="width: 25%;">
 
-# Getting Started
+# GETTING STARTED
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### PREREQUISITES
 
 ```
 Java JDK (8+)
@@ -54,58 +54,101 @@ PostgreSQL
 Lombok plugin for IDEA
 ```
 
-### Installing
+### SECURITY
+
+In order to hide the explicit entering of passwords in the program options,
+the automatic encryption-decryption function of the passwords was used. 
+The  <a href="http://www.jasypt.org/cli.html">Jasypt</a> added to project dependency pom.xml for this purpose.
+The encryption-decryption could be done using directly <a href="http://www.jasypt.org/cli.html">Jasypt</a> cli  or
+by using provided REST application <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```https://github.com/DimaLumelskyj/password.generator.jasypt.git``` </a>.
+The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` 
+file inside tag ```ENC(``` ```yours encrypted data``` ```)```.
+
+####Example of use:
+
+- Input: sample property to encrypt - `sample.option.in.application.properties=@Java2019`
+
+Action sequence to secure/hide the desired application property is as follows:
+
+  1. encrypt the property value, for example `@Java2019` using encryption password `@x8HcZsUlfdE`.
+  <br/>The result of the following <a href="https://github.com/DimaLumelskyj/password.generator.jasypt.git"> ```REST API (GitHub link)``` </a> is the table with provided secret and decrypted and encrypted text: 
+
+     | Secret password | @x8HcZsUlfdE  |         
+     | -------------   |:-------------:|
+     | Decrypted text  | @Java2019     |
+     | Encrypted text  | O8PUiDHzgAKmzQpKap+zxqnltgfMhxpI373/nnhghxjLuMJHyOuV8ya9tG9QM0TX |
+             
+  2. put the encrypted text inside tag ENC("Encryptred-Text")
+
+- Encrypted property: - `sample.option.in.application.properties=ENC(O8PUiDHzgAKmzQpKap+zxqnltgfMhxpI373/nnhghxjLuMJHyOuV8ya9tG9QM0TX)`     
+
+### APPLICATIONS PROPERTIES
+All app configuration is in `application.properties` file inside `resources` folder.
+Information about encrypted password is in SECURITY section of this readme. 
+The properties are in several categories. Most important properties are:
+- INITIAL SETUP
+    - `application.timezone=UTC` - application works in UTC timezone
+    - `server.port=8080` - definition of the port on which app works
+- SECURITY SETUP
+    - `jwt.token.validity.time.minutes=300` - defines validity time of the authorisation token
+    - `jwt.token.validity.activation.time.minutes=25` - defines validity time of the account activation token
+    - `jwt.secret={bcrypt}ENC( ENCRYPTED JWT PASSWORD )` - secret for JWT token encryption/decryption 
+- DATABASE SETUP
+    - `spring.datasource.url` - url and port of working postgres DB 
+    - `spring.datasource.username=ENC( ENCRYPTED JWT PASSWORD )` - username for DB connection
+    - `spring.datasource.password=ENC( ENCRYPTED JWT PASSWORD )` - password for DB connection
+    - `spring.jpa.hibernate.ddl-auto=create` - in developer mode we use option `create`, in production we propose use `none` or `update` option
+    see <a href="https://docs.spring.io/spring-boot/docs/1.0.x/reference/html/howto-database-initialization.html">documentation <a/>
+    - `spring.datasource.data=classpath:insert-test-data.sql` - it is an option to set the test data file (SQL inserts), comment in the case of clean run
+- EMAIL SEND SETUP        
+  - `spring.mail.host=smtp.mailtrap.io` - smtp email server address
+  - `spring.mail.port=2525` - port
+  - `spring.mail.username=ENC( ENCRYPTED JWT PASSWORD )` - username for email connection
+  - `spring.mail.password=ENC( ENCRYPTED JWT PASSWORD )` - password for email connection
+
+#### Email test data
+
+As an email service provider <a href="https://mailtrap.io/">mailtrap.io</a> is used.
+Sample credentials for test account is ass follows:
+    
+        Host:      smtp.mailtrap.io
+        Port:      2525
+        Username:  80087d6e5a6c67
+        Password:  66c9872dbe4957   
+    
+Comment: `this data provided only in testing purposes, number of emails limited to 50, please make own account if currrent will not work.`       
+
+####Secured data in application properties
+
+Here is the sample test passwords which used in the program to run the test case:
+
+- secret password for application is ```@x8HcZsUlfdE``` 
+- database user is ```kinex_user```
+- used password is ```termos2137```
+- JWT secret password is ```j2uMNsCBQPvA8rQX```
+
+
+# INSTALLING
 
 Cloning project
 
 ```
 git clone https://github.com/cschool-cinema/kinex.git
 ```
+#### Security setup secret password for Jasypt library
 
-### SECURITY
-In the program <a href="http://www.jasypt.org/cli.html">Jasypt</a> encryption have been used to secure the direct input of the 
-sensitive data (credentials etc.). Idea was to encrypt this data using <a href="http://www.jasypt.org/cli.html">Jasypt</a> library.
-The encryption-decryption could be done using directly <a href="http://www.jasypt.org/cli.html">Jasypt</a> cli  or
-by using provided REST application 
-<a href="http://www.jasypt.org/cli.html">```https://github.com/DimaLumelskyj/password.generator.jasypt.git```</a>.
-The result of the following rest api is the table with provided secret and decrypted and encrypted text: 
+ Secret password can be passed in two ways:
+   - by argument `-Djasypt.encryptor.password=@x8HcZsUlfdE` 
+   - as option in maven `pom.xml`:
 
-| Secret password | @x8HcZsUlfdE  |         
-| -------------   |:-------------:|
-| Decrypted text  | @Java2019     |
-| Encrypted text  | O8PUiDHzgAKmzQpKap+zxqnltgfMhxpI373/nnhghxjLuMJHyOuV8ya9tG9QM0TX |
- 
+     ```
+     <configuration>
+         <jvmArguments>
+             -Djasypt.encryptor.password=@x8HcZsUlfdE
+         </jvmArguments>
+     </configuration>
+     ```
 
-The securing of the data can be done by putting encrypted sensitive data in the ```application.properties``` 
-file inside tag ```ENC(``` ```yours encrypted data``` ```)```.
-
-Data for the working sample program setup:
-- secret password for application is ```@x8HcZsUlfdE``` 
-- database user is ```kinex_user```
-- used password is ```termos2137```
-
-    As an email service provider <a href="">mailtrap.io</a> is used.
-    Sample credentials for test account is ass follows
-    ```(this data provided only in testing purposes, number of emails limited to 50, please make own account if currrent will not work)```:
-    
-    ```
-        Host:      smtp.mailtrap.io
-        Port:      2525
-        Username:  80087d6e5a6c67
-        Password:  66c9872dbe4957   
-    ```
-
- - JWT secret password is ```j2uMNsCBQPvA8rQX```
- - Secret password can be passed in two ways:
-    - by argument `-Djasypt.encryptor.password=@x8HcZsUlfdE` 
-    - as option in maven `pom.xml`
-    ```
-        <configuration>
-            <jvmArguments>
-                -Djasypt.encryptor.password=@x8HcZsUlfdE
-            </jvmArguments>
-        </configuration>
-    ```
 ### Database setup, SQL queries and functions
 
 - Run from the <a href="https://github.com/cschool-cinema/kinex/tree/master/sql">folder</a> ```create-user-and-db.sql``` and next ```functions.sql``` or copy and run in PSQL terminal.
@@ -169,8 +212,7 @@ Data for the working sample program setup:
             $$
                 LANGUAGE PLPGSQL;
         ```
-- ```data.sql``` for application proper run is in the resource folder, sample inserts for test are commented, please uncomment to use it. 
-
+- ```insert-test-data.sql``` - test data for application testing. 
 
 
 ## Deployment
@@ -198,7 +240,7 @@ Using Maven Spring Boot plugin
 mvn spring-boot:run
 ```
 ##TEST DATA
-User test data in `data.sql`: 
+User test data in `insert-test-data.sql`: 
 
 ```
 all users have the same password: @sdRda27dDF
