@@ -183,33 +183,8 @@ git clone https://github.com/cschool-cinema/kinex.git
             CONNECTION LIMIT = 5000;
         ```
     
-    - SQL functions
-        ```
-            CREATE OR REPLACE FUNCTION
-                is_screening_conflict(pscreening_start timestamp WITH TIME ZONE,
-                                      pscreening_end timestamp WITH TIME ZONE,
-                                      pauditorium_id int)
-                RETURNS boolean AS
-            $$
-            BEGIN
-                RETURN (
-                    CASE
-                        WHEN (SELECT COUNT(s.id)
-                              FROM screening s
-                                       JOIN movie mv ON s.movie_id = mv.id
-                              WHERE s.auditorium_id = pauditorium_id
-                                AND s.screening_start < pscreening_end
-                                AND s.screening_start + (INTERVAL '1 minute' * mv.duration_min) + INTERVAL '15 minutes' >
-                                    pscreening_start) > 0
-                            THEN TRUE
-                        ELSE FALSE
-                        END);
-            END;
-            $$
-                LANGUAGE PLPGSQL;
-            
-            ---------------------------------------------------
-            
+    - SQL function
+        ```            
             CREATE OR REPLACE FUNCTION
                 get_screening_end(pscreening_id int) RETURNS timestamp WITH TIME ZONE AS
             $$
