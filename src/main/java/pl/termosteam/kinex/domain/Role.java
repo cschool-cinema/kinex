@@ -1,5 +1,10 @@
 package pl.termosteam.kinex.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Role {
 
     GUEST("ROLE_GUEST", 0),
@@ -10,19 +15,6 @@ public enum Role {
 
     private final String role;
     private final int hierarchy;
-
-    Role(String role, int hierarchy) {
-        this.role = role;
-        this.hierarchy = hierarchy;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public int getHierarchy() {
-        return hierarchy;
-    }
 
     @Override
     public String toString() {
