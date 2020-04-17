@@ -3,7 +3,6 @@ package pl.termosteam.kinex.controller;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.termosteam.kinex.domain.Role;
@@ -65,15 +64,15 @@ public class ClientTicketController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(path = "screening/{screeningId}")
-    public ResponseEntity<?> findUserTicketsForScreening(@PathVariable int screeningId) {
+    public TicketResponseDto[] findUserTicketsForScreening(@PathVariable int screeningId) {
         int userId = userService.getUserNotNullIfAuthenticated().getId();
 
         List<Ticket> tickets = ticketService.findUserTicketsForScreening(userId, screeningId);
 
         if (CollectionUtils.isNotEmpty(tickets)) {
-            return ResponseEntity.ok(mm.map(tickets, TicketResponseDto[].class));
+            return mm.map(tickets, TicketResponseDto[].class);
         } else {
-            return ResponseEntity.ok("You have not purchased any tickets for this screening.");
+            return new TicketResponseDto[0];
         }
     }
 }
