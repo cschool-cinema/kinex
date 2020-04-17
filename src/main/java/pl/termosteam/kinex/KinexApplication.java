@@ -7,6 +7,8 @@ import com.indvd00m.ascii.render.api.IRender;
 import com.indvd00m.ascii.render.elements.PseudoText;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
 
 /**
  * The Cinema backend api with
@@ -20,6 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableConfigurationProperties(ApplicationProperties.class)
 public class KinexApplication {
 
     public static void main(String[] args) {
