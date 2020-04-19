@@ -8,6 +8,7 @@ import com.indvd00m.ascii.render.elements.PseudoText;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableAsync;
 import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
 
 /**
@@ -22,6 +23,7 @@ import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
  */
 
 @SpringBootApplication
+@EnableAsync
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class KinexApplication {
 
