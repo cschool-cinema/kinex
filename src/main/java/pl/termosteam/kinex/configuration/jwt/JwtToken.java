@@ -4,11 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,14 +53,22 @@ public class JwtToken {
         return expiration.before(new Date());
     }
 
+    Date addDurationToDate(Date started, Duration duration) {
+        LocalDateTime localDateTime = new java.sql.Timestamp(started.getTime()).toLocalDateTime();
+        localDateTime = localDateTime.plus(duration);
+        return java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
     public String generateAuthenticationToken(UserDetails userDetails, Date started) {
-        Date expired = DateUtils.addMinutes(started, applicationProperties.getJwtConfiguration().getJWT_TOKEN_VALIDITY_IN_MIN());
+        Date expired = addDurationToDate(started,
+                applicationProperties.getJwtConfiguration().getJWT_TOKEN_VALIDITY());
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername(), started, expired);
     }
 
     public String generateActivationToken(String uuid, Date started) {
-        Date expired = DateUtils.addMinutes(started, applicationProperties.getJwtConfiguration().getJWT_TOKEN_VALIDITY_ACTIVATION_TIME_IN_MIN());
+        Date expired = addDurationToDate(started,
+                applicationProperties.getJwtConfiguration().getJWT_TOKEN_VALIDITY_ACTIVATION_TIME());
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, uuid, started, expired);
     }
