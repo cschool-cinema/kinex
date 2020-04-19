@@ -17,13 +17,13 @@ public class GuestAccountInitialisation {
 
     @PostConstruct
     void initGuestUser() {
-        if (userService.ifUserAlreadyExists("guest"))
-            return;
-        userService.activateGuest(userService.addUserWithRole(Role.GUEST,
-                new UserRequestDto("guest",
-                        "guest",
-                        "guest",
-                        "guest@email.com",
-                        "guest")).get());
+        if (userService.ifUserNotExists("guest")) {
+            userService.activateGuest(userService.addUserWithRole(Role.GUEST,
+                    new UserRequestDto("guest",
+                            "guest",
+                            "guest",
+                            "guest@email.com",
+                            "guest")).get());
+        }
     }
 }

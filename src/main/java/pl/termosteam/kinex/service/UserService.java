@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService {
 
     private void validateIfEmailAndUsernameExists(UserRequestDto userRequestDTO) {
         log.trace("UserService->validateIfEmailAndUsernameExists: userRequestDTO" + userRequestDTO);
-        if (!ifUserAlreadyExistsAndDeleted(userRequestDTO.getUsername())) {
+        if (ifUserExistsOrNotDeleted(userRequestDTO.getUsername())) {
             if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
                 throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
                         "\" already registered. Please authenticate to perform action.");
@@ -130,12 +130,12 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByRole(Role.OWNER.toString());
     }
 
-    public boolean ifUserAlreadyExistsAndDeleted(String username) {
+    public boolean ifUserExistsOrNotDeleted(String username) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
-            return user.isDeleted();
+            return !user.isDeleted();
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -224,9 +224,10 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public boolean ifUserAlreadyExists(String username) {
-        return userRepository.existsByUsername(username);
+    public boolean ifUserNotExists(String username) {
+        return !userRepository.existsByUsername(username);
     }
+
 
     public String update(UserRequestDto userRequestDTO) {
         User userAuthenticated = getUserNotNullIfAuthenticated();
@@ -293,22 +294,6 @@ public class UserService implements UserDetailsService {
         userFromSearch.setPassword(Crypt.crypt(userRequestDTO.getPassword(), userFromSearch.getSalt()));
         userRepository.save(userFromSearch);
         return "User " + userFromSearch.getUsername() + " data has been updated";
-    }
-
-
-    private void validateIfEmailAndUsernameExists(UserRequestDto userRequestDTO, String usernameToUpdate) {
-        log.trace("UserService->validateIfEmailAndUsernameExists: userRequestDTO" + userRequestDTO + " of user " + usernameToUpdate);
-        if (!ifUserAlreadyExistsAndDeleted(usernameToUpdate)) {
-            if (ifEmailAlreadyExists(userRequestDTO.getEmail())) {
-                throw new ValidationException("Email \"" + userRequestDTO.getEmail() +
-                        "\" already registered. Please authenticate to perform action.");
-            }
-
-            if (ifUsernameAlreadyExists(userRequestDTO.getUsername())) {
-                throw new ValidationException("Username \"" + userRequestDTO.getUsername() +
-                        "\" already registered. Please authenticate to perform action.");
-            }
-        }
     }
 
     public String delete() {
