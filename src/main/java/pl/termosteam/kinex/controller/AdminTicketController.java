@@ -25,7 +25,7 @@ public class AdminTicketController {
     private final ModelMapper mm;
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping(path = "make-reservation")
     public TicketResponseDto[] makeReservation(@RequestBody @Valid TicketRequestAdminDto ticketInfo) {
         User reservedByUser = userService.getUserNotNullIfAuthenticated();
@@ -35,7 +35,7 @@ public class AdminTicketController {
         return mm.map(tickets, TicketResponseDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PutMapping(path = "cancel-reservation")
     public String cancelReservationForScreening(@RequestBody @Valid TicketCancelRequestDto ticketDto) {
         return ticketService.cancelReservationForScreening(ticketDto);

@@ -30,7 +30,7 @@ public class ScreeningController {
     private final UserService userService;
     private final ModelMapper mm;
 
-    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PreAuthorize("hasRole('GUEST')")
     @GetMapping
     public ScreeningResponseDto[] findFutureScreenings() {
         List<Screening> screenings = screeningService.findScreeningsStartingFrom(LocalDateTime.now());
@@ -38,7 +38,7 @@ public class ScreeningController {
         return mm.map(screenings, ScreeningResponseDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PreAuthorize("hasRole('GUEST')")
     @GetMapping(path = "{title}")
     public ScreeningResponseDto[] findFutureScreeningsByMovieTitle(@PathVariable String title) {
         List<Screening> screenings =
@@ -47,7 +47,7 @@ public class ScreeningController {
         return mm.map(screenings, ScreeningResponseDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PreAuthorize("hasRole('GUEST')")
     @GetMapping(path = "{screeningId}/available-seats")
     public SeatClientDto[] findAvailableSeatsForScreening(@PathVariable int screeningId) {
         Role requesterRole = Role.valueOf(StringUtils

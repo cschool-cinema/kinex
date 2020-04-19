@@ -27,7 +27,7 @@ public class ClientTicketController {
     private final ModelMapper mm;
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping(path = "make-reservation")
     public TicketResponseDto[] makeReservation(@RequestBody @Valid TicketRequestClientDto ticketInfo) {
         User reservedByUser = userService.getUserNotNullIfAuthenticated();
@@ -42,7 +42,7 @@ public class ClientTicketController {
         return mm.map(tickets, TicketResponseDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping(path = "cancel-reservation/{screeningId}")
     public String cancelReservationForScreening(@PathVariable int screeningId) {
         int userId = userService.getUserNotNullIfAuthenticated().getId();
@@ -52,7 +52,7 @@ public class ClientTicketController {
         return ticketService.cancelReservationForScreening(ticketInfo);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public TicketResponseDto[] findUserTickets() {
         int userId = userService.getUserNotNullIfAuthenticated().getId();
@@ -62,7 +62,7 @@ public class ClientTicketController {
         return mm.map(tickets, TicketResponseDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping(path = "screening/{screeningId}")
     public TicketResponseDto[] findUserTicketsForScreening(@PathVariable int screeningId) {
         int userId = userService.getUserNotNullIfAuthenticated().getId();

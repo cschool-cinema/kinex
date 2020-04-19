@@ -19,7 +19,7 @@ public class AdminMovieController {
     private final MovieService movieService;
     private final ModelMapper mm;
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping
     public MovieDto[] findAllMovies() {
         List<Movie> movies = movieService.findAllMovies();
@@ -27,7 +27,7 @@ public class AdminMovieController {
         return mm.map(movies, MovieDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping(path = "{movieId}")
     public MovieDto findMovieById(@PathVariable int movieId) {
         Movie movie = movieService.findById(movieId);
@@ -35,7 +35,7 @@ public class AdminMovieController {
         return mm.map(movie, MovieDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping(path = "search/{searchPhrase}")
     public MovieDto[] findMoviesByTitleContaining(@PathVariable String searchPhrase) {
         List<Movie> movies = movieService.findMovieByName(searchPhrase);
@@ -43,13 +43,13 @@ public class AdminMovieController {
         return mm.map(movies, MovieDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping(path = "{movieId}")
     public String deleteMovie(@PathVariable int movieId) {
         return movieService.deleteMovie(movieId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping
     public MovieDto createMovie(@RequestBody @Valid MovieDto movieDto) {
         Movie movie = mm.map(movieDto, Movie.class);
@@ -59,7 +59,7 @@ public class AdminMovieController {
         return mm.map(savedMovie, MovieDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PutMapping(path = "{movieId}")
     public MovieDto updateMovie(@RequestBody @Valid MovieDto movieDto, @PathVariable int movieId) {
         Movie movieToUpdate = mm.map(movieDto, Movie.class);

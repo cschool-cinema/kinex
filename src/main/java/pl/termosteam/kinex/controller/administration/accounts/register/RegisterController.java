@@ -27,7 +27,7 @@ public class RegisterController {
         return registerService.registerUserWithRole(Role.OWNER, userRequestDTO);
     }
 
-    @PreAuthorize("hasRole('ROLE_OWNER')")
+    @PreAuthorize("hasRole('OWNER')")
     @PostMapping("owner/next")
     @ResponseStatus(HttpStatus.CREATED)
     public String createNextOwner(@RequestBody @Valid UserRequestDto userRequestDTO) {
@@ -35,7 +35,7 @@ public class RegisterController {
         return registerService.registerUserWithRole(Role.OWNER, userRequestDTO);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("administrator")
     public ResponseEntity<String> createAdministrator(@RequestBody @Valid UserRequestDto userRequestDTO) {
         log.trace("@PostMapping(\"administrator\"): starting");
@@ -43,7 +43,7 @@ public class RegisterController {
                 .body(registerService.registerUserWithRole(Role.ADMINISTRATOR, userRequestDTO));
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping("manager")
     public ResponseEntity<String> createManager(@RequestBody @Valid UserRequestDto userRequestDTO) {
         log.trace("@PostMapping(\"manager\"): starting");
@@ -51,7 +51,7 @@ public class RegisterController {
                 .body(registerService.registerUserWithRole(Role.MANAGER, userRequestDTO));
     }
 
-    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PreAuthorize("hasRole('GUEST')")
     @PostMapping("user")
     public ResponseEntity<String> createUser(@RequestBody @Valid UserRequestDto userRequestDTO) {
         log.trace("@PostMapping(\"user\"): starting");

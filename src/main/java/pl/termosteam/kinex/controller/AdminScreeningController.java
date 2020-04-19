@@ -20,7 +20,7 @@ public class AdminScreeningController {
     private final ScreeningService screeningService;
     private final ModelMapper mm;
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping
     public ScreeningResponseDto[] findAllScreenings() {
         List<Screening> screenings = screeningService.findAllScreenings();
@@ -28,7 +28,7 @@ public class AdminScreeningController {
         return mm.map(screenings, ScreeningResponseDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping(path = "{screeningId}")
     public ScreeningResponseDto findScreeningById(@PathVariable int screeningId) {
         Screening screening = screeningService.findScreeningById(screeningId);
@@ -36,13 +36,13 @@ public class AdminScreeningController {
         return mm.map(screening, ScreeningResponseDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping(path = "{screeningId}")
     public String deleteScreening(@PathVariable int screeningId) {
         return screeningService.deleteScreening(screeningId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping
     public ScreeningResponseDto createScreening(@RequestBody @Valid ScreeningRequestDto inputDto) {
         Screening screening = screeningService.createScreening(inputDto);
@@ -50,7 +50,7 @@ public class AdminScreeningController {
         return mm.map(screening, ScreeningResponseDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @PutMapping(path = "{screeningId}")
     public ScreeningResponseDto updateScreening(@PathVariable int screeningId,
                                                 @RequestBody @Valid ScreeningRequestDto requestDto) {

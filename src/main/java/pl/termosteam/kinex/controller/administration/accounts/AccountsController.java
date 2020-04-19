@@ -15,31 +15,31 @@ import javax.validation.Valid;
 public class AccountsController {
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping(path = "user/{usernameOrEmail}")
     public UserResponseDto getUserInformation(@PathVariable String usernameOrEmail) {
         return userService.get(usernameOrEmail);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping(path = "user")
     public String putUserInformation(@RequestBody @Valid UserRequestDto userRequestDTO) {
         return userService.update(userRequestDTO);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping(path = "user/{usernameOrEmail}")
     public String putUserInformation(@RequestBody @Valid UserRequestDto userRequestDTO, @PathVariable String usernameOrEmail) {
         return userService.update(userRequestDTO, usernameOrEmail);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping(path = "user")
     public String deleteUserInformation() {
         return userService.delete();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping(path = "user/{usernameOrEmail}")
     public String deleteUserInformation(@PathVariable String usernameOrEmail) {
         return userService.delete(usernameOrEmail);

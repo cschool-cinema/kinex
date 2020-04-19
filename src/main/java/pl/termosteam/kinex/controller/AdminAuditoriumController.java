@@ -19,7 +19,7 @@ public class AdminAuditoriumController {
     private final AuditoriumService auditoriumService;
     private final ModelMapper mm;
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public AuditoriumDto[] findAllAuditoriums() {
         List<Auditorium> auditoriums = auditoriumService.findAllAuditoriums();
@@ -27,7 +27,7 @@ public class AdminAuditoriumController {
         return mm.map(auditoriums, AuditoriumDto[].class);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(path = "{auditoriumId}")
     public AuditoriumDto findAuditoriumById(@PathVariable int auditoriumId) {
         Auditorium auditorium = auditoriumService.findAuditoriumById(auditoriumId);
@@ -35,7 +35,7 @@ public class AdminAuditoriumController {
         return mm.map(auditorium, AuditoriumDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping
     public AuditoriumDto createAuditorium(@RequestBody @Valid AuditoriumDto auditoriumDto) {
         Auditorium auditorium = mm.map(auditoriumDto, Auditorium.class);
@@ -45,19 +45,19 @@ public class AdminAuditoriumController {
         return mm.map(savedAuditorium, AuditoriumDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(path = "{auditoriumId}/deactivate")
     public String deactivateAuditorium(@PathVariable int auditoriumId) {
         return auditoriumService.deactivateAuditorium(auditoriumId);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(path = "{auditoriumId}/reactivate")
     public String reactivateAuditorium(@PathVariable int auditoriumId) {
         return auditoriumService.reactivateAuditorium(auditoriumId);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(path = "{auditoriumId}")
     public String deleteAuditorium(@PathVariable int auditoriumId) {
         return auditoriumService.deleteAuditorium(auditoriumId);

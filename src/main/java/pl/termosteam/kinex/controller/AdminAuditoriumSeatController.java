@@ -18,7 +18,7 @@ public class AdminAuditoriumSeatController {
     private final SeatService seatService;
     private final ModelMapper mm;
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(path = "{auditoriumId}/seat")
     public SeatAdminDto addSeat(@RequestBody @Valid SeatAdminDto seatDto, @PathVariable int auditoriumId) {
         Seat seat = mm.map(seatDto, Seat.class);
@@ -28,19 +28,19 @@ public class AdminAuditoriumSeatController {
         return mm.map(savedSeat, SeatAdminDto.class);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(path = "/seat/{seatId}/deactivate")
     public String deactivateSeat(@PathVariable int seatId) {
         return seatService.deactivateSeat(seatId);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(path = "/seat/{seatId}/reactivate")
     public String reactivateSeat(@PathVariable int seatId) {
         return seatService.reactivateSeat(seatId);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(path = "/seat/{seatId}")
     public String deleteSeat(@PathVariable int seatId) {
         return seatService.deleteSeat(seatId);
