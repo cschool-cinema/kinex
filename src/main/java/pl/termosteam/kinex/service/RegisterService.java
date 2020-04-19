@@ -1,8 +1,7 @@
 package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
 import pl.termosteam.kinex.domain.Role;
@@ -14,15 +13,15 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RegisterService {
 
     private final UserService userService;
     private final ApplicationProperties applicationProperties;
     private final SendEmailService sendEmailService;
-    private final Logger logger = LoggerFactory.getLogger(RegisterService.class);
 
     public String registerUserWithRole(Role ROLE, UserRequestDto userRequestDto) {
-        logger.trace("RegisterService->registerUserWithRole: ROLE: " + ROLE + "\n       userRequestDto input: " + userRequestDto);
+        log.trace("RegisterService->registerUserWithRole: ROLE: " + ROLE + "\n       userRequestDto input: " + userRequestDto);
         if (ROLE.equals(Role.OWNER) && !ownerIsAuthorised() && checkOwnerAlreadyRegistered()) {
             throw new ValidationException("Owner is already registered, if you want to register next owner, please login as owner.");
         }
@@ -38,13 +37,13 @@ public class RegisterService {
         }
 
         if (applicationProperties.getDeveloperConfiguration().getIsReturnActivationToken()) {
-            logger.debug("RegisterService->registerUserWithRole: developer mode - automatic activation");
+            log.debug("RegisterService->registerUserWithRole: developer mode - automatic activation");
 
             userService.activateByToken(user.get().getUsername(), user.get().getInMemoryActivationToken());
             return "DEVELOPER MODE: User is registered and activated automatically.";
         } else {
             sendEmailService.sendMail(userRequestDto.getEmail(), "activation token for kinex api", user.get().getInMemoryActivationToken());
-            logger.info("Sending email (" + userRequestDto.getEmail() + ") to account with activation token.");
+            log.info("Sending email (" + userRequestDto.getEmail() + ") to account with activation token.");
             return "You account with the username \"" + user.get().getUsername() +
                     "\" has been registered, please activate account using the token sent to the provided email: " +
                     user.get().getEmail();
@@ -52,7 +51,7 @@ public class RegisterService {
     }
 
     private Optional<User> addUserRoleSelection(Role ROLE, UserRequestDto userRequestDto) {
-        logger.trace("RegisterService->addUserRoleSelection: adding user with role: " + ROLE + ROLE + "\n       userRequestDTO input: " + userRequestDto);
+        log.trace("RegisterService->addUserRoleSelection: adding user with role: " + ROLE + ROLE + "\n       userRequestDTO input: " + userRequestDto);
         switch (ROLE) {
             case OWNER:
                 return userService.addUserWithRole(Role.OWNER, userRequestDto);
@@ -75,9 +74,9 @@ public class RegisterService {
     }
 
     private boolean ownerIsAuthorised() {
-        logger.trace("RegisterService->ownerIsAuthorised: checking if the owner is authorised");
+        log.trace("RegisterService->ownerIsAuthorised: checking if the owner is authorised");
         User user = userService.getUserNotNullIfAuthenticated();
-        logger.trace("RegisterService->ownerIsAuthorised: authorised user: " + user);
+        log.trace("RegisterService->ownerIsAuthorised: authorised user: " + user);
         return user != null && user.getRole().equals(Role.OWNER.toString());
     }
 }
