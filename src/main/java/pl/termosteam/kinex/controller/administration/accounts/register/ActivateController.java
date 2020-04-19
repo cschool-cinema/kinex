@@ -22,7 +22,7 @@ public class ActivateController {
     public void activateUserAccount(
             @RequestBody @Valid JwtActivationRequestDto authenticationRequest) {
         userService.activateByToken(authenticationRequest.getUsername(),
-                authenticationRequest.getActivation_token());
+                authenticationRequest.getActivationToken());
         log.info("ActivateController->activateUserAccount: account activated for the username: " + authenticationRequest.getUsername());
     }
 }

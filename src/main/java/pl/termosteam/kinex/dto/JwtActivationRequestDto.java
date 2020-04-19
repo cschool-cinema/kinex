@@ -1,5 +1,6 @@
 package pl.termosteam.kinex.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JwtActivationRequestDto {
     private String username;
-    private String activation_token;
+    @JsonProperty("activation_token")
+    private String activationToken;
 }
