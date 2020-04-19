@@ -139,6 +139,46 @@
       "name": "application.mail.properties.mail.debug",
       "type": "java.lang.String",
       "description": "Description for application.mail.properties.mail.debug."
+    },
+    {
+      "name": "validation.password.max.length",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.max.length."
+    },
+    {
+      "name": "validation.password.min.length",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.length."
+    },
+    {
+      "name": "validation.password.min.uppercase.character",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.uppercase.character."
+    },
+    {
+      "name": "validation.password.min.digit.character",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.digit.character."
+    },
+    {
+      "name": "validation.password.numerical.sequence",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.numerical.sequence."
+    },
+    {
+      "name": "validation.password.alphabetical.sequence",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.alphabetical.sequence."
+    },
+    {
+      "name": "validation.password.qwerty.sequence",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.qwerty.sequence."
+    },
+    {
+      "name": "validation.password.min.special.character",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.special.character."
     }
   ]
 }
