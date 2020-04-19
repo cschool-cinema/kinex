@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.termosteam.kinex.configuration.properties.DeveloperConfiguration;
+import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
 import pl.termosteam.kinex.domain.Role;
 import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserRequestDto;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class RegisterService {
 
     private final UserService userService;
-    private final DeveloperConfiguration developerConfiguration;
+    private final ApplicationProperties applicationProperties;
     private final SendEmailService sendEmailService;
     private final Logger logger = LoggerFactory.getLogger(RegisterService.class);
 
@@ -37,7 +37,7 @@ public class RegisterService {
             throw new ValidationException("null user RegisterService->registerUserWithRole->line \"if (developerConfiguration.getIsReturnActivationToken())...\"");
         }
 
-        if (developerConfiguration.getIsReturnActivationToken()) {
+        if (applicationProperties.getDeveloperConfiguration().getIsReturnActivationToken()) {
             logger.debug("RegisterService->registerUserWithRole: developer mode - automatic activation");
 
             userService.activateByToken(user.get().getUsername(), user.get().getInMemoryActivationToken());

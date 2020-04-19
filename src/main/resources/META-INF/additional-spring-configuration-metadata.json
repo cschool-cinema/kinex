@@ -99,6 +99,46 @@
       "name": "business.can-reserve-max-seats",
       "type": "java.lang.String",
       "description": "Description for business.can-reserve-max-seats."
+    },
+    {
+      "name": "application.mail.host",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.host."
+    },
+    {
+      "name": "application.mail.port",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.port."
+    },
+    {
+      "name": "application.mail.properties.mail.transport.protocol",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.transport.protocol."
+    },
+    {
+      "name": "application.mail.username",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.username."
+    },
+    {
+      "name": "application.mail.password",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.password."
+    },
+    {
+      "name": "application.mail.properties.mail.smtp.auth",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.smtp.auth."
+    },
+    {
+      "name": "application.mail.properties.mail.smtp.starttls.enable",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.smtp.starttls.enable."
+    },
+    {
+      "name": "application.mail.properties.mail.debug",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.debug."
     }
   ]
 }
