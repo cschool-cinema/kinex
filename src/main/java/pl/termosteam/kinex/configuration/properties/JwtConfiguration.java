@@ -4,12 +4,10 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.convert.DurationUnit;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-@Component
 @Configuration
 @Getter
 public class JwtConfiguration {

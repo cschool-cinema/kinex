@@ -22,13 +22,13 @@ public class CustomPasswordValidator implements ConstraintValidator<CustomPasswo
         PasswordPatternConfiguration configuration = applicationProperties.getPasswordPatternConfiguration();
 
         PasswordValidator validator = new PasswordValidator(Arrays.asList(
-                new LengthRule(configuration.getLengthMinRule(), configuration.getLengthMaxRule()),
-                new UppercaseCharacterRule(configuration.getUppercaseCharacterRule()),
-                new DigitCharacterRule(configuration.getDigitCharacterRule()),
-                new SpecialCharacterRule(configuration.getSpecialCharacterRule()),
-                new NumericalSequenceRule(configuration.getNumericalSequenceRule(), false),
-                new AlphabeticalSequenceRule(configuration.getAlphabeticalSequenceRule(), false),
-                new QwertySequenceRule(configuration.getQwertySequenceRule(), false),
+                new LengthRule(configuration.getMinLength(), configuration.getMaxLength()),
+                new UppercaseCharacterRule(configuration.getMinNumberOfUppercaseCharacters()),
+                new DigitCharacterRule(configuration.getMinNumberOfDigitCharacters()),
+                new SpecialCharacterRule(configuration.getMinNumberOfSpecialCharacters()),
+                new NumericalSequenceRule(configuration.getNumberOfCharactersInNumericalSequence(), false),
+                new AlphabeticalSequenceRule(configuration.getNumberOfCharactersInAlphabeticalSequenceRule(), false),
+                new QwertySequenceRule(configuration.getNumberOfCharactersInQwertySequenceRule(), false),
                 new WhitespaceRule()));
         RuleResult result = validator.validate(new PasswordData(password));
 
