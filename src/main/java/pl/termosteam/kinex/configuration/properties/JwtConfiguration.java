@@ -12,11 +12,11 @@ import java.time.temporal.ChronoUnit;
 @Getter
 public class JwtConfiguration {
 
-    @Value("#{T(java.time.Duration).ofMinutes('${jwt.token.validity.time.minutes:300}')}")
+    @Value("${jwt.token.validity.time.minutes:PT300M}")
     @DurationUnit(ChronoUnit.MINUTES)
     private Duration JWT_TOKEN_VALIDITY;
 
-    @Value("#{T(java.time.Duration).ofMinutes('${jwt.token.validity.activation.time.minutes:25}')}")
+    @Value("${jwt.token.validity.activation.time.minutes:PT25M}")
     @DurationUnit(ChronoUnit.MINUTES)
     private Duration JWT_TOKEN_VALIDITY_ACTIVATION_TIME;
 
