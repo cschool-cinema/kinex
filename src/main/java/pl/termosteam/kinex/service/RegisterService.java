@@ -36,7 +36,7 @@ public class RegisterService {
             throw new ValidationException("null user RegisterService->registerUserWithRole->line \"if (developerConfiguration.getIsReturnActivationToken())...\"");
         }
 
-        if (applicationProperties.getDeveloperConfiguration().getIsReturnActivationToken()) {
+        if (applicationProperties.getDevConfig().getIsReturnActivationToken()) {
             log.debug("RegisterService->registerUserWithRole: developer mode - automatic activation");
 
             userService.activateByToken(user.get().getUsername(), user.get().getInMemoryActivationToken());

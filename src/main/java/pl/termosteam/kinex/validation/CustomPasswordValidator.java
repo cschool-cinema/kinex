@@ -19,7 +19,7 @@ public class CustomPasswordValidator implements ConstraintValidator<CustomPasswo
 
     public boolean isValid(String password, ConstraintValidatorContext context) {
 
-        PasswordPatternConfiguration configuration = applicationProperties.getPasswordPatternConfiguration();
+        PasswordPatternConfiguration configuration = applicationProperties.getPasswordPatternConfig();
 
         PasswordValidator validator = new PasswordValidator(Arrays.asList(
                 new LengthRule(configuration.getMinLength(), configuration.getMaxLength()),

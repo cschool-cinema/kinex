@@ -26,7 +26,7 @@ public class EmailConfiguration {
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        EmailProperties properties = applicationProperties.getEmailProperties();
+        EmailProperties properties = applicationProperties.getEmail();
 
         mailSender.setHost(properties.getHost());
         mailSender.setPort(properties.getPort());

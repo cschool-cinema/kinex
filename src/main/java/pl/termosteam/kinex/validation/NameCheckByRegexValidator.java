@@ -14,7 +14,7 @@ public class NameCheckByRegexValidator implements ConstraintValidator<NameCheckB
 
     @Override
     public void initialize(NameCheckByRegex constraintAnnotation) {
-        compile = Pattern.compile(applicationProperties.getRegexPatternConfiguration().getNamePattern());
+        compile = Pattern.compile(applicationProperties.getRegexPatternConfig().getNamePattern());
     }
 
     @Override

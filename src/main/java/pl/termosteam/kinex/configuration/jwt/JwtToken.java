@@ -45,7 +45,7 @@ public class JwtToken {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(applicationProperties.getJwtConfiguration().getSECRET()).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(applicationProperties.getJwtConfig().getSECRET()).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -61,14 +61,14 @@ public class JwtToken {
 
     public String generateAuthenticationToken(UserDetails userDetails, Date started) {
         Date expired = addDurationToDate(started,
-                applicationProperties.getJwtConfiguration().getJWT_TOKEN_VALIDITY());
+                applicationProperties.getJwtConfig().getJWT_TOKEN_VALIDITY());
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername(), started, expired);
     }
 
     public String generateActivationToken(String uuid, Date started) {
         Date expired = addDurationToDate(started,
-                applicationProperties.getJwtConfiguration().getJWT_TOKEN_VALIDITY_ACTIVATION_TIME());
+                applicationProperties.getJwtConfig().getJWT_TOKEN_VALIDITY_ACTIVATION_TIME());
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, uuid, started, expired);
     }
@@ -79,7 +79,7 @@ public class JwtToken {
                 .setSubject(subject)
                 .setIssuedAt(started)
                 .setExpiration(expired)
-                .signWith(SignatureAlgorithm.HS512, applicationProperties.getJwtConfiguration().getSECRET())
+                .signWith(SignatureAlgorithm.HS512, applicationProperties.getJwtConfig().getSECRET())
                 .compact();
     }
 

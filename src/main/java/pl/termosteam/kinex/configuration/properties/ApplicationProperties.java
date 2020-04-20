@@ -14,10 +14,10 @@ public class ApplicationProperties {
     @Value("${application.timezone}")
     private String timezone;
 
-    private final EmailProperties emailProperties;
-    private final DeveloperConfiguration developerConfiguration;
-    private final JwtConfiguration jwtConfiguration;
-    private final PasswordPatternConfiguration passwordPatternConfiguration;
-    private final RegexPatternConfiguration regexPatternConfiguration;
+    private final EmailProperties email;
+    private final DeveloperConfiguration devConfig;
+    private final JwtConfiguration jwtConfig;
+    private final PasswordPatternConfiguration passwordPatternConfig;
+    private final RegexPatternConfiguration regexPatternConfig;
 
 }

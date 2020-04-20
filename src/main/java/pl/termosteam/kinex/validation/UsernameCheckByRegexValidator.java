@@ -14,7 +14,7 @@ public class UsernameCheckByRegexValidator implements ConstraintValidator<Userna
 
     @Override
     public void initialize(UsernameCheckByRegex constraintAnnotation) {
-        compile = Pattern.compile(applicationProperties.getRegexPatternConfiguration().getUsernamePattern());
+        compile = Pattern.compile(applicationProperties.getRegexPatternConfig().getUsernamePattern());
     }
 
     @Override
