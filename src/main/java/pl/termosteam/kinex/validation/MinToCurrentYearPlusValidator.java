@@ -19,4 +19,13 @@ public class MinToCurrentYearPlusValidator implements ConstraintValidator<MinToC
     public boolean isValid(Short val, ConstraintValidatorContext context) {
         return val >= min && val <= LocalDate.now().getYear() + years;
     }
+
+    // setter for test
+    public void setMinForTest(short min) {
+        this.min = min;
+    }
+    // setter for test
+    public void setYearsForTest(short years){
+        this.years=years;
+    }
 }

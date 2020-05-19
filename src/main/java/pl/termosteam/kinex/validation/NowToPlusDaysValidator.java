@@ -19,4 +19,8 @@ public class NowToPlusDaysValidator implements ConstraintValidator<NowToPlusDays
 
         return dt.isAfter(now) && dt.isBefore(now.plusDays(maxDaysIntoFuture));
     }
+    //setter for test
+    public void setMaxDaysIntoFutureForTest(int maxDaysIntoFuture){
+        this.maxDaysIntoFuture=maxDaysIntoFuture;
+    }
 }
