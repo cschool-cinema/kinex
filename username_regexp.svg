@@ -1,0 +1,607 @@
+<svg xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns="http://www.w3.org/2000/svg" version="1.1" width="707.1563720703125" height="558.1876831054688">
+    <defs>
+        <style type="text/css">svg {
+            background-color: #fff; }
+
+            .root text,
+            .root tspan {
+            font: 12px Arial; }
+
+            .root path {
+            fill-opacity: 0;
+            stroke-width: 2px;
+            stroke: #000; }
+
+            .root circle {
+            fill: #6b6659;
+            stroke-width: 2px;
+            stroke: #000; }
+
+            .anchor text, .any-character text {
+            fill: #fff; }
+
+            .anchor rect, .any-character rect {
+            fill: #6b6659; }
+
+            .escape text, .charset-escape text, .literal text {
+            fill: #000; }
+
+            .escape rect, .charset-escape rect {
+            fill: #bada55; }
+
+            .literal rect {
+            fill: #dae9e5; }
+
+            .charset .charset-box {
+            fill: #cbcbba; }
+
+            .subexp .subexp-label tspan,
+            .charset .charset-label tspan,
+            .match-fragment .repeat-label tspan {
+            font-size: 10px; }
+
+            .repeat-label {
+            cursor: help; }
+
+            .subexp .subexp-label tspan,
+            .charset .charset-label tspan {
+            dominant-baseline: text-after-edge; }
+
+            .subexp .subexp-box {
+            stroke: #908c83;
+            stroke-dasharray: 6,2;
+            stroke-width: 2px;
+            fill-opacity: 0; }
+
+            .quote {
+            fill: #908c83; }
+        </style>
+    </defs>
+    <metadata>
+        <rdf:rdf>
+            <cc:license rdf:about="http://creativecommons.org/licenses/by/3.0/">
+                <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"></cc:permits>
+                <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"></cc:permits>
+                <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"></cc:requires>
+                <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"></cc:requires>
+                <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"></cc:permits>
+            </cc:license>
+        </rdf:rdf>
+    </metadata>
+    <desc>Created with Snap</desc>
+    <g transform="matrix(1,0,0,1,15,10)" class="root">
+        <g transform="matrix(1,0,0,1,10,0)" class="regexp">
+            <path d="M10,111.875175q0,-10 10,-10M647.1563720703125,111.875175q0,-10 -10,-10M10,287.109675q0,10 10,10M647.1563720703125,287.109675q0,10 -10,10M10,454.000275q0,10 10,10M647.1563720703125,454.000275q0,10 -10,10M0,269.0938911437988q10,0 10,-10V111.875175M657.1563720703125,269.0938911437988q-10,0 -10,-10V111.875175M0,269.0938911437988q10,0 10,10V454.000275M657.1563720703125,269.0938911437988q-10,0 -10,10V454.000275"></path>
+            <g transform="matrix(1,0,0,1,20,0)" class="regexp-matches">
+                <path d="M0,101.875175h0M617.15635,101.875175H617.1563720703125M0,297.109675h44.336M572.8204499999999,297.109675H617.1563720703125M0,464.000275h96.0079M521.14845,464.000275H617.1563720703125"></path>
+                <g transform="matrix(1,0,0,1,0,0)" class="match">
+                    <path d="M70.703125,101.875175H110.7031M515.437525,101.87517479553223H550.4376"></path>
+                    <g transform="matrix(1,0,0,1,0,90.2033)" class="match-fragment">
+                        <g class="label anchor">
+                            <rect width="70.703125" height="23.34375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                <tspan>Start of line</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,80.7031,0)" class="match-fragment">
+                        <path d="M10,101.87517479553223q-10,0 -10,10v69.18743583068847q0,10 10,10h434.7344665527344q10,0 10,-10v-69.18743583068847q0,-10 -10,-10M454.7344665527344,116.87517479553223l5,-5m-5,5l-5,-5"></path>
+                        <g transform="matrix(1,0,0,1,10,0)" class="subexp">
+                            <rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                  width="434.73443603515625" height="169.71881103515625"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="subexp-label">
+                                <tspan>group #1</tspan>
+                            </text>
+                            <g transform="matrix(1,0,0,1,10,21.3438)" class="regexp match">
+                                <path d="M85.328125,80.53137479553223H120.3281M195.656225,80.53132670288086H235.6563M282.3438,80.53132500000001H307.3438"></path>
+                                <g transform="matrix(1,0,0,1,0,17)" class="match-fragment subexp">
+                                    <rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                          width="95.328125" height="93.03129577636719"></rect>
+                                    <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="subexp-label">
+                                        <tspan>group #2</tspan>
+                                    </text>
+                                    <g transform="matrix(1,0,0,1,10,21.3438)"
+                                       class="regexp match match-fragment charset">
+                                        <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                              width="75.328125" height="61.68754959106445"></rect>
+                                        <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                            <tspan>One of:</tspan>
+                                        </text>
+                                        <g transform="matrix(1,0,0,1,5,16.3438)">
+                                            <g transform="matrix(1,0,0,1,1.3281,0)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,29.6719,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>a</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,38.6719,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,0,28.3438)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,31,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="26" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>A</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,40,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="25.328125" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>Z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="matrix(1,0,0,1,105.3281,0)" class="match-fragment">
+                                    <path d="M0,80.53132670288086q10,0 10,-10v-60.53127711181641q0,-10 10,-10h65.328125q10,0 10,10v60.53127711181641q0,10 10,10M15,80.53132670288086q-10,0 -10,10v49.18753392333984q0,10 10,10h75.328125q10,0 10,-10v-49.18753392333984q0,-10 -10,-10M100.328125,95.53132670288086l5,-5m-5,5l-5,-5"></path>
+                                    <g transform="matrix(1,0,0,1,15,10)" class="charset">
+                                        <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                              width="75.328125" height="118.37505340576172"></rect>
+                                        <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                            <tspan>One of:</tspan>
+                                        </text>
+                                        <g transform="matrix(1,0,0,1,5,16.3438)">
+                                            <g transform="matrix(1,0,0,1,1.3281,0)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,29.6719,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>a</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,38.6719,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,0,28.3438)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,31,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="26" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>A</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,40,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="25.328125" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>Z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,20.3281,56.6875)" class="literal">
+                                                <g class="label">
+                                                    <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan class="quote">“</tspan>
+                                                        <tspan>_</tspan>
+                                                        <tspan class="quote">”</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,21.6641,85.0313)" class="literal">
+                                                <g class="label">
+                                                    <rect width="22" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan class="quote">“</tspan>
+                                                        <tspan>-</tspan>
+                                                        <tspan class="quote">”</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="matrix(1,0,0,1,220.6563,14.1719)" class="match-fragment">
+                                    <path d="M0,66.359425q10,0 10,-10v-46.35937540893555q0,-10 10,-10h36.6875q10,0 10,10v46.35937540893555q0,10 10,10M15,66.359425q-10,0 -10,10v35.01562459106445q0,10 10,10h46.6875q10,0 10,-10v-35.01562459106445q0,-10 -10,-10M71.6875,81.359425l5,-5m-5,5l-5,-5"></path>
+                                    <g transform="matrix(1,0,0,1,15,10)" class="charset">
+                                        <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                              width="46.6875" height="90.03125"></rect>
+                                        <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                            <tspan>One of:</tspan>
+                                        </text>
+                                        <g transform="matrix(1,0,0,1,5,16.3438)">
+                                            <g transform="matrix(1,0,0,1,0,0)" class="charset-escape">
+                                                <g class="label">
+                                                    <rect width="36.6875" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan>word</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,6.0078,28.3438)" class="literal">
+                                                <g class="label">
+                                                    <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan class="quote">“</tspan>
+                                                        <tspan>_</tspan>
+                                                        <tspan class="quote">”</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,7.3438,56.6875)" class="literal">
+                                                <g class="label">
+                                                    <rect width="22" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan class="quote">“</tspan>
+                                                        <tspan>-</tspan>
+                                                        <tspan class="quote">”</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="matrix(1,0,0,1,307.3438,52.5157)" class="match-fragment charset">
+                                    <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                          width="107.390625" height="33.34375"></rect>
+                                    <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                        <tspan>One of:</tspan>
+                                    </text>
+                                    <g transform="matrix(1,0,0,1,5,16.3438)">
+                                        <g transform="matrix(1,0,0,1,0,0)" class="charset-escape">
+                                            <g class="label">
+                                                <rect width="97.390625" height="23.34375" rx="3" ry="3"></rect>
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                    <tspan>non-white space</tspan>
+                                                </text>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <text x="0" y="0" transform="matrix(1,0,0,1,406.0313,202.4064)" class="repeat-label">
+                            <tspan>5…14 times</tspan>
+                            <title>
+                                <text x="0" y="0">repeats 6…15 times in total</text>
+                            </title>
+                        </text>
+                    </g>
+                    <g transform="matrix(1,0,0,1,550.4376,90.2033)" class="match-fragment">
+                        <g class="label anchor">
+                            <rect width="66.71875" height="23.34375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                <tspan>End of line</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g transform="matrix(1,0,0,1,44.336,209.4064)" class="match">
+                    <path d="M70.703125,87.703275H110.7031M426.765625,87.70327479553224H461.7657"></path>
+                    <g transform="matrix(1,0,0,1,0,76.0314)" class="match-fragment">
+                        <g class="label anchor">
+                            <rect width="70.703125" height="23.34375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                <tspan>Start of line</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,80.7031,0)" class="match-fragment">
+                        <path d="M10,87.70327479553224q-10,0 -10,10v55.015524795532215q0,10 10,10h346.0625305175781q10,0 10,-10v-55.015524795532215q0,-10 -10,-10M366.0625305175781,102.70327479553224l5,-5m-5,5l-5,-5"></path>
+                        <g transform="matrix(1,0,0,1,10,0)" class="subexp">
+                            <rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                  width="346.0625305175781" height="141.375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="subexp-label">
+                                <tspan>group #3</tspan>
+                            </text>
+                            <g transform="matrix(1,0,0,1,10,21.3438)" class="regexp match">
+                                <path d="M85.328125,66.35947479553224H120.3281M193.6718728881836,66.359425H218.6719"></path>
+                                <g transform="matrix(1,0,0,1,0,2.8281)" class="match-fragment subexp">
+                                    <rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                          width="95.328125" height="93.03129577636719"></rect>
+                                    <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="subexp-label">
+                                        <tspan>group #4</tspan>
+                                    </text>
+                                    <g transform="matrix(1,0,0,1,10,21.3438)"
+                                       class="regexp match match-fragment charset">
+                                        <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                              width="75.328125" height="61.68754959106445"></rect>
+                                        <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                            <tspan>One of:</tspan>
+                                        </text>
+                                        <g transform="matrix(1,0,0,1,5,16.3438)">
+                                            <g transform="matrix(1,0,0,1,1.3281,0)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,29.6719,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>a</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,38.6719,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,0,28.3438)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,31,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="26" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>A</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,40,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="25.328125" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>Z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="matrix(1,0,0,1,105.3281,0)" class="match-fragment">
+                                    <path d="M0,66.359425q10,0 10,-10v-46.35937540893555q0,-10 10,-10h63.343772888183594q10,0 10,10v46.35937540893555q0,10 10,10M15,66.359425q-10,0 -10,10v35.01562459106445q0,10 10,10h73.3437728881836q10,0 10,-10v-35.01562459106445q0,-10 -10,-10M98.3437728881836,81.359425l5,-5m-5,5l-5,-5"></path>
+                                    <g transform="matrix(1,0,0,1,15,10)" class="charset">
+                                        <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                              width="73.34377670288086" height="90.03125"></rect>
+                                        <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                            <tspan>One of:</tspan>
+                                        </text>
+                                        <g transform="matrix(1,0,0,1,5,16.3438)">
+                                            <g transform="matrix(1,0,0,1,0,0)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,29.6719,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>0</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,38.6719,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>9</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,19.336,28.3438)" class="literal">
+                                                <g class="label">
+                                                    <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan class="quote">“</tspan>
+                                                        <tspan>_</tspan>
+                                                        <tspan class="quote">”</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,20.6719,56.6875)" class="literal">
+                                                <g class="label">
+                                                    <rect width="22" height="23.34375" rx="3" ry="3"></rect>
+                                                    <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                        <tspan class="quote">“</tspan>
+                                                        <tspan>-</tspan>
+                                                        <tspan class="quote">”</tspan>
+                                                    </text>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="matrix(1,0,0,1,218.6719,38.3438)" class="match-fragment charset">
+                                    <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                          width="107.390625" height="33.34375"></rect>
+                                    <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                        <tspan>One of:</tspan>
+                                    </text>
+                                    <g transform="matrix(1,0,0,1,5,16.3438)">
+                                        <g transform="matrix(1,0,0,1,0,0)" class="charset-escape">
+                                            <g class="label">
+                                                <rect width="97.390625" height="23.34375" rx="3" ry="3"></rect>
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                    <tspan>non-white space</tspan>
+                                                </text>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <text x="0" y="0" transform="matrix(1,0,0,1,317.3594,174.0626)" class="repeat-label">
+                            <tspan>5…14 times</tspan>
+                            <title>
+                                <text x="0" y="0">repeats 6…15 times in total</text>
+                            </title>
+                        </text>
+                    </g>
+                    <g transform="matrix(1,0,0,1,461.7657,76.0314)" class="match-fragment">
+                        <g class="label anchor">
+                            <rect width="66.71875" height="23.34375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                <tspan>End of line</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g transform="matrix(1,0,0,1,96.0079,390.4689)" class="match">
+                    <path d="M70.703125,73.531375H115.7031M323.421825,73.53137479553223H358.4218"></path>
+                    <g transform="matrix(1,0,0,1,0,61.8595)" class="match-fragment">
+                        <g class="label anchor">
+                            <rect width="70.703125" height="23.34375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                <tspan>Start of line</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,80.7031,0)" class="match-fragment">
+                        <path d="M10,73.53137479553223q-10,0 -10,10v40.84372057189941q0,10 10,10h242.7187042236328q10,0 10,-10v-40.84372057189941q0,-10 -10,-10M262.7187042236328,88.53137479553223l5,-5m-5,5l-5,-5"></path>
+                        <g transform="matrix(1,0,0,1,10,0)" class="subexp">
+                            <rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                  width="242.71871948242188" height="113.03129577636719"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="subexp-label">
+                                <tspan>group #5</tspan>
+                            </text>
+                            <g transform="matrix(1,0,0,1,10,21.3438)" class="regexp match">
+                                <path d="M90.328125,52.18757479553223H115.3281"></path>
+                                <g transform="matrix(1,0,0,1,0,0)" class="match-fragment">
+                                    <path d="M0,52.18757479553223q10,0 10,-10v-32.187525204467775q0,-10 10,-10h65.328125q10,0 10,10v32.187525204467775q0,10 10,10M15,52.18757479553223q-10,0 -10,10v20.843770571899412q0,10 10,10h75.328125q10,0 10,-10v-20.843770571899412q0,-10 -10,-10M100.328125,67.18757479553223l5,-5m-5,5l-5,-5"></path>
+                                    <g transform="matrix(1,0,0,1,15,10)" class="charset">
+                                        <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                              width="75.328125" height="61.68754959106445"></rect>
+                                        <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                            <tspan>One of:</tspan>
+                                        </text>
+                                        <g transform="matrix(1,0,0,1,5,16.3438)">
+                                            <g transform="matrix(1,0,0,1,1.3281,0)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,29.6719,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24.671875" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>a</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,38.6719,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="24" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <g transform="matrix(1,0,0,1,0,28.3438)" class="charset-range">
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,31,15.6719)">-</text>
+                                                <g transform="matrix(1,0,0,1,0,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="26" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>A</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                                <g transform="matrix(1,0,0,1,40,0)" class="literal">
+                                                    <g class="label">
+                                                        <rect width="25.328125" height="23.34375" rx="3" ry="3"></rect>
+                                                        <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                            <tspan class="quote">“</tspan>
+                                                            <tspan>Z</tspan>
+                                                            <tspan class="quote">”</tspan>
+                                                        </text>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="matrix(1,0,0,1,115.3281,24.1719)" class="match-fragment charset">
+                                    <rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,11.3438)"
+                                          width="107.390625" height="33.34375"></rect>
+                                    <text x="0" y="0" transform="matrix(1,0,0,1,0,11.3438)" class="charset-label">
+                                        <tspan>One of:</tspan>
+                                    </text>
+                                    <g transform="matrix(1,0,0,1,5,16.3438)">
+                                        <g transform="matrix(1,0,0,1,0,0)" class="charset-escape">
+                                            <g class="label">
+                                                <rect width="97.390625" height="23.34375" rx="3" ry="3"></rect>
+                                                <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                                    <tspan>non-white space</tspan>
+                                                </text>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <text x="0" y="0" transform="matrix(1,0,0,1,214.0156,145.7188)" class="repeat-label">
+                            <tspan>5…14 times</tspan>
+                            <title>
+                                <text x="0" y="0">repeats 6…15 times in total</text>
+                            </title>
+                        </text>
+                    </g>
+                    <g transform="matrix(1,0,0,1,358.4218,61.8595)" class="match-fragment">
+                        <g class="label anchor">
+                            <rect width="66.71875" height="23.34375"></rect>
+                            <text x="0" y="0" transform="matrix(1,0,0,1,5,16.6719)">
+                                <tspan>End of line</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+        <path d="M10,269.0938911437988H0M667.1563720703125,269.0938911437988H677.1563720703125"></path>
+        <circle cx="0" cy="269.0938911437988" r="5"></circle>
+        <circle cx="677.1563720703125" cy="269.0938911437988" r="5"></circle>
+    </g>
+</svg>
+          

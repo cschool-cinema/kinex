@@ -1,0 +1,184 @@
+{
+  "properties": [
+    {
+      "name": "application.timezone",
+      "type": "java.lang.String",
+      "description": "Description for application.timezone."
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.secret."
+    },
+    {
+      "name": "validation.password.length.max.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.length.max.rule."
+    },
+    {
+      "name": "jwt.token.validity.time.minutes",
+      "type": "java.lang.String",
+      "description": "Description for jwt.token.validity.time.minutes."
+    },
+    {
+      "name": "jwt.token.validity.activation.time.minutes",
+      "type": "java.lang.String",
+      "description": "Description for jwt.token.validity.activation.time.minutes."
+    },
+    {
+      "name": "development.return.activation.token",
+      "type": "java.lang.String",
+      "description": "Description for development.return.activation.token."
+    },
+    {
+      "name": "validation.password.length.min.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.length.min.rule."
+    },
+    {
+      "name": "validation.password.uppercase.character.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.uppercase.character.rule."
+    },
+    {
+      "name": "validation.password.digit.character.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.digit.character.rule."
+    },
+    {
+      "name": "validation.password.special.character.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.special.character.rule."
+    },
+    {
+      "name": "validation.password.numerical.sequence.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.numerical.sequence.rule."
+    },
+    {
+      "name": "validation.password.alphabetical.sequence.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.alphabetical.sequence.rule."
+    },
+    {
+      "name": "validation.password.qwerty.sequence.rule",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.qwerty.sequence.rule."
+    },
+    {
+      "name": "validation.regexp.pattern.name",
+      "type": "java.lang.String",
+      "description": "Description for validation.regexp.pattern.name."
+    },
+    {
+      "name": "validation.pattern.username.regexp",
+      "type": "java.lang.String",
+      "description": "Description for validation.pattern.username.regexp."
+    },
+    {
+      "name": "validation.pattern.name.regexp",
+      "type": "java.lang.String",
+      "description": "Description for validation.pattern.name.regexp."
+    },
+    {
+      "name": "business.break-after-screening",
+      "type": "java.lang.String",
+      "description": "Description for business.break-after-screening."
+    },
+    {
+      "name": "business.can-check-min-after-screening-start",
+      "type": "java.lang.String",
+      "description": "Description for business.can-check-min-after-screening-start."
+    },
+    {
+      "name": "business.can-reserve-min-after-screening-start",
+      "type": "java.lang.String",
+      "description": "Description for business.can-reserve-min-after-screening-start."
+    },
+    {
+      "name": "business.can-reserve-max-seats",
+      "type": "java.lang.String",
+      "description": "Description for business.can-reserve-max-seats."
+    },
+    {
+      "name": "application.mail.host",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.host."
+    },
+    {
+      "name": "application.mail.port",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.port."
+    },
+    {
+      "name": "application.mail.properties.mail.transport.protocol",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.transport.protocol."
+    },
+    {
+      "name": "application.mail.username",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.username."
+    },
+    {
+      "name": "application.mail.password",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.password."
+    },
+    {
+      "name": "application.mail.properties.mail.smtp.auth",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.smtp.auth."
+    },
+    {
+      "name": "application.mail.properties.mail.smtp.starttls.enable",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.smtp.starttls.enable."
+    },
+    {
+      "name": "application.mail.properties.mail.debug",
+      "type": "java.lang.String",
+      "description": "Description for application.mail.properties.mail.debug."
+    },
+    {
+      "name": "validation.password.max.length",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.max.length."
+    },
+    {
+      "name": "validation.password.min.length",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.length."
+    },
+    {
+      "name": "validation.password.min.uppercase.character",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.uppercase.character."
+    },
+    {
+      "name": "validation.password.min.digit.character",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.digit.character."
+    },
+    {
+      "name": "validation.password.numerical.sequence",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.numerical.sequence."
+    },
+    {
+      "name": "validation.password.alphabetical.sequence",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.alphabetical.sequence."
+    },
+    {
+      "name": "validation.password.qwerty.sequence",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.qwerty.sequence."
+    },
+    {
+      "name": "validation.password.min.special.character",
+      "type": "java.lang.String",
+      "description": "Description for validation.password.min.special.character."
+    }
+  ]
+}

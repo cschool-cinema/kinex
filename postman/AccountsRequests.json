@@ -1,0 +1,512 @@
+{
+  "info": {
+    "_postman_id": "8961a9ad-f64f-4a61-9269-2019ed456ea0",
+    "name": "Accounts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Delete another user if you are ADMINISTRATOR OR OWNER",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb2JlayIsImV4cCI6MTU4NjYxMzE4OSwiaWF0IjoxNTg2NTk1MTg5fQ.k3Ed6l-UuCyI2IoixfYP3H9sm1eJ6otPnq1EnPTQs9dMaFFj5ls2WTCK18q7g5QCGoDB4Vp_tSxOYMNy3AiAeg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/admin/account/user/Kobek",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "account",
+            "user",
+            "Kobek"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete user",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb2JlayIsImV4cCI6MTU4NjYxMzE4OSwiaWF0IjoxNTg2NTk1MTg5fQ.k3Ed6l-UuCyI2IoixfYP3H9sm1eJ6otPnq1EnPTQs9dMaFFj5ls2WTCK18q7g5QCGoDB4Vp_tSxOYMNy3AiAeg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/admin/account/user",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "account",
+            "user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update own user data",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb2JlayIsImV4cCI6MTU4NjYxMzE4OSwiaWF0IjoxNTg2NTk1MTg5fQ.k3Ed6l-UuCyI2IoixfYP3H9sm1eJ6otPnq1EnPTQs9dMaFFj5ls2WTCK18q7g5QCGoDB4Vp_tSxOYMNy3AiAeg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"Kobek\",\r\n    \"lastName\": \"Bobek\",\r\n    \"username\": \"Poobek\",\r\n    \"email\": \"gjtghjkllllhh8326@itiomail.com\",\r\n    \"password\":\"@sdRda27dDF\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/admin/account/user",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "account",
+            "user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update own or another user data if role perrmitions allowing",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQb2JlayIsImV4cCI6MTU4NjYxMzE4OSwiaWF0IjoxNTg2NTk1MTg5fQ.k3Ed6l-UuCyI2IoixfYP3H9sm1eJ6otPnq1EnPTQs9dMaFFj5ls2WTCK18q7g5QCGoDB4Vp_tSxOYMNy3AiAeg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"Kobek\",\r\n    \"lastName\": \"Bobek\",\r\n    \"username\": \"Poobek\",\r\n    \"email\": \"gjtghjkllllhh8326@itiomail.com\",\r\n    \"password\":\"@sdRda27dDF\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/admin/account/user/Gobek",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "account",
+            "user",
+            "Gobek"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get user with role USER-ROLE by username",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEb2JlayIsImV4cCI6MTU4NjU1MjEyMCwiaWF0IjoxNTg2NTM0MTIwfQ.FH_RrAAikSh4MZ7PICQi1PVWRRTsWKosh1m-S6ESmOfbsdL66HJ-U-p-MQ9O0LmwcD5iEtvJfQOFqaa5Wn7O7w",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/admin/account/user/Pobek",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "account",
+            "user",
+            "Pobek"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get user with role USER-ROLE by email",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHb2JlayIsImV4cCI6MTU4NjU0NzU2NywiaWF0IjoxNTg2NTI5NTY3fQ.RS8DQzvMUQKwKCtuyQFaUOtc8DFKUus0GfBvTvrXX3i7OE6NuykDrc1vrXMmHAuKIA2QPbnLz9twI9bu0yB6xg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/admin/account/user/gjgjwepim48326@itiomail.com",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "admin",
+            "account",
+            "user",
+            "gjgjwepim48326@itiomail.com"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New OWNER USER registration",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"firstName\" : \"Bobek\",\n\t\"lastName\" : \"Bobek\",\n\t\"username\" : \"Vobek\",\n\t\"email\" : \"wepim48326@itiomail.com\",\n\t\"password\" : \"@sdRda27dDFd\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/register/owner",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "register",
+            "owner"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Next OWNER USER registration",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWb2JlayIsImV4cCI6MTU4NjQ3ODk0NywiaWF0IjoxNTg2NDYwOTQ3fQ.g8I_oYWPRlQHrLRDfghWOWDBnA_FTPJaoWdQ0vsDhp6h98p6XZ4a_Sbyt8NBbOyTa35LNQKisIw7QPKrSpbfZg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"firstName\" : \"Kobek\",\n\t\"lastName\" : \"Aobek\",\n\t\"username\" : \"Dobek\",\n\t\"email\" : \"wohepim48326@itiomail.com\",\n\t\"password\" : \"@sdRda27dDFd\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/register/owner/next",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "register",
+            "owner",
+            "next"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New ADMINISTRATOR USER registration, authenticated  by OWNER token",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWb2JlayIsImV4cCI6MTU4NjQ3ODk0NywiaWF0IjoxNTg2NDYwOTQ3fQ.g8I_oYWPRlQHrLRDfghWOWDBnA_FTPJaoWdQ0vsDhp6h98p6XZ4a_Sbyt8NBbOyTa35LNQKisIw7QPKrSpbfZg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"firstName\" : \"Bobek\",\n\t\"lastName\" : \"Bobek\",\n\t\"username\" : \"Gobek\",\n\t\"email\" : \"gjgjwepim48326@itiomail.com\",\n\t\"password\" : \"@sdRda27dDFd\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/register/administrator",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "register",
+            "administrator"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New MANAGER USER registration, authenticated  by OWNER token",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWb2JlayIsImV4cCI6MTU4NjU0ODI2OCwiaWF0IjoxNTg2NTMwMjY4fQ.kOjlGv68zZduPD7iuu24LwUq2ZyXnTi1WbxStwzegZ1HGJZFVZtdmRa1k03EAosr6Es8sZ83aEzQrRwTMLW4hg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"firstName\" : \"Bobek\",\n\t\"lastName\" : \"Bobek\",\n\t\"username\" : \"Nobek\",\n\t\"email\" : \"gjg326@itiomail.com\",\n\t\"password\" : \"@sdRda27dDFd\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/register/manager",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "register",
+            "manager"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New USER role USER registration, authenticated  by GUEST token",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWb2JlayIsImV4cCI6MTU4NjQ3ODk0NywiaWF0IjoxNTg2NDYwOTQ3fQ.g8I_oYWPRlQHrLRDfghWOWDBnA_FTPJaoWdQ0vsDhp6h98p6XZ4a_Sbyt8NBbOyTa35LNQKisIw7QPKrSpbfZg",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"firstName\" : \"Bobek\",\n\t\"lastName\" : \"Bobek\",\n\t\"username\" : \"Gobek\",\n\t\"email\" : \"gjgjwepim48326@itiomail.com\",\n\t\"password\" : \"@sdRda27dDFd\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/register/administrator",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "register",
+            "administrator"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Account activation via token from email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"username\":\"Vobek\",\n\t\"activation_token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzZTBkNjUyYy0yZGQxLTQxZGYtYmZhYi04MzM5MTc4OTk1YjMiLCJleHAiOjE1ODY0NTQ1MjUsImlhdCI6MTU4NjQ1MzAyNX0.5GtuzgddO9ny-wUmL8py9m-DnYbSRy8cuvfd8SDMkMJqrRVFC206Ba2tA0smqhN9J13YmlagOM3a_G1EfNHCQw\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/activate",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "activate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Authenticate to recieve token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"username\":\"Vobek\",\n\t\"password\":\"@sdRda27dDF\"\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/api/authenticate",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "authenticate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Authenticate to recieve guest token",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/authenticate/guest",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "authenticate",
+            "guest"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
+}

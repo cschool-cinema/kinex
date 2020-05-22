@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.domain;
 
 import lombok.*;
+import pl.termosteam.kinex.validation.NowToPlusDays;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,8 +15,7 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "screening", uniqueConstraints = @UniqueConstraint(columnNames = {"auditorium_id", "screening_start"},
-        name = "screening_auditorium_id_screening_start_key"))
+@Table(name = "screening")
 public class Screening {
 
     @Id
@@ -31,9 +31,11 @@ public class Screening {
     @JoinColumn(foreignKey = @ForeignKey(name = "screening_auditorium_id_fkey"))
     private Auditorium auditorium;
 
-    @Column(name = "screening_start", columnDefinition = "timestamp (0) with time zone CHECK (screening_start>now())")
+    @Column(name = "screening_start", columnDefinition = "timestamp (0) with time zone " +
+            "CHECK (screening_start>now() AND screening_start<now() + INTERVAL '14 days')")
+    @NowToPlusDays(days = 14, message = "Screening must be set between now and 14 days from now!")
     @NotNull(message = "Screening start cannot be null.")
-    private LocalDateTime screeningStartUtc;
+    private LocalDateTime screeningStart;
 
     @OneToMany(mappedBy = "screening")
     private List<Ticket> tickets;

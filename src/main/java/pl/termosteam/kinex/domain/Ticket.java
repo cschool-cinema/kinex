@@ -1,6 +1,7 @@
 package pl.termosteam.kinex.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,9 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(columnNames = {"screening_id", "seat_id"},
-        name = "ticket_screening_id_seat_id_key"))
 public class Ticket {
 
     @Id
@@ -21,9 +21,13 @@ public class Ticket {
     @SequenceGenerator(name = "ticket_id_seq", allocationSize = 1)
     private int id;
 
-    @Column(name = "user_account_id")
-    @NotNull(message = "User account cannot be null.")
-    private int userAccountId;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_account_id", foreignKey = @ForeignKey(name = "ticket_user_account_id_fkey"))
+    private User user;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "reserved_by_user_id", foreignKey = @ForeignKey(name = "reserved_by_user_id_fkey"))
+    private User reservedByUser;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "ticket_screening_id_fkey"))
@@ -34,10 +38,10 @@ public class Ticket {
     private Seat seat;
 
     @Column(columnDefinition = "boolean DEFAULT true")
-    @NotNull(message = "Active state cannot be null.")
-    private boolean active;
+    @NotNull(message = "Active must be either true or false.")
+    private Boolean active;
 
-    @Column(nullable = false, updatable = false, insertable = false,
-            columnDefinition = "timestamp (0) with time zone DEFAULT now()")
-    private LocalDateTime timestampUtc;
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

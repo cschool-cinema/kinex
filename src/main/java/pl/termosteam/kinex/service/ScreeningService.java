@@ -1,20 +1,22 @@
 package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.termosteam.kinex.domain.Auditorium;
 import pl.termosteam.kinex.domain.Movie;
 import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.domain.Ticket;
-import pl.termosteam.kinex.dto.ScreeningInputDto;
+import pl.termosteam.kinex.dto.ScreeningRequestDto;
 import pl.termosteam.kinex.exception.NotAllowedException;
 import pl.termosteam.kinex.exception.NotFoundException;
 import pl.termosteam.kinex.repository.AuditoriumRepository;
 import pl.termosteam.kinex.repository.MovieRepository;
 import pl.termosteam.kinex.repository.ScreeningRepository;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,9 +24,11 @@ import static pl.termosteam.kinex.exception.StandardExceptionResponseRepository.
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ScreeningService {
 
-    private static final short BREAK_AFTER_SCREENING = 15;
+    @Value("${business.break-after-screening}")
+    private static int breakMinutesAfterScreening;
 
     private final ScreeningRepository screeningRepository;
     private final MovieRepository movieRepository;
@@ -32,11 +36,11 @@ public class ScreeningService {
 
     public List<Screening> findScreeningsStartingFrom(LocalDateTime from) {
         return screeningRepository
-                .findAllByScreeningStartUtcGreaterThanEqualOrderByScreeningStartUtc(from);
+                .findAllByScreeningStartGreaterThanEqualOrderByScreeningStart(from);
     }
 
     public List<Screening> findAllScreenings() {
-        return screeningRepository.findAll(Sort.by(Sort.Direction.ASC, "screeningStartUtc"));
+        return screeningRepository.findAll(Sort.by(Sort.Direction.ASC, "screeningStart"));
     }
 
     public Screening findScreeningById(int id) {
@@ -44,16 +48,15 @@ public class ScreeningService {
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
     }
 
-    public List<Screening> findScreeningsByMovieTitleAndStartTime(String title, LocalDateTime from) {
-        return screeningRepository.findByMovieTitleAndStartTime(title, from);
+    public List<Screening> findFutureScreeningsByMovieTitle(String title) {
+        return screeningRepository.findByMovieTitleAndStartTime(title, LocalDateTime.now());
     }
 
-    @Transactional
     public String deleteScreening(int id) {
         Screening screening = screeningRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
-        if (screening.getTickets().size() > 0) {
+        if (CollectionUtils.isNotEmpty(screening.getTickets())) {
             throw new NotAllowedException("Delete not allowed!" + TICKETS_SOLD);
         }
 
@@ -62,23 +65,22 @@ public class ScreeningService {
         return "Screening has been successfully deleted.";
     }
 
-    @Transactional
-    public Screening createScreening(ScreeningInputDto screeningInputDto) {
-        LocalDateTime screeningStart = screeningInputDto.getScreeningStartUtc();
+    public Screening createScreening(ScreeningRequestDto screeningRequestDto) {
+        LocalDateTime screeningStart = screeningRequestDto.getScreeningStart();
 
-        if (screeningStart.isBefore(LocalDateTime.now())) {
-            throw new NotAllowedException("Adding screenings in the past not allowed!");
-        }
-
-        Movie movie = movieRepository.findById(screeningInputDto.getMovieId())
+        Movie movie = movieRepository.findById(screeningRequestDto.getMovieId())
                 .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND));
 
-        Auditorium auditorium = auditoriumRepository.findById(screeningInputDto.getAuditoriumId())
+        Auditorium auditorium = auditoriumRepository.findById(screeningRequestDto.getAuditoriumId())
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+        if (!auditorium.getActive()) {
+            throw new NotAllowedException("Cannot create a screening in inactive auditorium!");
+        }
 
         LocalDateTime screeningEnd = screeningStart
                 .plusMinutes(movie.getDurationMin())
-                .plusMinutes(BREAK_AFTER_SCREENING);
+                .plusMinutes(breakMinutesAfterScreening);
 
         if (screeningRepository.screeningConflicts(screeningStart, screeningEnd, auditorium.getId()) > 0) {
             throw new NotAllowedException("There are other screenings reserved in this time window! " +
@@ -88,51 +90,52 @@ public class ScreeningService {
         Screening newScreening = Screening.builder()
                 .auditorium(auditorium)
                 .movie(movie)
-                .screeningStartUtc(screeningStart)
+                .screeningStart(screeningStart)
                 .build();
 
         return screeningRepository.save(newScreening);
     }
 
-    @Transactional
-    public Screening updateScreeningDetails(ScreeningInputDto screeningInputDto, int id) {
+    public Screening updateScreeningDetails(ScreeningRequestDto requestDto, int id) {
         Screening screening = screeningRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
         boolean ticketsAlreadySold = activeTicketsSold(screening);
 
-        LocalDateTime updateScreeningStart = screeningInputDto.getScreeningStartUtc();
+        LocalDateTime updateScreeningStart = requestDto.getScreeningStart();
 
-        if (updateScreeningStart.isBefore(LocalDateTime.now())) {
-            throw new NotAllowedException("Cannot update screening date/time to past!");
-        }
-
-        if (screening.getScreeningStartUtc().isBefore(LocalDateTime.now())) {
+        if (screening.getScreeningStart().isBefore(LocalDateTime.now())) {
             throw new NotAllowedException("Cannot update past screening!");
         }
 
-        if (screeningInputDto.getMovieId() != screening.getMovie().getId()) {
+        if (requestDto.getMovieId() != screening.getMovie().getId()) {
             if (ticketsAlreadySold) {
                 throw new NotAllowedException("Movie update not allowed!" + TICKETS_SOLD);
             }
 
-            screening.setMovie(movieRepository.findById(screeningInputDto.getMovieId())
+            screening.setMovie(movieRepository.findById(requestDto.getMovieId())
                     .orElseThrow(() -> new NotFoundException(MOVIE_NOT_FOUND)));
         }
 
-        if (screeningInputDto.getAuditoriumId() != screening.getAuditorium().getId()) {
-            screening.setAuditorium(auditoriumRepository.findById(screeningInputDto.getAuditoriumId())
-                    .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND)));
+        if (requestDto.getAuditoriumId() != screening.getAuditorium().getId()) {
+            Auditorium auditorium = auditoriumRepository.findById(requestDto.getAuditoriumId())
+                    .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
+
+            if (!auditorium.getActive()) {
+                throw new NotAllowedException("Cannot update auditorium to an inactive one!");
+            }
+
+            screening.setAuditorium(auditorium);
         }
 
-        if (!screeningInputDto.getScreeningStartUtc().equals(screening.getScreeningStartUtc())) {
+        if (!requestDto.getScreeningStart().equals(screening.getScreeningStart())) {
             if (ticketsAlreadySold) {
                 throw new NotAllowedException("Date/time update not allowed!" + TICKETS_SOLD);
             }
 
             LocalDateTime updateScreeningEnd = updateScreeningStart
                     .plusMinutes(screening.getMovie().getDurationMin())
-                    .plusMinutes(BREAK_AFTER_SCREENING);
+                    .plusMinutes(breakMinutesAfterScreening);
 
             if (screeningRepository.screeningConflictsExcludingId(
                     updateScreeningStart, updateScreeningEnd, screening.getAuditorium().getId(), id) > 0) {
@@ -140,7 +143,7 @@ public class ScreeningService {
                         "Please choose different time or auditorium.");
             }
 
-            screening.setScreeningStartUtc(updateScreeningStart);
+            screening.setScreeningStart(updateScreeningStart);
         }
 
         return screeningRepository.save(screening);
@@ -149,12 +152,12 @@ public class ScreeningService {
     private boolean activeTicketsSold(Screening screening) {
         List<Ticket> tickets = screening.getTickets();
 
-        if (tickets.size() == 0) {
+        if (CollectionUtils.isEmpty(tickets)) {
             return false;
         }
 
         for (Ticket ticket : tickets) {
-            if (ticket.isActive()) {
+            if (ticket.getActive()) {
                 return true;
             }
         }

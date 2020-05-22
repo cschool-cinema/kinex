@@ -1,7 +1,15 @@
 package pl.termosteam.kinex;
 
+import com.indvd00m.ascii.render.Render;
+import com.indvd00m.ascii.render.api.ICanvas;
+import com.indvd00m.ascii.render.api.IContextBuilder;
+import com.indvd00m.ascii.render.api.IRender;
+import com.indvd00m.ascii.render.elements.PseudoText;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableAsync;
+import pl.termosteam.kinex.configuration.properties.ApplicationProperties;
 
 /**
  * The Cinema backend api with
@@ -15,14 +23,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableAsync
+@EnableConfigurationProperties(ApplicationProperties.class)
 public class KinexApplication {
 
     public static void main(String[] args) {
+        showAppLogo();
         SpringApplication.run(KinexApplication.class, args);
     }
 
-    // @PostConstruct
-    //  public void init() {
-    //     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    // }
+    private static void showAppLogo() {
+        IRender render = new Render();
+        IContextBuilder builder = render.newBuilder();
+        builder.width(120).height(20);
+        builder.element(new PseudoText("KinEX API"));
+        ICanvas canvas = render.render(builder.build());
+        String s = canvas.getText();
+        System.out.println(s);
+    }
 }

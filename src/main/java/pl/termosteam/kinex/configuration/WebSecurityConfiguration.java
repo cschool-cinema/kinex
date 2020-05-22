@@ -1,5 +1,6 @@
 package pl.termosteam.kinex.configuration;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,27 +16,24 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.termosteam.kinex.domain.security.Role;
-import pl.termosteam.kinex.service.security.UserServiceImplementation;
+import pl.termosteam.kinex.configuration.jwt.JwtAuthenticationEntryPoint;
+import pl.termosteam.kinex.configuration.jwt.JwtRequestFilter;
+import pl.termosteam.kinex.domain.Role;
+import pl.termosteam.kinex.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Autowired
-    private UserServiceImplementation jwtUserDetailsService;
-
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private final UserService jwtUserDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(jwtUserDetailsService);
-        //.passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -65,15 +63,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-
         httpSecurity.csrf().disable()
-                .authorizeRequests().expressionHandler(webExpressionHandler()).antMatchers("/kinex/registration/**",
-                "/authenticate", "/activate").permitAll().
+                .authorizeRequests().expressionHandler(webExpressionHandler()).antMatchers("/api/register/**",
+                "/api/authenticate/**", "/api/activate").permitAll().
                 anyRequest().authenticated().and().
-                exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                exceptionHandling().authenticationEntryPoint(
+                jwtAuthenticationEntryPointBean()).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 }

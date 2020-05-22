@@ -1,0 +1,712 @@
+{
+	"info": {
+		"_postman_id": "26c60bd6-f492-4920-bdcb-e02bbde14256",
+		"name": "Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Movie Admin - Find By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/movie/:movieId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"movie",
+						":movieId"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "1",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Admin - Find All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/movie",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Admin - Find By Title (Containing)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/movie/search/:title",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"movie",
+						"search",
+						":title"
+					],
+					"variable": [
+						{
+							"key": "title",
+							"value": "wi"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Admin - Add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Wiedźmin\",\n    \"releaseYear\": 2003,\n    \"category\": \"Fantasy\",\n    \"durationMin\": 120,\n    \"description\": \"whatever\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/movie",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Admin - Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Wiedźmin 2\",\n    \"releaseYear\": 2003,\n    \"category\": \"Fantasy\",\n    \"durationMin\": 120,\n    \"description\": \"whatever\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/movie/:movieId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"movie",
+						":movieId"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Admin - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/movie/:movieId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"movie",
+						":movieId"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "3",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Screening Admin - Find By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/screening/:screeningId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"screening",
+						":screeningId"
+					],
+					"variable": [
+						{
+							"key": "screeningId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Screening Admin - Find All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/screening",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"screening"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Screening Admin - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/screening/:screeningId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"screening",
+						":screeningId"
+					],
+					"variable": [
+						{
+							"key": "screeningId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Screening Admin - Add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"screeningStart\": \"2020-02-25T11:41:00\",\n    \"movieId\": 1,\n    \"auditoriumId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/screening",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"screening"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Screening Admin - Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"screeningStart\": \"2020-02-25T11:45:00\",\n    \"movieId\": 1,\n    \"auditoriumId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/screening/:screeningId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"screening",
+						":screeningId"
+					],
+					"variable": [
+						{
+							"key": "screeningId",
+							"value": "4",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Admin - Find All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Admin - Find By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/:auditoriumId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						":auditoriumId"
+					],
+					"variable": [
+						{
+							"key": "auditoriumId",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Admin - Add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Venus\",\n    \"active\": true,\n    \"seats\": [\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Admin - Deactivate",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/:auditoriumId/deactivate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						":auditoriumId",
+						"deactivate"
+					],
+					"variable": [
+						{
+							"key": "auditoriumId",
+							"value": "4",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Admin - Reactivate",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/:auditoriumId/reactivate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						":auditoriumId",
+						"reactivate"
+					],
+					"variable": [
+						{
+							"key": "auditoriumId",
+							"value": "4",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Admin - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/:auditoriumId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						":auditoriumId"
+					],
+					"variable": [
+						{
+							"key": "auditoriumId",
+							"value": "4",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Seat Admin - Add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"seatRow\": 2,\n    \"seatNumber\": 3,\n    \"seatActive\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/:auditoriumId/seat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						":auditoriumId",
+						"seat"
+					],
+					"variable": [
+						{
+							"key": "auditoriumId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Seat Admin - Deactivate",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Venus\",\n    \"active\": true,\n    \"seats\": [\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/seat/:seatId/deactivate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						"seat",
+						":seatId",
+						"deactivate"
+					],
+					"variable": [
+						{
+							"key": "seatId",
+							"value": "13"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Seat Admin - Reactivate",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Venus\",\n    \"active\": true,\n    \"seats\": [\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/seat/:seatId/reactivate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						"seat",
+						":seatId",
+						"reactivate"
+					],
+					"variable": [
+						{
+							"key": "seatId",
+							"value": "13"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auditorium Seat Admin - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Venus\",\n    \"active\": true,\n    \"seats\": [\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/auditorium/seat/:seatId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"auditorium",
+						"seat",
+						":seatId"
+					],
+					"variable": [
+						{
+							"key": "seatId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d99c8217-475a-41f8-8291-47f806df1827",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4e592cf1-7989-4818-b47c-afb6a792f7e6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
