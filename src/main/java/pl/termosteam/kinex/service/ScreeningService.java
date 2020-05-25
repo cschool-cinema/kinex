@@ -100,7 +100,8 @@ public class ScreeningService {
         Screening screening = screeningRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(SCREENING_NOT_FOUND));
 
-        boolean ticketsAlreadySold = activeTicketsSold(screening);
+        boolean ticketsAlreadySold = screening.getTickets().stream()
+                .anyMatch(Ticket::getActive);
 
         LocalDateTime updateScreeningStart = requestDto.getScreeningStart();
 
@@ -147,21 +148,5 @@ public class ScreeningService {
         }
 
         return screeningRepository.save(screening);
-    }
-
-    private boolean activeTicketsSold(Screening screening) {
-        List<Ticket> tickets = screening.getTickets();
-
-        if (CollectionUtils.isEmpty(tickets)) {
-            return false;
-        }
-
-        for (Ticket ticket : tickets) {
-            if (ticket.getActive()) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

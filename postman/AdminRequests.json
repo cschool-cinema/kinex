@@ -565,10 +565,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Venus\",\n    \"active\": true,\n    \"seats\": [\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 1,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 1,\n            \"seatActive\": true\n        },\n        {\n            \"seatRow\": 2,\n            \"seatNumber\": 2,\n            \"seatActive\": true\n        }\n    ]\n}"
-				},
 				"url": {
 					"raw": "http://localhost:8080/api/admin/auditorium/seat/:seatId/deactivate",
 					"protocol": "http",

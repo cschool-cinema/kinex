@@ -2,6 +2,8 @@ package pl.termosteam.kinex.service;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.termosteam.kinex.domain.Auditorium;
@@ -44,12 +46,12 @@ public class AuditoriumService {
             throw new NotAllowedException("Please add at least one seat to auditorium!");
         }
 
-        Set<String> seatUniqueRowAndNumber = seats.stream()
-                .map(s -> s.getSeatRow().toString() + s.getSeatNumber().toString())
+        Set<Pair<Short, Short>> seatRowAndNumberSet = seats.stream()
+                .map(s -> new ImmutablePair<>(s.getSeatRow(), s.getSeatNumber()))
                 .collect(Collectors.toSet());
 
-        if (seats.size() != seatUniqueRowAndNumber.size()) {
-            throw new NotAllowedException("Cannot add auditorium with duplicated seats (row, number)!");
+        if (seats.size() != seatRowAndNumberSet.size()) {
+            throw new NotAllowedException("Cannot add an auditorium with duplicated seats (row, number)!");
         }
 
         boolean auditoriumActive = auditorium.getActive();
@@ -82,10 +84,7 @@ public class AuditoriumService {
             throw new NotAllowedException("Cannot deactivate! Future screenings exist for this auditorium.");
         }
 
-        List<Seat> seats = auditorium.getSeats();
-        for (Seat seat : seats) {
-            seat.setActive(false);
-        }
+        auditorium.getSeats().forEach(seat -> seat.setActive(false));
 
         auditorium.setActive(false);
 
@@ -102,10 +101,7 @@ public class AuditoriumService {
             throw new NotAllowedException("Auditorium is already active.");
         }
 
-        List<Seat> seats = auditorium.getSeats();
-        for (Seat seat : seats) {
-            seat.setActive(true);
-        }
+        auditorium.getSeats().forEach(seat -> seat.setActive(true));
 
         auditorium.setActive(true);
 

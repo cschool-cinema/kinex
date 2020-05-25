@@ -60,8 +60,10 @@ public class TicketService {
             throw new NotAllowedException("Please pick not more than " + canReserveMaxSeats + " seats.");
         }
 
-        Set<Integer> selectedSeatsSet = Arrays.stream(
-                selectedSeatIds).boxed().collect(Collectors.toSet());
+        Set<Integer> selectedSeatsSet = Arrays.stream(selectedSeatIds)
+                .boxed()
+                .collect(Collectors.toSet());
+
         if (selectedSeatsSet.size() != selectedSeatIds.length) {
             throw new NotAllowedException("Make sure there are no duplicated seats chosen.");
         }
@@ -79,8 +81,8 @@ public class TicketService {
         }
 
         List<Seat> availableSeatsList = seatService.findAvailableSeatsForScreening(screening.getId());
-        Map<Integer, Seat> availableSeatsMap = availableSeatsList.stream().collect(
-                Collectors.toMap(Seat::getId, Function.identity()));
+        Map<Integer, Seat> availableSeatsMap = availableSeatsList.stream()
+                .collect(Collectors.toMap(Seat::getId, Function.identity()));
 
         List<Seat> selectedSeatsList = new ArrayList<>();
 
@@ -124,9 +126,7 @@ public class TicketService {
             throw new NotAllowedException("Cannot cancel reservation. The screening start time already passed!");
         }
 
-        for (Ticket ticket : reservedTickets) {
-            ticket.setActive(false);
-        }
+        reservedTickets.forEach(t -> t.setActive(false));
 
         ticketRepository.saveAll(reservedTickets);
 

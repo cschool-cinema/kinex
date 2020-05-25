@@ -87,11 +87,9 @@ public class SeatService {
             throw new NotAllowedException("Cannot deactivate! Active, future tickets exist for this seat.");
         }
 
-        List<Seat> seats = seat.getAuditorium().getSeats();
-        int activeSeats = 0;
-        for (Seat s : seats) {
-            if (s.getActive()) activeSeats++;
-        }
+        long activeSeats = seat.getAuditorium().getSeats().stream()
+                .filter(Seat::getActive)
+                .count();
 
         if (activeSeats == 1) {
             throw new NotAllowedException("This is the last active seat. " +
