@@ -34,5 +34,4 @@ public abstract class AbstractConstrainedTest {
         validator.setApplicationContext(applicationContext);
         validator.afterPropertiesSet();
     }
-
 }

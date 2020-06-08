@@ -25,7 +25,7 @@ public class StringConstraintTest extends AbstractConstrainedTest {
     @Setter
     @Getter
     @NoArgsConstructor
-    public class SimpleString {
+    private static class SimpleString {
 
         @StringCheckByRegex(patternRegex = "[A-Z][a-z]*")
         private String string;

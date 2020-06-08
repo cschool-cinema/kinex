@@ -49,17 +49,17 @@ public class SeatServiceTest {
     public void init() {
         Ticket ticket1 = new Ticket();
         Ticket ticket2 = new Ticket();
-        List<Ticket> tickets = new ArrayList<Ticket>();
+        List<Ticket> tickets = new ArrayList<>();
         tickets.add(ticket1);
         tickets.add(ticket2);
-        integers=new ArrayList<Integer>();
+        integers=new ArrayList<>();
         integers.add(new Integer("1"));
-        movie = new Movie(1, "title", new Short("1"), "categorie", new Short("4"), "desc", new ArrayList<Screening>());
-        auditorium=new Auditorium(1, "name", Boolean.TRUE, new ArrayList<Seat>(), new ArrayList<Screening>());
+        movie = new Movie(1, "title", new Short("1"), "category", new Short("4"), "desc", new ArrayList<>());
+        auditorium=new Auditorium(1, "name", Boolean.TRUE, new ArrayList<>(), new ArrayList<>());
         screening = new Screening(1, movie, auditorium, LocalDateTime.now(), tickets);
-        seat1 = new Seat(1,auditorium, new Short("1"),new Short("2"),Boolean.TRUE,new ArrayList<Ticket>());
-        seat2 = new Seat(2,auditorium, new Short("2"),new Short("3"),Boolean.FALSE,new ArrayList<Ticket>());
-        seats=new ArrayList<Seat>();
+        seat1 = new Seat(1,auditorium, new Short("1"),new Short("2"),Boolean.TRUE,new ArrayList<>());
+        seat2 = new Seat(2,auditorium, new Short("2"),new Short("3"),Boolean.FALSE,new ArrayList<>());
+        seats=new ArrayList<>();
         seats.add(seat1);
         seats.add(seat2);
     }

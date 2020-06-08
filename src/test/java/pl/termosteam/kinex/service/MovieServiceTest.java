@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import pl.termosteam.kinex.domain.Movie;
-import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.repository.MovieRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +30,14 @@ public class MovieServiceTest {
 
     @BeforeEach
     public void init() {
-        movie1 = new Movie(1, "movie_A",new Short("2000"), "A",new Short("50"), "good",new ArrayList<Screening>());
-        movie2 = new Movie(2, "movie_BA",new Short("2010"), "B",new Short("60"), "good",new ArrayList<Screening>());
-        movie3 = new Movie(3, "movie_C",new Short("2019"), "A",new Short("70"), "good",new ArrayList<Screening>());
+        movie1 = new Movie(1, "movie_A",new Short("2000"), "A",new Short("50"), "good",new ArrayList<>());
+        movie2 = new Movie(2, "movie_BA",new Short("2010"), "B",new Short("60"), "good",new ArrayList<>());
+        movie3 = new Movie(3, "movie_C",new Short("2019"), "A",new Short("70"), "good",new ArrayList<>());
     }
 
     @Test
     public void findAllMovies() {
-        List<Movie> movies = new ArrayList<Movie>();
+        List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
         movies.add(movie3);
@@ -56,7 +55,7 @@ public class MovieServiceTest {
 
     @Test
     public void findMovieByName() {
-        List<Movie> movies = new ArrayList<Movie>();
+        List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
         given(movieRepositoryMock.findAllByTitleIgnoreCaseContainingOrderByTitleAsc("A")).willReturn(movies);

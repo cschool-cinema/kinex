@@ -26,21 +26,13 @@ import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.TicketCancelRequestDto;
 import pl.termosteam.kinex.dto.TicketRequestAdminDto;
 import pl.termosteam.kinex.exception.NotAllowedException;
-import pl.termosteam.kinex.repository.ScreeningRepository;
 import pl.termosteam.kinex.repository.TicketRepository;
-import pl.termosteam.kinex.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class TicketServiceTest {
 
 	@Mock
 	private TicketRepository ticketRepository;
-	@Mock
-	private ScreeningRepository screeningRepository;
-	@Mock
-	private UserRepository userRepository;
-	@Mock
-	private SeatService seatService;
 
 	@InjectMocks
 	private TicketService ticketService;
@@ -50,11 +42,10 @@ public class TicketServiceTest {
 	public Screening screening;
 	public Movie movie;
 	public Auditorium auditorium;
-	public Auditorium inactiveAuditorium;
 
 	public Ticket ticket1;
 	public Ticket ticket2;
-	public List<Ticket> tickets = new ArrayList<Ticket>();
+	public List<Ticket> tickets = new ArrayList<>();
 
 	@BeforeEach
 	public void init() {
@@ -62,9 +53,9 @@ public class TicketServiceTest {
 				"12323", true, true, LocalDateTime.now(), LocalDateTime.now());
 		User user2 = new User("firstName", "lastName", "username", "email", "password", "salt",
 				Role.ADMINISTRATOR.getRole(), "12323", true, true, LocalDateTime.now(), LocalDateTime.now());
-		movie = new Movie(1, "title", new Short("1"), "category", new Short("4"), "desc", new ArrayList<Screening>());
-		auditorium = new Auditorium(1, "name", Boolean.TRUE, new ArrayList<Seat>(), new ArrayList<Screening>());
-		screening = new Screening(1, movie, auditorium, LocalDateTime.of(2020, 6, 1, 12, 00), tickets);
+		movie = new Movie(1, "title", new Short("1"), "category", new Short("4"), "desc", new ArrayList<>());
+		auditorium = new Auditorium(1, "name", Boolean.TRUE, new ArrayList<>(), new ArrayList<>());
+		screening = new Screening(1, movie, auditorium, LocalDateTime.of(2020, 9, 1, 12, 0), tickets);
 		ticket1 = new Ticket(1, user1, user2, screening, new Seat(), true, null);
 		ticket2 = new Ticket(2, user1, user2, screening, new Seat(), true, null);
 		tickets.add(ticket1);
@@ -90,7 +81,7 @@ public class TicketServiceTest {
 		TicketCancelRequestDto ticketInfo = new TicketCancelRequestDto(1, 1);
 		when(ticketRepository.findAllByUser_IdAndScreening_IdAndActiveTrue(ticketInfo.getUserId(),
 				ticketInfo.getScreeningId())).thenReturn(tickets);
-		String s = ticketService.cancelReservationForScreening(ticketInfo);
+		ticketService.cancelReservationForScreening(ticketInfo);
 		assertEquals(false, tickets.get(0).getActive());
 	}
 }

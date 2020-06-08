@@ -13,7 +13,7 @@ import javax.validation.ConstraintViolation;
 import java.util.Set;
 
 @Import({NameCheckByRegexValidator.class})
-public class NameConstraintTest  extends  AbstractConstrainedTest {
+public class NameConstraintTest extends AbstractConstrainedTest {
 
     @Test
     public void whenGivenInvalidNameShouldReturnViolation() {
@@ -21,13 +21,14 @@ public class NameConstraintTest  extends  AbstractConstrainedTest {
         pwd.setName("@1235sdfds");
         Set<ConstraintViolation<Name>> violations = validator.validate(pwd);
         Assert.assertThat(violations.size(), Matchers.is(1));
-        Assert.assertThat(violations.stream().findFirst().get().getMessage(), Matchers.is("Invalid username according to the provided regex pattern."));
+        Assert.assertThat(violations.iterator().next().getMessage(),
+                Matchers.is("Invalid username according to the provided regex pattern."));
     }
 
     @Setter
     @Getter
     @NoArgsConstructor
-    public class Name {
+    private static class Name {
 
         @NameCheckByRegex
         private String name;

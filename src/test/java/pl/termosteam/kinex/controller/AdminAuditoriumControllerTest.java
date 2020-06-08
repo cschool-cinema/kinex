@@ -1,105 +1,118 @@
 package pl.termosteam.kinex.controller;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-import pl.termosteam.kinex.dto.SeatAdminDto;
-import pl.termosteam.kinex.service.AuditoriumService;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import pl.termosteam.kinex.domain.Auditorium;
-import pl.termosteam.kinex.domain.Screening;
-import pl.termosteam.kinex.domain.Seat;
 import pl.termosteam.kinex.dto.AuditoriumDto;
-import org.modelmapper.ModelMapper;
+import pl.termosteam.kinex.service.AuditoriumService;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@WithMockUser(roles = {"ADMINISTRATOR"})
+@RunWith(SpringRunner.class)
 class AdminAuditoriumControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private AuditoriumService auditoriumService;
-    @Mock
-    private ModelMapper mm;
-    @InjectMocks
-    private AdminAuditoriumController adminAuditoriumController;
-    private Auditorium auditorium1, auditorium2, auditorium3;
-    private AuditoriumDto[] allAuditoriumDtoList = new AuditoriumDto[3];
-    private AuditoriumDto auditoriumDto;
-    private SeatAdminDto seatAdminDto1, seatAdminDto2, seatAdminDto3;
-    List<Auditorium> allAuditorium = new ArrayList<Auditorium>();
+    private List<Auditorium> allAuditorium;
+    private ObjectMapper mapper;
 
     @BeforeEach
-    public void init(){
-        auditorium1 = new Auditorium(11, "David", true, new ArrayList<Seat>(), new ArrayList<Screening>());
-        auditorium2 = new Auditorium(12, "Jack", true, new ArrayList<Seat>(), new ArrayList<Screening>());
-        auditorium3 = new Auditorium(13, "Alen", true, new ArrayList<Seat>(), new ArrayList<Screening>());
+    public void init() {
+        allAuditorium = new ArrayList<>();
+        mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        Auditorium auditorium1 = new Auditorium(1, "David", true, new ArrayList<>(), new ArrayList<>());
+        Auditorium auditorium2 = new Auditorium(2, "Jack", true, new ArrayList<>(), new ArrayList<>());
+        Auditorium auditorium3 = new Auditorium(3, "Alen", true, new ArrayList<>(), new ArrayList<>());
         allAuditorium.add(auditorium1);
         allAuditorium.add(auditorium2);
         allAuditorium.add(auditorium3);
-
-        seatAdminDto1 = new SeatAdminDto();
-        seatAdminDto2 = new SeatAdminDto();
-        seatAdminDto3 = new SeatAdminDto();
     }
 
     @Test
-    void findAllAuditoriums() {
+    void findAllAuditoriums() throws Exception {
         when(auditoriumService.findAllAuditoriums()).thenReturn(allAuditorium);
-        when(mm.map(allAuditorium, AuditoriumDto[].class)).thenReturn(allAuditoriumDtoList);
-        List<AuditoriumDto> result = Arrays.asList(adminAuditoriumController.findAllAuditoriums());
-        assertEquals(3, result.size());
+        MvcResult result = mockMvc.perform(get("/api/admin/auditorium").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        AuditoriumDto[] response = mapper.readValue(result.getResponse().getContentAsString(), AuditoriumDto[].class);
+        Assert.assertEquals(response.length, allAuditorium.size());
     }
 
     @Test
-    void findAuditoriumById() {
+    void findAuditoriumById() throws Exception {
         Auditorium findById = allAuditorium.get(1);
-        when(mm.map(findById, AuditoriumDto.class)).thenReturn(auditoriumDto);
-        when(auditoriumService.findAuditoriumById(12)).thenReturn(auditorium2);
-        AuditoriumDto findAuditoriumDtoById = adminAuditoriumController.findAuditoriumById(12);
-        assertEquals(auditoriumDto, findAuditoriumDtoById);
+        when(auditoriumService.findAuditoriumById(Mockito.anyInt())).thenReturn(findById);
+        MvcResult result = mockMvc.perform(get("/api/admin/auditorium/2").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        AuditoriumDto response = mapper.readValue(result.getResponse().getContentAsString(), AuditoriumDto.class);
+        Assert.assertEquals(findById.getName(), response.getName());
+        Assert.assertEquals(findById.getId(), response.getId());
+        Assert.assertEquals(findById.getActive(), response.getActive());
     }
 
     @Test
-    void createAuditorium() {
+    void createAuditorium() throws Exception {
         Auditorium auditorium = allAuditorium.get(0);
-        when(auditoriumService.createAuditorium(auditorium)).thenReturn(auditorium);
-        when(mm.map(auditoriumDto, Auditorium.class)).thenReturn(auditorium);
-        when(mm.map(auditorium, AuditoriumDto.class)).thenReturn(auditoriumDto);
-        AuditoriumDto createAuditoriumDto = adminAuditoriumController.createAuditorium(auditoriumDto);
-        assertEquals(auditoriumDto, createAuditoriumDto);
+        when(auditoriumService.createAuditorium(Mockito.any(Auditorium.class))).thenReturn(auditorium);
+        AuditoriumDto auditoriumDto = new AuditoriumDto(1, "David", true, null);
+        MvcResult result = mockMvc.perform(post("/api/admin/auditorium").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(auditoriumDto)))
+                .andExpect(status().isOk()).andReturn();
+        AuditoriumDto response = mapper.readValue(result.getResponse().getContentAsString(), AuditoriumDto.class);
+        Assert.assertEquals(auditoriumDto.getName(), response.getName());
+        Assert.assertEquals(auditoriumDto.getId(), response.getId());
+        Assert.assertEquals(auditoriumDto.getActive(), response.getActive());
+        Assert.assertEquals(auditorium.getName(), response.getName());
+        Assert.assertEquals(auditorium.getId(), response.getId());
+        Assert.assertEquals(auditorium.getActive(), response.getActive());
     }
 
     @Test
-    void deactivateAuditorium() {
-        Auditorium auditorium = allAuditorium.get(0);
+    void deactivateAuditorium() throws Exception{
         String result = "The auditorium and all its seats have been deactivated.";
-        when(auditoriumService.deactivateAuditorium(auditorium.getId())).thenReturn(result);
-        String deactiveAuditoriumResult = adminAuditoriumController.deactivateAuditorium(auditorium.getId());
-        assertEquals(result, deactiveAuditoriumResult);
+        when(auditoriumService.deactivateAuditorium(Mockito.anyInt())).thenReturn(result);
+        mockMvc.perform(put("/api/admin/auditorium/2/deactivate").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().string(result));
     }
 
     @Test
-    void reactivateAuditorium() {
-        Auditorium auditorium = allAuditorium.get(1);
+    void reactivateAuditorium() throws Exception {
         String result = "The auditorium and all its seats have been reactivated.";
-        when(auditoriumService.reactivateAuditorium(auditorium.getId())).thenReturn(result);
-        String reactiveAuditoriumResult = adminAuditoriumController.reactivateAuditorium(auditorium.getId());
-        assertEquals(result, reactiveAuditoriumResult);
+        when(auditoriumService.reactivateAuditorium(Mockito.anyInt())).thenReturn(result);
+        mockMvc.perform(put("/api/admin/auditorium/2/reactivate").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().string(result));
     }
 
     @Test
-    void deleteAuditorium() {
-        Auditorium auditorium = allAuditorium.get(1);
+    void deleteAuditorium() throws Exception {
         String result = "The auditorium and all its seats were removed from database.";
-        when(auditoriumService.deleteAuditorium(auditorium.getId())).thenReturn(result);
-        String deleteAuditoriumResult = adminAuditoriumController.deleteAuditorium(auditorium.getId());
-        assertEquals(result, deleteAuditoriumResult);
+        when(auditoriumService.deleteAuditorium(Mockito.anyInt())).thenReturn(result);
+        mockMvc.perform(delete("/api/admin/auditorium/2").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().string(result));
     }
 }

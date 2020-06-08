@@ -1,99 +1,120 @@
 package pl.termosteam.kinex.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import pl.termosteam.kinex.domain.*;
 import pl.termosteam.kinex.dto.ScreeningRequestDto;
 import pl.termosteam.kinex.dto.ScreeningResponseDto;
-import pl.termosteam.kinex.dto.SeatAdminDto;
 import pl.termosteam.kinex.service.ScreeningService;
 
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import java.util.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@WithMockUser(roles = {"MANAGER"})
 class AdminScreeningControllerTest {
 
-    @Mock
+    @MockBean
     private ScreeningService screeningService;
-    @Mock
-    private ModelMapper mm;
-    @InjectMocks
-    private AdminScreeningController adminScreeningController;
-    private Screening screening1, screening2, screening3;
-    private ScreeningResponseDto[] allScreenResponseDtoList = new ScreeningResponseDto[3];
-    private ScreeningResponseDto screeningResponseDto;
-    private ScreeningRequestDto screeningRequestDto;
-    private SeatAdminDto seatAdminDto1, seatAdminDto2, seatAdminDto3;
-    List<Screening> allScreening = new ArrayList<Screening>();
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    private ObjectMapper mapper;
+    private List<Screening> allScreening;
 
     @BeforeEach
-    public void init(){
-        screening1 = new Screening(11, new Movie(), new Auditorium(), LocalDateTime.of(2011, 4, 5, 12, 34),new ArrayList<Ticket>());
-        screening2 = new Screening(12, new Movie(), new Auditorium(), LocalDateTime.of(2014, 1, 3, 17, 36),new ArrayList<Ticket>());
-        screening3 = new Screening(13, new Movie(), new Auditorium(), LocalDateTime.of(2019, 7, 2, 21, 23),new ArrayList<Ticket>());
+    public void init() {
+        allScreening = new ArrayList<>();
+        mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        Screening screening1 = new Screening(11, new Movie(), new Auditorium(), LocalDateTime.of(2011, 4, 5, 12, 34),new ArrayList<>());
+        Screening screening2 = new Screening(12, new Movie(), new Auditorium(), LocalDateTime.of(2014, 1, 3, 17, 36),new ArrayList<>());
+        Screening  screening3 = new Screening(13, new Movie(), new Auditorium(), LocalDateTime.of(2019, 7, 2, 21, 23),new ArrayList<>());
         allScreening.add(screening1);
         allScreening.add(screening2);
         allScreening.add(screening3);
-
-        seatAdminDto1 = new SeatAdminDto();
-        seatAdminDto2 = new SeatAdminDto();
-        seatAdminDto3 = new SeatAdminDto();
-
     }
 
     @Test
-    void findAllScreenings() {
+    void findAllScreenings() throws Exception {
         when(screeningService.findAllScreenings()).thenReturn(allScreening);
-        when(mm.map(allScreening, ScreeningResponseDto[].class)).thenReturn(allScreenResponseDtoList);
-        List<ScreeningResponseDto> result = Arrays.asList(adminScreeningController.findAllScreenings());
-        assertEquals(3, result.size());
+        MvcResult result = mockMvc.perform(get("/api/admin/screening").contentType(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isOk()).andReturn();
+        ScreeningResponseDto[] response = mapper.readValue(result.getResponse().getContentAsString(), ScreeningResponseDto[].class);
+        Assert.assertEquals(response.length, allScreening.size());
     }
 
     @Test
-    void findScreeningById() {
+    void findScreeningById() throws Exception {
         Screening findById = allScreening.get(1);
-        when(mm.map(findById, ScreeningResponseDto.class)).thenReturn(screeningResponseDto);
-        when(screeningService.findScreeningById(12)).thenReturn(screening2);
-        ScreeningResponseDto findScreeningDtoById = adminScreeningController.findScreeningById(12);
-        assertEquals(screeningResponseDto, findScreeningDtoById);
+        when(screeningService.findScreeningById(12)).thenReturn(findById);
+        MvcResult result = mockMvc.perform(get("/api/admin/screening/12").header("type","text").contentType(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isOk()).andReturn();
+        ScreeningResponseDto response = mapper.readValue(result.getResponse().getContentAsString(), ScreeningResponseDto.class);
+        Assert.assertEquals(findById.getScreeningStart(), response.getScreeningStart());
     }
 
     @Test
-    void deleteScreening() {
-        Screening screening = allScreening.get(1);
+    void deleteScreening() throws Exception {
         String result = "Screening has been successfully deleted.";
-        when(adminScreeningController.deleteScreening(screening.getId())).thenReturn(result);
-        String deleteScreeningResult = adminScreeningController.deleteScreening(screening.getId());
-        assertEquals(result, deleteScreeningResult);
+        when(screeningService.deleteScreening(Mockito.anyInt())).thenReturn(result);
+        mockMvc.perform(delete("/api/admin/screening/12").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().string(result));
     }
 
     @Test
-    void createScreening() {
+    void createScreening() throws Exception {
         Screening screening = allScreening.get(0);
-        when(screeningService.createScreening(screeningRequestDto)).thenReturn(screening);
-        when(mm.map(screening, ScreeningResponseDto.class)).thenReturn(screeningResponseDto);
-        ScreeningResponseDto createScreeningDto = adminScreeningController.createScreening(screeningRequestDto);
-        assertEquals(screeningRequestDto, createScreeningDto);
+        screening.getMovie().setReleaseYear(new Short("1900"));
+
+        ScreeningRequestDto screeningRequestDto = new ScreeningRequestDto(LocalDateTime.now().plusDays(1), 1,1);
+        when(screeningService.createScreening(Mockito.any(ScreeningRequestDto.class))).thenReturn(screening);
+        MvcResult result = mockMvc.perform(post("/api/admin/screening").contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(screeningRequestDto))).andExpect(status().isOk()).andReturn();
+
+        ScreeningResponseDto response = mapper.readValue(result.getResponse().getContentAsString(), ScreeningResponseDto.class);
+        Assert.assertEquals(screening.getScreeningStart(), response.getScreeningStart());
+        Assert.assertEquals(screening.getAuditorium().getId(), response.getAuditoriumId());
+        Assert.assertEquals(screening.getMovie().getId(), response.getMovieId());
     }
 
     @Test
-    void updateScreening() {
+    void updateScreening() throws Exception {
         Screening screening = allScreening.get(2);
-        when(screeningService.updateScreeningDetails(screeningRequestDto, 13)).thenReturn(screening);
-        when(mm.map(screening, ScreeningResponseDto.class)).thenReturn(screeningResponseDto);
-        ScreeningResponseDto updateScreeningDto = adminScreeningController.updateScreening(13, screeningRequestDto);
-        assertEquals(screeningRequestDto, updateScreeningDto);
+        when(screeningService.createScreening(Mockito.any(ScreeningRequestDto.class))).thenReturn(screening);
+        ScreeningRequestDto screeningRequestDto = new ScreeningRequestDto(LocalDateTime.now().plusDays(1), 1,1);
+        when(screeningService.updateScreeningDetails(Mockito.any(ScreeningRequestDto.class), Mockito.anyInt())).thenReturn(screening);
+        MvcResult result = mockMvc.perform(put("/api/admin/screening/12").contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(screeningRequestDto))).andExpect(status().isOk()).andReturn();
+
+        ScreeningResponseDto response = mapper.readValue(result.getResponse().getContentAsString(), ScreeningResponseDto.class);
+        Assert.assertEquals(screening.getScreeningStart(), response.getScreeningStart());
+        Assert.assertEquals(screening.getAuditorium().getId(), response.getAuditoriumId());
+        Assert.assertEquals(screening.getMovie().getId(), response.getMovieId());
     }
 }

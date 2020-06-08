@@ -9,7 +9,6 @@ import org.springframework.core.convert.ConversionService;
 public class ApplicationConfigTest {
 
     @Bean
-    public ConversionService conversionService() {
-        return ApplicationConversionService.getSharedInstance();
+    public ConversionService conversionService() {return ApplicationConversionService.getSharedInstance();
     }
 }

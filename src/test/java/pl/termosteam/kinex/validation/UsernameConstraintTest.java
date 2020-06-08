@@ -33,7 +33,7 @@ public class UsernameConstraintTest extends AbstractConstrainedTest {
     @Setter
     @Getter
     @NoArgsConstructor
-    public class Username {
+    private static class Username {
 
         @UsernameCheckByRegex
         private String username;

@@ -32,7 +32,7 @@ public class PasswordConstraintTest extends AbstractConstrainedTest {
     @Setter
     @Getter
     @NoArgsConstructor
-    public class Password {
+    private static class Password {
 
         @CustomPassword
         private String password;

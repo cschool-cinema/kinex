@@ -13,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import pl.termosteam.kinex.domain.Auditorium;
-import pl.termosteam.kinex.domain.Screening;
 import pl.termosteam.kinex.domain.Seat;
-import pl.termosteam.kinex.domain.Ticket;
 import pl.termosteam.kinex.repository.AuditoriumRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,18 +33,18 @@ public class AuditoriumServiceTest {
 
 	@BeforeEach
 	public void init() {
-		seat1 = new Seat(1,auditorium1, new Short("1"),new Short("2"),Boolean.TRUE,new ArrayList<Ticket>());
-		seat2 = new Seat(2,auditorium2, new Short("2"),new Short("3"),Boolean.FALSE,new ArrayList<Ticket>());
-		seatList=new ArrayList<Seat>();
+		seat1 = new Seat(1,auditorium1, new Short("1"),new Short("2"),Boolean.TRUE,new ArrayList<>());
+		seat2 = new Seat(2,auditorium2, new Short("2"),new Short("3"),Boolean.FALSE,new ArrayList<>());
+		seatList=new ArrayList<>();
 		seatList.add(seat1);
 		seatList.add(seat2);
-		auditorium1 = new Auditorium(1, "name", Boolean.TRUE, seatList, new ArrayList<Screening>());
-		auditorium2 = new Auditorium(2, "name", Boolean.FALSE, seatList, new ArrayList<Screening>());
+		auditorium1 = new Auditorium(1, "name", Boolean.TRUE, seatList, new ArrayList<>());
+		auditorium2 = new Auditorium(2, "name", Boolean.FALSE, seatList, new ArrayList<>());
 	}
 
 	@Test
 	public void findAllAuditoriums() {
-		List<Auditorium> auditoriums = new ArrayList<Auditorium>();
+		List<Auditorium> auditoriums = new ArrayList<>();
 		auditoriums.add(auditorium1);
 		auditoriums.add(auditorium2);
 		given(auditoriumRepositoryMock.findAll(Sort.by(Sort.Direction.ASC, "name"))).willReturn(auditoriums);

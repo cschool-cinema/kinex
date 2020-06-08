@@ -13,16 +13,14 @@ import pl.termosteam.kinex.domain.User;
 import pl.termosteam.kinex.dto.UserRequestDto;
 import pl.termosteam.kinex.exception.ValidationException;
 import pl.termosteam.kinex.repository.UserRepository;
-import pl.termosteam.kinex.validation.DateValidation;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -30,22 +28,17 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepositoryMock;
     @Mock
-    private DateValidation dateValidationMock;
-    @Mock
     private JwtToken jwtTokenUtilMock;
     @InjectMocks
     private UserService userService;
 
     private User user1;
-    private User user2;
     private UserRequestDto userRequestDto;
 
     @BeforeEach
     public void init() {
         user1 = new User("first", "first_last", "user1", "@email1", "password", "salt", Role.USER.getRole(),
                 "12323", true, true, LocalDateTime.now(), LocalDateTime.now());
-        user2 = new User("second", "second_last", "username2", "@email2", "password", "salt",
-                Role.ADMINISTRATOR.getRole(), "12323", true, true, LocalDateTime.now(), LocalDateTime.now());
         userRequestDto = new UserRequestDto("first1","last1","user1","email1","pass1");
     }
 
@@ -77,14 +70,14 @@ public class UserServiceTest {
     public void ifUsernameAlreadyExists() {
         given(userRepositoryMock.existsByUsername(user1.getUsername())).willReturn(true);
         boolean res = userService.ifUsernameAlreadyExists(user1.getUsername());
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
     @Test
     public void ifEmailAlreadyExists() {
         given(userRepositoryMock.existsByEmail(user1.getEmail())).willReturn(true);
         boolean res = userService.ifEmailAlreadyExists(user1.getEmail());
-        assertEquals(true, res);
+        assertTrue(res);
     }
 
 }

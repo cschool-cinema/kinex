@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.termosteam.kinex.domain.Auditorium;
 import pl.termosteam.kinex.domain.Movie;
 import pl.termosteam.kinex.domain.Screening;
-import pl.termosteam.kinex.domain.Seat;
 import pl.termosteam.kinex.domain.Ticket;
 import pl.termosteam.kinex.dto.ScreeningRequestDto;
 import pl.termosteam.kinex.exception.NotAllowedException;
@@ -49,12 +48,12 @@ public class ScreeningServiceTest {
 	public void init() {
 		Ticket ticket1 = new Ticket();
 		Ticket ticket2 = new Ticket();
-		List<Ticket> tickets = new ArrayList<Ticket>();
+		List<Ticket> tickets = new ArrayList<>();
 		tickets.add(ticket1);
 		tickets.add(ticket2);
-		movie = new Movie(1, "title", new Short("1"), "categorie", new Short("4"), "desc", new ArrayList<Screening>());
-		auditorium = new Auditorium(1, "name", Boolean.TRUE, new ArrayList<Seat>(), new ArrayList<Screening>());
-		inactiveAuditorium = new Auditorium(1, "name", Boolean.FALSE, new ArrayList<Seat>(), new ArrayList<Screening>());
+		movie = new Movie(1, "title", new Short("1"), "category", new Short("4"), "desc", new ArrayList<>());
+		auditorium = new Auditorium(1, "name", Boolean.TRUE, new ArrayList<>(), new ArrayList<>());
+		inactiveAuditorium = new Auditorium(1, "name", Boolean.FALSE, new ArrayList<>(), new ArrayList<>());
 		screening = new Screening(1, movie, auditorium, LocalDateTime.now(), tickets);
 		screeningWithNullAuditorium = new Screening(1, movie, null, LocalDateTime.now(), tickets);
 	}
@@ -64,7 +63,7 @@ public class ScreeningServiceTest {
 		Screening screening1 = new Screening();
 		Screening screening2 = new Screening();
 		Screening screening3 = new Screening();
-		List<Screening> screenings = new ArrayList<Screening>();
+		List<Screening> screenings = new ArrayList<>();
 		screenings.add(screening1);
 		screenings.add(screening2);
 		screenings.add(screening3);
@@ -80,7 +79,7 @@ public class ScreeningServiceTest {
 	public void findAllScreenings() {
 		Screening screening1 = new Screening();
 		Screening screening2 = new Screening();
-		List<Screening> screenings = new ArrayList<Screening>();
+		List<Screening> screenings = new ArrayList<>();
 		screenings.add(screening1);
 		screenings.add(screening2);
 
