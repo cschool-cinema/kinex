@@ -20,7 +20,7 @@ public class StringCheckByRegexValidator implements ConstraintValidator<StringCh
     }
 
     //setter for test
-    public void  setCompile(Pattern compile){
+    void setCompile(Pattern compile){
         this.compile=compile;
     }
 }
