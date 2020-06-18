@@ -19,4 +19,8 @@ public class StringCheckByRegexValidator implements ConstraintValidator<StringCh
         return compile.matcher(stringToValidate).matches();
     }
 
+    //setter for test
+    void setCompile(Pattern compile){
+        this.compile=compile;
+    }
 }
