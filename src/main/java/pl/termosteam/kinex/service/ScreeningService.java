@@ -75,7 +75,7 @@ public class ScreeningService {
                 .orElseThrow(() -> new NotFoundException(AUDITORIUM_NOT_FOUND));
 
         if (!auditorium.getActive()) {
-            throw new NotAllowedException("Cannot create a screening in inactive auditorium!");
+            throw new NotAllowedException("Cannot create a screening in an inactive auditorium!");
         }
 
         LocalDateTime screeningEnd = screeningStart

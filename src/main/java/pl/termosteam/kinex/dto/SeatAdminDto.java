@@ -23,7 +23,7 @@ public class SeatAdminDto {
 
     @NotNull(message = "Seat number cannot be null.")
     @Min(value = 1, message = "Seat number must be higher than 0")
-    @Max(value = 100, message = "Seat number must must not exceed 100.")
+    @Max(value = 100, message = "Seat number must not exceed 100.")
     private Integer seatNumber;
 
     @NotNull(message = "Active must be either true or false.")
