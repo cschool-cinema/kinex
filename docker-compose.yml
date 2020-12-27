@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  db:
+    image: pawelszopinski/kinex-db:latest
+    ports:
+      - 5433:5432
+    volumes:
+      - /var/lib/postgres-docker/data:/var/lib/postgresql/data
+  api:
+    image: pawelszopinski/kinex-api:latest
+    ports:
+      - 8080:8080

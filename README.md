@@ -16,7 +16,8 @@ Cinema Rest API project for
 ### APPLICATION SEQUENCE ACTIONS
 During first run ```USER``` needs to register application ```OWNER``` account. The sequence is as follows:
 
-During the test-development phase it is easy to use <a href="https://temp-mail.org/">https://temp-mail.org/</a> as a temporary email for the register in you want test this functionality. 
+During the test-development phase it is easy to use <a href="https://temp-mail.org/">https://temp-mail.org/ as a
+temporary email for the register in you want test this functionality.
 
 1. Register using user owner registration request  
 2. After success user will receive in response the activation token on the provided email
